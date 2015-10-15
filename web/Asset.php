@@ -30,6 +30,8 @@ class Asset
     public $js = [];
     /** @var array $css CSS files links */
     public $css = [];
+    /** @var array $required Required assets */
+    public $required = [];
 
     /** @var IView $view View for install current asset */
     protected $view;

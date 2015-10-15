@@ -18,7 +18,7 @@ class File extends Transport
      */
     public function __construct(array $params = [])
     {
-        $mailDir = $params[''] ?: '';
+        $this->mailDir = $params[''] ?: '';
     }
 
     public function send(IMessage $message)
