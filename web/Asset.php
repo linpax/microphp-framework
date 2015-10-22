@@ -42,7 +42,7 @@ class Asset
     /** @var string $publishPath Publish path */
     protected $publishPath;
     /** @var array $published Published required extends */
-    private $published;
+    private $published = [];
 
 
     /**
