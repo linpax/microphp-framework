@@ -40,17 +40,16 @@ class MemcachedCache extends BaseCache
         }
 
         switch (strtolower($config['type'])) {
-            case 'memcached': {
+            case 'memcached':
                 $this->driver = new \Memcached;
                 break;
-            }
-            case 'memcache': {
+
+            case 'memcache':
                 $this->driver = new \Memcache;
                 break;
-            }
-            default: {
+
+            default:
                 throw new Exception('Selected type not valid in the driver');
-            }
         }
 
         if (!empty($config['servers'])) {
@@ -110,17 +109,16 @@ class MemcachedCache extends BaseCache
     public function set($name, $value, $duration = 0)
     {
         switch (get_class($this->driver)) {
-            case 'Memcached': {
+            case 'Memcached':
                 return $this->driver->set($name, $value, $duration);
                 break;
-            }
-            case 'Memcache': {
+
+            case 'Memcache':
                 return $this->driver->set($name, $value, 0, $duration);
                 break;
-            }
-            default: {
+
+            default:
                 return false;
-            }
         }
     }
 
@@ -157,6 +155,7 @@ class MemcachedCache extends BaseCache
         if (count($stored) !== 3) {
             return false;
         }
+
         list($data, $time, $ttl) = $stored;
 
         return ['expire' => $time + $ttl, 'mtime' => $time, 'data' => $data];

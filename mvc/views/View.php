@@ -118,7 +118,7 @@ abstract class View implements IView
      */
     public function endWidget($name = '')
     {
-        if (!$name AND $GLOBALS['widgetStack']) {
+        if (!$name && $GLOBALS['widgetStack']) {
             $widget = array_pop($GLOBALS['widgetStack']);
             $v = $widget->run();
             unset($widget);
@@ -128,7 +128,7 @@ abstract class View implements IView
             return;
         }
 
-        if (!class_exists($name) OR empty($GLOBALS['widgetStack'][$name])) {
+        if (!class_exists($name) || empty($GLOBALS['widgetStack'][$name])) {
             throw new Exception('Widget ' . $name . ' not started.');
         }
 
