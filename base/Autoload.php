@@ -15,7 +15,7 @@ namespace Micro\base;
  */
 class Autoload
 {
-    /** @var array $aliases aliases for base dirs */
+    /** @var array $aliases Autoload aliases maps */
     private static $aliases = [];
 
     /**
@@ -31,7 +31,7 @@ class Autoload
      */
     public static function setAlias($alias, $realPath)
     {
-        self::$aliases[$alias] = $realPath;
+        static::$aliases[$alias][] = $realPath;
     }
 
     /**
@@ -46,9 +46,7 @@ class Autoload
      */
     public static function loader($className)
     {
-        $path = self::getClassPath($className);
-
-        if (is_file($path)) {
+        if ($path = static::getClassPath(ltrim($className, '\\'))) {
             /** @noinspection PhpIncludeInspection */
             require_once $path;
 
@@ -70,20 +68,24 @@ class Autoload
      */
     public static function getClassPath($className)
     {
-        $className = ltrim($className, '\\');
+        $className = str_replace('_', '\\', $className); // fix PSR-0 compatible
+        $prefix    = $className;
 
-        $path = '';
-        if ($lastNsPos = strrpos($className, '\\')) {
-            $firstNsPos = strpos($className, '\\');
-            if ($alias = substr($className, 0, $firstNsPos)) {
-                $path .= !empty(self::$aliases[$alias]) ? self::$aliases[$alias] : '';
+        while (false !== $position = strrpos($prefix, '\\')) {
+            $prefix = substr($prefix, 0, $position);
 
-                $className = substr($className, $firstNsPos);
-                $lastNsPos -= $firstNsPos;
+            if (array_key_exists($prefix, static::$aliases)) {
+                foreach (static::$aliases[$prefix] AS $dir) {
+                    $path = $dir . '\\' . substr($className, mb_strlen($prefix) + 1);
+                    $absolutePath = str_replace('\\', DIRECTORY_SEPARATOR, $path) . '.php';
+
+                    if (is_readable($absolutePath)) {
+                        return $path;
+                    }
+                }
             }
-            $path .= str_replace('\\', DIRECTORY_SEPARATOR, substr($className, 0, $lastNsPos)) . DIRECTORY_SEPARATOR;
         }
 
-        return $path . str_replace('_', DIRECTORY_SEPARATOR, substr($className, $lastNsPos + 1)) . '.php';
+        return false;
     }
 }
