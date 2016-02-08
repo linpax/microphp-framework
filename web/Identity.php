@@ -1,8 +1,8 @@
 <?php /** MicroIdentity */
 
-namespace Micro\web;
+namespace Micro\Web;
 
-use Micro\base\IContainer;
+use Micro\Base\IContainer;
 
 /**
  * Identity class file.
@@ -11,8 +11,8 @@ use Micro\base\IContainer;
  * @link https://github.com/lugnsk/micro
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
- * @package micro
- * @subpackage web
+ * @package Micro
+ * @subpackage Web
  * @version 1.0
  * @since 1.0
  * @abstract
@@ -60,7 +60,7 @@ abstract class Identity
      * Add data into session
      *
      * @access public
-     * @global       Container
+     * @global Container
      *
      * @param string $name session parameter name
      * @param mixed $value session parameter value
@@ -76,7 +76,7 @@ abstract class Identity
      * Add data into cookie
      *
      * @access public
-     * @global       Container
+     * @global Container
      *
      * @param string $name cookie name
      * @param mixed $value data value
