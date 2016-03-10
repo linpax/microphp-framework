@@ -188,7 +188,7 @@ abstract class Threads
      * @access public
      *
      * @param string $name
-     * @param mixed $value
+     * @param integer $value
      *
      * @return void
      * @throws \Micro\Base\Exception

@@ -317,7 +317,7 @@ abstract class Model extends FormModel implements IModel
      *
      * @param string $name Attribute name
      *
-     * @return array
+     * @return boolean
      */
     public function checkAttributeExists($name)
     {
@@ -370,7 +370,7 @@ abstract class Model extends FormModel implements IModel
                 if (self::$primaryKey) {
                     $where .= '`' . self::$primaryKey . '` = :' . self::$primaryKey;
                 } else {
-                    throw new Exception ($this->container,
+                    throw new Exception($this->container,
                         'In table ' . static::tableName() . ' option `id` not defined/not use.'
                     );
                 }

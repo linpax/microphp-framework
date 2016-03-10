@@ -73,7 +73,7 @@ abstract class RichController extends Controller
         $view = null;
         if ($actionClass) {
             /** @var \Micro\Mvc\Action $cl */
-            $cl = new $actionClass ($this->container);
+            $cl = new $actionClass($this->container);
             $view = $cl->run();
         } else {
             $view = $this->{'action' . ucfirst($name)}();
@@ -115,7 +115,7 @@ abstract class RichController extends Controller
      *
      * @access protected
      *
-     * @param mixed $data Any content
+     * @param null|string $data Any content
      *
      * @return string
      */

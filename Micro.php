@@ -132,7 +132,7 @@ class Micro
         if (!$this->loaded) {
             $this->initializeContainer();
 
-            $this->addListener('kernel.kill', function (array $params) {
+            $this->addListener('kernel.kill', function(array $params) {
                 if ($params['container']->kernel->isDebug() && !$params['container']->request->isCli()) {
                     // Add timer into page
                     echo '<div class=debug_timer>', (microtime(true) - $params['container']->kernel->getStartTime()), '</div>';
@@ -241,7 +241,7 @@ class Micro
      * @access public
      *
      * @param string $listener listener name
-     * @param mixed $event ['Object', 'method'] or callable
+     * @param \Closure $event ['Object', 'method'] or callable
      * @param int|null $prior priority
      *
      * @return bool
@@ -260,7 +260,7 @@ class Micro
     /**
      * Send signal to dispatcher
      *
-     * @param $signal
+     * @param string $signal
      * @param $params
      * @return mixed
      */
@@ -342,7 +342,7 @@ class Micro
      *
      * @access public
      *
-     * @return float|null
+     * @return double
      */
     public function getStartTime()
     {

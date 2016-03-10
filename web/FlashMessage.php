@@ -51,7 +51,7 @@ class FlashMessage
      *
      * @param int $type type id
      *
-     * @return mixed
+     * @return string
      * @static
      */
     public static function getTypeLabel($type = self::TYPE_SUCCESS)
@@ -63,7 +63,7 @@ class FlashMessage
      * Get labels for types
      *
      * @access public
-     * @return array
+     * @return string[]
      * @static
      */
     public static function getTypeLabels()
