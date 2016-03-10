@@ -67,7 +67,7 @@ class PhpView extends View
         }
 
         return $this->renderRawData(
-            ($this->data) ?: $this->renderFile($this->getViewFile($this->view), $this->params)
+            $this->data ?: $this->renderFile($this->getViewFile($this->view), $this->params)
         );
     }
 
@@ -86,8 +86,10 @@ class PhpView extends View
     public function renderRawData($data = '')
     {
         $layoutPath = null;
-        if ($this->layout) {
-            $layoutPath = $this->getLayoutFile($this->container->kernel->getAppDir(), $this->module);
+        if ($this->layout && (!$layoutPath = $this->getLayoutFile($this->container->kernel->getAppDir(),
+                $this->module))
+        ) {
+            $this->container->logger->send('error', 'Layout `' . $this->layout . '` not found');
         }
 
         if ($layoutPath) {
@@ -111,21 +113,23 @@ class PhpView extends View
     protected function getLayoutFile($appDir, $module)
     {
         if ($module) {
-            $module = str_replace('\\', '/', substr($module, 4));
+            $module = strtolower(str_replace('\\', '/', $module));
+            $module = substr($module, strpos($module, '/') + 1);
             $module = substr($module, 0, strrpos($module, '/'));
         }
 
-        $layout = $appDir . '/' . (($module) ? $module . '/' : $module);
+        $layout = $appDir . '/' . ($module ? $module . '/' : $module);
         $afterPath = 'views/layouts/' . ucfirst($this->layout) . '.php';
 
-        if (!file_exists($layout . $afterPath)) {
-            if (file_exists($appDir . '/' . $afterPath)) {
-                return $appDir . '/' . $afterPath;
-            }
-            throw new Exception('Layout ' . ucfirst($this->layout) . ' not found.');
+        if (file_exists($layout . $afterPath)) {
+            return $layout . $afterPath;
         }
 
-        return $layout . $afterPath;
+        if (file_exists($appDir . '/' . $afterPath)) {
+            return $appDir . '/' . $afterPath;
+        }
+
+        return false;
     }
 
     /**
@@ -172,7 +176,7 @@ class PhpView extends View
         $calledClass = $this->path;
 
         // Calculate path to view
-        if (substr($calledClass, 0, strpos($calledClass, '\\')) === 'App') {
+        if (0 === strpos($calledClass, 'App')) {
             $path = $this->container->kernel->getAppDir();
         } else {
             $path = $this->container->kernel->getMicroDir();
