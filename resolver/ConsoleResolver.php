@@ -23,7 +23,7 @@ class ConsoleResolver extends Resolver
      *
      * @access public
      *
-     * @return \Micro\Base\Command
+     * @return Console
      */
     public function getApplication()
     {

@@ -65,7 +65,7 @@ class Console
         }
 
         /** @var ConsoleCommand $command */
-        $command = new $command (['container' => $this->container, 'args' => $this->args]);
+        $command = new $command(['container' => $this->container, 'args' => $this->args]);
         $command->execute();
 
         return $command;

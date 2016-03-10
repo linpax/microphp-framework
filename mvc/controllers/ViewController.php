@@ -80,7 +80,7 @@ abstract class ViewController extends Controller
      *
      * @param string $path path to redirect
      *
-     * @return void|bool
+     * @return null|false
      */
     public function redirect($path)
     {

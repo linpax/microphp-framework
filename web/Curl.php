@@ -104,7 +104,7 @@ class Curl
      *
      * @access public
      *
-     * @param mixed $option
+     * @param integer $option
      * @param mixed $value
      *
      * @return bool
