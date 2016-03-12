@@ -124,7 +124,7 @@ class FileHelper
      */
     public static function recurseCopyIfEdited($src = '', $dst = '', array $excludes = ['php'])
     {
-        if (!@mkdir($dst, 0777) && !is_dir($dst)) {
+        if (!is_dir($dst) && (!mkdir($dst) && !is_dir($dst))) {
             throw new Exception('Copy dir error, access denied for path: ' . $dst);
         }
 
