@@ -73,7 +73,7 @@ class Asset
             throw new Exception('Asset dir not exists: ' . $this->sourcePath);
         }
 
-        if (!@mkdir($web . $this->publishPath, 0777) && !is_dir($web . $this->publishPath)) {
+        if (!is_dir($web . $this->publishPath) && (!mkdir($web . $this->publishPath, 0777) && !is_dir($web . $this->publishPath))) {
             throw new Exception('Could not access to publish dir: ' . $this->publishPath);
         }
 
