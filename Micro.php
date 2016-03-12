@@ -38,6 +38,8 @@ class Micro
     protected $container;
     /** @var string $appDir */
     protected $appDir;
+    /** @var string $webDir */
+    protected $webDir;
 
     /** @var bool $loaded Micro loaded flag */
     private $loaded;
@@ -61,6 +63,7 @@ class Micro
      */
     public function __construct($environment = 'devel', $debug = true)
     {
+        $this->webDir = getenv('DOCUMENT_ROOT');
         $this->environment = (string)$environment;
         $this->debug = (bool)$debug;
         $this->loaded = false;
@@ -233,6 +236,16 @@ class Micro
         }
 
         return $this->appDir;
+    }
+
+    /**
+     * Get web root directory
+     *
+     * @return string
+     */
+    public function getWebDir()
+    {
+        return $this->webDir;
     }
 
     /**
