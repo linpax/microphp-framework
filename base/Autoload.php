@@ -112,7 +112,7 @@ class Autoload
      */
     private static function CamelCaseToLowerNamespace($path)
     {
-        $classNameArr = array_map(function ($val) {
+        $classNameArr = array_map(function($val) {
             return lcfirst($val);
         }, explode('\\', $path));
 
