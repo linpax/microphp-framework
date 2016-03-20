@@ -72,7 +72,7 @@ abstract class Controller implements IController
      * @param array $filters defined filters
      * @param string $data data to parse
      *
-     * @return null|string
+     * @return mixed
      * @throws Exception
      */
     public function applyFilters($action, $isPre = true, array $filters = [], $data = null)
@@ -92,17 +92,19 @@ abstract class Controller implements IController
 
             /** @var \Micro\Filter\IFilter $_filter */
             $_filter = new $filter['class']($action, $this->container);
+            $response = $isPre ? $_filter->pre($filter) : $_filter->post($filter + ['data' => $data]);
 
-            $res = $isPre ? $_filter->pre($filter) : $_filter->post($filter + ['data' => $data]);
-            if (!$res) {
+            if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
-                    header('Location: ' . $_filter->result['redirect']);
+                    /** @var IResponse $redirect */
+                    $redirect = $this->container->response ?: new Response;
+                    $redirect->addHeader('Location', $_filter->result['redirect']);
 
-                    die();
+                    return $redirect;
                 }
                 throw new Exception($_filter->result['message']);
             }
-            $data = $res;
+            $data = $response;
         }
 
         return $data;

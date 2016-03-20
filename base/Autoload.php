@@ -33,14 +33,22 @@ class Autoload
      */
     public static function setAlias($alias, $realPath)
     {
-        static::$aliases[strtolower($alias)][] = $realPath;
+        static::$aliases[strtolower($alias)] = $realPath;
     }
 
+    /**
+     * Get alias
+     *
+     * @access public
+     * @param string $alias
+     * @return string|bool
+     * @static
+     */
     public static function getAlias($alias)
     {
         $alias = strtolower($alias);
 
-        return array_key_exists($alias, static::$aliases) ? static::$aliases[$alias] : [];
+        return array_key_exists($alias, static::$aliases) ? static::$aliases[$alias] : false;
     }
 
     /**
@@ -82,18 +90,17 @@ class Autoload
 
         while (false !== $position = strrpos($prefix, '\\')) {
             $prefix = substr($prefix, 0, $position);
+            $alias = self::getAlias($prefix);
 
-            if (!array_key_exists($prefix, static::$aliases)) {
+            if (!$alias) {
                 continue;
             }
 
-            foreach (static::$aliases[$prefix] as $dir) {
-                $path = $dir . '\\' . substr($className, mb_strlen($prefix) + 1);
-                $absolutePath = str_replace('\\', DIRECTORY_SEPARATOR, $path) . $extension;
+            $path = $alias . '\\' . substr($className, mb_strlen($prefix) + 1);
+            $absolutePath = str_replace('\\', DIRECTORY_SEPARATOR, $path) . $extension;
 
-                if (is_readable($absolutePath)) {
-                    return $absolutePath;
-                }
+            if (is_readable($absolutePath)) {
+                return $absolutePath;
             }
         }
 

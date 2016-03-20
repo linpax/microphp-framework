@@ -2,6 +2,7 @@
 
 namespace Micro\Mvc\Views;
 
+use Micro\Base\Autoload;
 use Micro\Base\Exception;
 use Micro\Web\Language;
 
@@ -180,6 +181,7 @@ class PhpView extends View
             $path = $this->container->kernel->getAppDir();
         } else {
             $path = $this->container->kernel->getMicroDir();
+            $path = Autoload::getAlias('micro');
         }
 
         $cl = strtolower(dirname(str_replace('\\', '/', $calledClass)));

@@ -77,7 +77,7 @@ abstract class View implements IView
             $result->asWidget = true;
             $result->path = get_class($widget);
 
-            $result = (string)$result;
+            $result = $result->render();
         }
 
         unset($widget);
@@ -121,11 +121,16 @@ abstract class View implements IView
         if (!$name && $GLOBALS['widgetStack']) {
             $widget = array_pop($GLOBALS['widgetStack']);
             $v = $widget->run();
+
+            if ($v instanceof PhpView) {
+                $v->asWidget = true;
+                $v->path = get_class($widget);
+
+                $v = $v->render();
+            }
+
             unset($widget);
-
             echo $v;
-
-            return;
         }
 
         if (!class_exists($name) || empty($GLOBALS['widgetStack'][$name])) {
@@ -137,16 +142,16 @@ abstract class View implements IView
         unset($GLOBALS['widgetStack'][$name]);
 
         $v = $widget->run();
+
+        if ($v instanceof PhpView) {
+            $v->asWidget = true;
+            $v->path = get_class($widget);
+
+            $v = $v->render();
+        }
+
         unset($widget);
         echo $v;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return '' . $this->render();
     }
 
     /**

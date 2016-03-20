@@ -3,6 +3,7 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
+use Micro\Web\IResponse;
 use Micro\Web\Response;
 
 /**
@@ -39,7 +40,6 @@ abstract class ViewController extends Controller
         $view = null;
         $actionClass = false;
 
-
         if (!method_exists($this, 'action' . ucfirst($name))) {
             $actionClass = $this->getActionClassByName($name);
             if (!$actionClass) {
@@ -49,7 +49,10 @@ abstract class ViewController extends Controller
 
         $filters = method_exists($this, 'filters') ? $this->filters() : [];
 
-        $this->applyFilters($name, true, $filters, null);
+        $result = $this->applyFilters($name, true, $filters, null);
+        if ($result instanceof IResponse) {
+            return $result;
+        }
 
         if ($actionClass) {
             /** @var \Micro\mvc\Action $cl */

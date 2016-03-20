@@ -75,7 +75,7 @@ interface IView
      * Render
      *
      * @access public
-     * @return mixed
+     * @return string|boolean
      * @abstract
      */
     public function render();
