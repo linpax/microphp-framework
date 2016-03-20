@@ -180,8 +180,7 @@ class PhpView extends View
         if (0 === strpos($calledClass, 'App')) {
             $path = $this->container->kernel->getAppDir();
         } else {
-            $path = $this->container->kernel->getMicroDir();
-            $path = Autoload::getAlias('micro');
+            $path = Autoload::getAlias('Micro');
         }
 
         $cl = strtolower(dirname(str_replace('\\', '/', $calledClass)));
