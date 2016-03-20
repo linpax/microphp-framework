@@ -67,7 +67,7 @@ abstract class ViewController extends Controller
             $view->layout = $view->layout ?: $this->layout;
             $view->view = $view->view ?: $name;
             $view->path = get_called_class();
-            $view = (string)$view;
+            $view = $view->render();
         }
 
         $response = $this->container->response ?: new Response;
