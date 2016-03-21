@@ -151,19 +151,19 @@ class Micro
         }
 
         $this->container->request = $request;
-        if ($output = $this->sendSignal('kernel.request', ['container' => $this->container]) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.request', ['container' => $this->container])) instanceof IResponse) {
             return $output;
         }
 
         /** @var IResolver $resolver */
         $resolver = $this->getResolver();
-        if ($output = $this->sendSignal('kernel.router', ['resolver' => $resolver]) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.router', ['resolver' => $resolver])) instanceof IResponse) {
             return $output;
         }
 
         /** @var IController|Console $app */
         $app = $resolver->getApplication();
-        if ($output = $this->sendSignal('kernel.controller', ['application' => $app]) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.controller', ['application' => $app])) instanceof IResponse) {
             return $output;
         }
 
