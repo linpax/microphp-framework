@@ -82,14 +82,14 @@ abstract class ViewController extends Controller
      * @access public
      *
      * @param string $path path to redirect
+     * @param integer $status status for redirect
      *
-     * @return null|false
+     * @return bool|IResponse
      */
-    public function redirect($path)
+    public function redirect($path, $status = 301)
     {
         if (!$this->asWidget) {
-            header('Location: ' . $path);
-            exit();
+            return new Response(['status' => $status, 'headers' => ['location' => $path]]);
         }
 
         return false;
