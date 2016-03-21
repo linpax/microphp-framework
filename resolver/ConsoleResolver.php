@@ -39,9 +39,6 @@ class ConsoleResolver extends Resolver
      */
     public function getAction()
     {
-        $params = $this->container->request->getArguments();
-        array_shift($params);
-
-        return ucfirst(array_shift($params));
+        return ($option = $this->container->request->getOption('a', 'action')) ? ucfirst($option) : false;
     }
 }

@@ -23,8 +23,6 @@ class Console
     protected $container;
     /** @var string $command Parsed command */
     protected $command;
-    /** @var array $args Arguments from params */
-    protected $args = [];
 
     /**
      * Constructor command
@@ -38,12 +36,6 @@ class Console
     public function __construct(IContainer $container)
     {
         $this->container = $container;
-
-        foreach ($container->request->getArguments() AS $param) {
-            if ($pos = strpos($param, '=')) {
-                $this->args[substr($param, 0, $pos)] = substr($param, $pos + 1);
-            }
-        }
     }
 
     /**
@@ -57,15 +49,15 @@ class Console
      */
     public function action($name)
     {
-        $command = '\\Micro\\Cli\\Consoles\\' . $name . 'ConsoleCommand';
-        $command = class_exists($command) ? $command : '\\App\\Consoles\\' . $name . 'ConsoleCommand';
+        $command = '\\App\\Consoles\\' . ucfirst($name) . 'ConsoleCommand';
+        $command = class_exists($command) ? $command : '\\Micro\\Cli\\Consoles\\' . ucfirst($name) . 'ConsoleCommand';
 
         if (!class_exists($command)) {
             return false;
         }
 
         /** @var ConsoleCommand $command */
-        $command = new $command(['container' => $this->container, 'args' => $this->args]);
+        $command = new $command(['container' => $this->container]);
         $command->execute();
 
         return $command;

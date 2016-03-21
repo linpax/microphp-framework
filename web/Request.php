@@ -31,7 +31,7 @@ class Request implements IRequest
      */
     public function __construct()
     {
-        $this->cli = php_sapi_name() === 'cli';
+        $this->cli = PHP_SAPI === 'cli';
     }
 
     /**
@@ -75,19 +75,50 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get arguments from command line
+     *
+     * @access public
+     *
+     * @param string $char -a .. -z option char
+     * @param string $name --optionName_string
+     * @param bool|null $required Required value?
+     *
+     * @return mixed
      */
-    public function getArguments()
+    public function getOption($char = '', $name = '', $required = null)
     {
-        global $argv;
+        if (!$char && !$name) {
+            return false;
+        }
 
-        return $argv;
+        if ($char && (1 < strlen($char) || 1 !== preg_match('/^\w$/', $char))) {
+            return false;
+        }
+
+        if ($name && (1 !== preg_match('/^\w+$/', $name))) {
+            return false;
+        }
+
+        switch ($required) {
+            case true:
+                $char = $char ? $char . ':' : $char;
+                $name = $name ? $name . ':' : $name;
+                break;
+            case false:
+                $char = $char ? $char . '::' : $char;
+                $name = $name ? $name . '::' : $name;
+                break;
+        }
+
+        $argv = ($opts = getopt($char, [$name])) ? array_shift($opts) : [];
+
+        return is_array($argv) ? array_shift($argv) : $argv;
     }
 
     /**
      * @inheritdoc
      */
-    public function getFiles($className = '\Micro\web\Uploader')
+    public function getFiles($className = '\Micro\Web\Uploader')
     {
         if (!is_array($_FILES)) {
             return false;

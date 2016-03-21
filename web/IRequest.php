@@ -69,9 +69,13 @@ interface IRequest
      *
      * @access public
      *
-     * @return array
+     * @param string $char -a .. -z option char
+     * @param string $name --optionName_string
+     * @param bool|null $required Required value?
+     *
+     * @return mixed
      */
-    public function getArguments();
+    public function getOption($char = '', $name = '', $required = null);
 
     /**
      * Get files mapper

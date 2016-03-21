@@ -293,7 +293,7 @@ class Micro
     protected function getResolver()
     {
         if ($this->container->request->isCli()) {
-            $resolver = $this->container->consoleResolver ?: '\Micro\resolver\ConsoleResolver';
+            $resolver = $this->container->consoleResolver ?: '\Micro\Resolver\ConsoleResolver';
         } else {
             $resolver = $this->container->resolver ?: '\Micro\Resolver\HMVCResolver';
         }

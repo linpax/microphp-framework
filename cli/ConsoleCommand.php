@@ -25,7 +25,10 @@ abstract class ConsoleCommand extends Command implements IOutput
 
 
     /**
-     * @inheritdoc
+     * Send data into console
+     *
+     * @access public
+     * @return void
      */
     public function send()
     {
