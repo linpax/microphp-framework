@@ -20,10 +20,6 @@ use Micro\Web\IOutput;
  */
 abstract class ConsoleCommand extends Command implements IOutput
 {
-    /** @var int $status Status of running console command */
-    protected $status = 0;
-
-
     /**
      * Send data into console
      *
@@ -32,10 +28,6 @@ abstract class ConsoleCommand extends Command implements IOutput
      */
     public function send()
     {
-        if (!$this->result || $this->status > 0) {
-            exit($this->status);
-        }
-
         echo $this->message;
     }
 }

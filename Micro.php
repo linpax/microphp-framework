@@ -8,6 +8,7 @@ use Micro\Base\Exception;
 use Micro\Base\FatalError;
 use Micro\Base\ICommand;
 use Micro\base\IContainer;
+use Micro\Cli\Console;
 use Micro\cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
 use Micro\Resolver\IResolver;
@@ -161,7 +162,7 @@ class Micro
             return $output;
         }
 
-        /** @var IController|ICommand $app */
+        /** @var IController|Console $app */
         $app = $resolver->getApplication();
         if ($output = $this->sendSignal('kernel.controller', ['application' => $app]) instanceof IResponse) {
             return $output;
