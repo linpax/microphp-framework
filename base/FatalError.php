@@ -48,9 +48,6 @@ class FatalError
             }
         }
 
-//        ob_clean();
-//        ob_end_clean();
-
         print('cli' === php_sapi_name() ? static::doCli() : static::doRun());
     }
 
