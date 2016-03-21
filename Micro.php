@@ -103,7 +103,7 @@ class Micro
      *
      * @param IRequest $request Request object
      *
-     * @return Response
+     * @return \Micro\Web\IOutput|\Micro\Web\IResponse
      * @throws \Exception
      */
     public function run(IRequest $request)
@@ -316,8 +316,8 @@ class Micro
      *
      * @param \Exception $e Exception
      *
-     * @return IOutput
-     * @throws \Micro\base\Exception
+     * @return \Micro\Web\IOutput|\Micro\Web\IResponse
+     * @throws \Micro\Base\Exception
      */
     private function doException(\Exception $e)
     {
