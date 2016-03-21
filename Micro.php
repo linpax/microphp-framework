@@ -2,20 +2,19 @@
 
 namespace Micro;
 
-use Micro\base\Container;
-use Micro\base\Dispatcher;
+use Micro\Base\Container;
+use Micro\Base\Dispatcher;
 use Micro\Base\Exception;
 use Micro\Base\FatalError;
-use Micro\Base\ICommand;
-use Micro\base\IContainer;
+use Micro\Base\IContainer;
 use Micro\Cli\Console;
-use Micro\cli\Consoles\DefaultConsoleCommand;
+use Micro\Cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
 use Micro\Resolver\IResolver;
-use Micro\web\IOutput;
-use Micro\web\IRequest;
+use Micro\Web\IOutput;
+use Micro\Web\IRequest;
 use Micro\Web\IResponse;
-use Micro\web\Response;
+use Micro\Web\Response;
 
 /**
  * Micro class file.
@@ -128,7 +127,7 @@ class Micro
      *
      * @param IRequest $request
      *
-     * @return Web\IResponse|Response|string
+     * @return \Micro\Web\IResponse|\Micro\Web\IOutput
      * @throws \Micro\Base\Exception
      */
     private function doRun(IRequest $request)
