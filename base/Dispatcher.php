@@ -65,7 +65,7 @@ class Dispatcher implements IDispatcher
     {
         $result = null;
 
-        if ($this->listeners && array_key_exists($listener, $this->listeners)) {
+        if (!empty($this->listeners[$listener])) {
             foreach ($this->listeners[$listener] as $listen) {
                 $result = call_user_func($listen, $params);
 
