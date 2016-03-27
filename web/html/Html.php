@@ -37,10 +37,10 @@ class Html
      */
     public static function beginForm($action, $method = 'POST', array $attributes = [])
     {
-        $attributes['action'] = $action;
-        $attributes['method'] = $method;
-
-        return static::openTag('form', $attributes);
+        return static::openTag('form', array_merge($attributes, [
+            'action' => $action,
+            'method' => $method
+        ]));
     }
 
     /**
@@ -104,10 +104,10 @@ class Html
      */
     public static function textArea($name, $text, array $attributes = [])
     {
-        $attributes['id'] = $name;
-        $attributes['name'] = $name;
-
-        return static::openTag('textarea', $attributes) . $text . static::closeTag('textarea');
+        return static::openTag('textarea', array_merge($attributes, [
+            'id' => $name,
+            'name' => $name
+        ])) . $text . static::closeTag('textarea');
     }
 
     /**
@@ -140,9 +140,9 @@ class Html
      */
     public static function label($name, $elemId = '', array $attributes = [])
     {
-        $attributes['for'] = $elemId;
-
-        return static::openTag('label', $attributes) . $name . static::closeTag('label');
+        return static::openTag('label', array_merge($attributes, [
+            'for' => $elemId
+        ])) . $name . static::closeTag('label');
     }
 
     /**
@@ -159,10 +159,10 @@ class Html
      */
     public static function dropDownList($name, array $options = [], array $attributes = [])
     {
-        $attributes['id'] = $name;
-        $attributes['size'] = 1;
-
-        return static::listBox($name, $options, $attributes);
+        return static::listBox($name, $options, array_merge($attributes, [
+            'id' => $name,
+            'size' => 1
+        ]));
     }
 
     /**
@@ -179,12 +179,8 @@ class Html
      */
     public static function listBox($name, array $options = [], array $attributes = [])
     {
-        if (!empty($attributes['selected'])) {
-            $selected = $attributes['selected'];
-            unset($attributes['selected']);
-        } else {
-            $selected = null;
-        }
+        $selected = empty($attributes['selected']) ? null : $attributes['selected'];
+        unset($attributes['selected']);
 
         $attributes['name'] = $name;
         $opts = '';
@@ -192,21 +188,15 @@ class Html
             if (!empty($option['label'])) {
                 $opts .= static::optGroup($option['label'], $option['options'], $option['attributes']);
             } else {
-                $attr = [];
-                if (!empty($option['attributes'])) {
-                    $attr = $option['attributes'];
-                    unset($option['attributes']);
-                }
+                $attr = empty($option['attributes']) ? [] : $option['attributes'];
+                unset($option['attributes']);
 
                 if (!empty($option['value']) && (string)$option['value'] === (string)$selected) {
                     $attr['selected'] = 'selected';
                 }
 
-                $text = '';
-                if (!empty($option['text'])) {
-                    $text = $option['text'];
-                    unset($option['text']);
-                }
+                $text = empty($option['text']) ? '' : $option['text'];
+                unset($option['text']);
 
                 $opts .= static::option(!empty($option['value']) ? $option['value'] : '', $text, $attr);
             }
@@ -231,7 +221,6 @@ class Html
      */
     public static function optGroup($label, array $options = [], array $attributes = [])
     {
-        $attributes['label'] = $label;
         $opts = '';
         foreach ($options AS $option) {
             if (!empty($option['label'])) {
@@ -241,7 +230,9 @@ class Html
             }
         }
 
-        return static::openTag('optgroup', $attributes) . $opts . static::closeTag('optgroup');
+        return static::openTag('optgroup', array_merge($attributes, [
+            'label' => $label
+        ])) . $opts . static::closeTag('optgroup');
     }
 
     /**
@@ -258,9 +249,9 @@ class Html
      */
     public static function option($value, $text, array $attributes = [])
     {
-        $attributes['value'] = $value;
-
-        return static::openTag('option', $attributes) . $text . static::closeTag('option');
+        return static::openTag('option', array_merge($attributes, [
+            'value' =>$value
+        ])) . $text . static::closeTag('option');
     }
 
     /**
@@ -273,6 +264,7 @@ class Html
     public static function arrayToOptions(array $arr = [])
     {
         $result = [];
+
         foreach ($arr AS $n => $m) {
             $result[] = ['value' => $n, 'text' => $m];
         }
@@ -293,10 +285,10 @@ class Html
      */
     public static function resetButton($label = 'Reset', array $attributes = [])
     {
-        $attributes['type'] = 'reset';
-        $attributes['value'] = $label;
-
-        return static::tag('input', $attributes);
+        return static::tag('input', array_merge($attributes, [
+            'type' => 'reset',
+            'value' => $label
+        ]));
     }
 
     /**
@@ -312,9 +304,9 @@ class Html
      */
     public static function submitButton($label = 'Submit', array $attributes = [])
     {
-        $attributes['type'] = 'submit';
-        $attributes['value'] = $label;
-
-        return static::tag('input', $attributes);
+        return static::tag('input', array_merge($attributes, [
+            'type' => 'submit',
+            'value' => $label
+        ]));
     }
 }
