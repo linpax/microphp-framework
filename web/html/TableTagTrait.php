@@ -21,27 +21,27 @@ trait TableTagTrait
 
 
     /**
- * Render table element
- *
- * How to use $elements:
- * array(
- *     array( // row
- *         'cells'=>array( // cell
- *             'value'=>'text',
- *             'attributes'=>[]
- *         ),
- *         attributes'=>[]
- *     )
- * )
- *
- * @access public
- *
- * @param array $elements table elements
- * @param array $attributes attributes tag
- *
- * @return string
- * @static
- */
+     * Render table element
+     *
+     * How to use $elements:
+     * array(
+     *     array( // row
+     *         'cells'=>array( // cell
+     *             'value'=>'text',
+     *             'attributes'=>[]
+     *         ),
+     *         attributes'=>[]
+     *     )
+     * )
+     *
+     * @access public
+     *
+     * @param array $elements table elements
+     * @param array $attributes attributes tag
+     *
+     * @return string
+     * @static
+     */
     public static function table(array $elements = [], array $attributes = [])
     {
         $output = null;
