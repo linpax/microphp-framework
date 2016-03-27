@@ -3,7 +3,7 @@
 namespace Micro\Form;
 
 use Micro\Base\Exception;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 use Micro\Widget\FormWidget;
 
 /**

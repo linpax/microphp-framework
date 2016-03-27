@@ -4,7 +4,7 @@ namespace Micro\Widget;
 
 use Micro\Form\Form;
 use Micro\Mvc\Widget;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * FormWidget class file.

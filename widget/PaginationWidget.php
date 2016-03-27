@@ -3,7 +3,7 @@
 namespace Micro\Widget;
 
 use Micro\Mvc\Widget;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * PaginationWidget class file.

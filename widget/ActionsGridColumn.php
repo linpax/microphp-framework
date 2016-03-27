@@ -3,7 +3,7 @@
 namespace Micro\Widget;
 
 use Micro\Base\Exception;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * Actions grid column class file.

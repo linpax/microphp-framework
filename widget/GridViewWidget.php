@@ -8,7 +8,7 @@ use Micro\Mvc\Models\IModel;
 use Micro\Mvc\Models\IQuery;
 use Micro\Mvc\Models\Query;
 use Micro\Mvc\Widget;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * GridViewWidget class file.

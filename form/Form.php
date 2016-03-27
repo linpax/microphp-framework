@@ -2,7 +2,7 @@
 
 namespace Micro\Form;
 
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * Form class file.

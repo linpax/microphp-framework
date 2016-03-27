@@ -6,7 +6,7 @@ use Micro\Base\Exception;
 use Micro\Mvc\Models\IModel;
 use Micro\Mvc\Models\IQuery;
 use Micro\Mvc\Widget;
-use Micro\Web\Html;
+use Micro\Web\Html\Html;
 
 /**
  * ListViewWidget class file.
