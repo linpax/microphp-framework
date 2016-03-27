@@ -86,7 +86,7 @@ interface IRequest
      *
      * @return mixed
      */
-    public function getFiles($className = '\Micro\web\Uploader');
+    public function getFiles($className = '\Micro\Web\Uploader');
 
     // Storage's
 

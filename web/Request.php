@@ -35,7 +35,11 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get flag of running as CLI
+     *
+     * @access public
+     *
+     * @return bool
      */
     public function isCli()
     {
@@ -43,35 +47,53 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Check request is AJAX ?
+     *
+     * @access public
+     *
+     * @return bool
      */
     public function isAjax()
     {
-        return !empty($_SERVER['HTTP_X_REQUEST_WITH']) && $_SERVER['HTTP_X_REQUEST_WITH'] === 'XMLHttpRequest';
+        return strtolower(filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest';
     }
 
     /**
-     * @inheritdoc
+     * Get request method
+     *
+     * @access public
+     *
+     * @return string
      */
     public function getMethod()
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return filter_input(INPUT_SERVER, 'REQUEST_METHOD');
     }
 
     /**
-     * @inheritdoc
+     * Get user IP-address
+     *
+     * @access public
+     *
+     * @return string
      */
     public function getUserIP()
     {
-        return !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+        return ($ip = filter_input(INPUT_SERVER, 'REMOTE_ADDR')) ? $ip : '127.0.0.1';
     }
 
     /**
-     * @inheritdoc
+     * Get browser data from user user agent string
+     *
+     * @access public
+     *
+     * @param null|string $agent User agent string
+     *
+     * @return mixed
      */
     public function getBrowser($agent = null)
     {
-        return get_browser($agent ?: $_SERVER['HTTP_USER_AGENT'], true);
+        return get_browser($agent ?: filter_input(INPUT_SERVER, 'HTTP_USER_AGENT'), true);
     }
 
     /**
@@ -116,19 +138,27 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get files mapper
+     *
+     * @access public
+     *
+     * @param string $className Class name of mapper
+     *
+     * @return mixed
      */
     public function getFiles($className = '\Micro\Web\Uploader')
     {
-        if (!is_array($_FILES)) {
-            return false;
-        }
-
-        return new $className($_FILES);
+        return is_array($_FILES) ? new $className($_FILES) : false;
     }
 
     /**
-     * @inheritdoc
+     * Get all data from storage
+     *
+     * @access public
+     *
+     * @param string $name Storage name
+     *
+     * @return mixed
      */
     public function getStorage($name)
     {
@@ -136,7 +166,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set all data into storage
+     *
+     * @access public
+     *
+     * @param string $name Storage name
+     * @param array $data Any data
+     *
+     * @return void
      */
     public function setStorage($name, array $data = [])
     {
@@ -144,7 +181,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get value by key from query storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return bool
      */
     public function query($name)
     {
@@ -152,7 +195,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get any var from Request storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $storage Storage name
+     *
+     * @return bool
      */
     public function getVar($name, $storage)
     {
@@ -160,7 +210,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get value by key from post storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return bool
      */
     public function post($name)
     {
@@ -168,7 +224,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get value by key from cookie storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return bool
      */
     public function cookie($name)
     {
@@ -176,7 +238,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get value by key from session storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return bool
      */
     public function session($name)
     {
@@ -198,7 +266,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set value into query storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $value Key value
+     *
+     * @return void
      */
     public function setQuery($name, $value)
     {
@@ -206,7 +281,15 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set value into storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $value Key value
+     * @param string $storage Storage name
+     *
+     * @return void
      */
     public function setVar($name, $value, $storage)
     {
@@ -214,7 +297,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set value into post storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $value Key value
+     *
+     * @return void
      */
     public function setPost($name, $value)
     {
@@ -222,7 +312,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set value into cookie storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $value Key value
+     *
+     * @return void
      */
     public function setCookie($name, $value)
     {
@@ -230,7 +327,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Set value into session storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $value Key value
+     *
+     * @return void
      */
     public function setSession($name, $value)
     {
@@ -238,7 +342,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Unset var into query storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return void
      */
     public function unsetQuery($name)
     {
@@ -246,7 +356,14 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Unset var into storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     * @param string $storage Storage name
+     *
+     * @return void
      */
     public function unsetVar($name, $storage)
     {
@@ -254,7 +371,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Unset var into post storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return void
      */
     public function unsetPost($name)
     {
@@ -262,7 +385,13 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Unset var into session storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return void
      */
     public function unsetSession($name)
     {
@@ -270,7 +399,9 @@ class Request implements IRequest
     }
 
     /**
-     * @inheritdoc
+     * Get RequestPayload (RAW DATA)
+     *
+     * @return string|bool
      */
     public function getRequestPayload()
     {
