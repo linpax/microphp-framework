@@ -19,7 +19,23 @@ trait FieldTagTrait
 {
     use TagTrait;
 
-    //
+
+    /**
+     * Render input radio tag
+     *
+     * @access public
+     *
+     * @param  string $name radio name
+     * @param  string $value radio value
+     * @param  array $attributes attributes tag
+     *
+     * @return string
+     * @static
+     */
+    public static function radioField($name, $value = null, array $attributes = [])
+    {
+        return static::field('radio', $name, $value, $attributes);
+    }
 
     /**
      * Render input checkbox tag
@@ -35,7 +51,7 @@ trait FieldTagTrait
      */
     public static function checkBoxField($name, $value = null, array $attributes = [])
     {
-        return self::field('checkbox', $name, $value, $attributes);
+        return static::field('checkbox', $name, $value, $attributes);
     }
 
     /**
@@ -58,7 +74,7 @@ trait FieldTagTrait
         $attributes['name'] = $name;
         $attributes['value'] = $value;
 
-        return self::tag('input', $attributes);
+        return static::tag('input', $attributes);
     }
 
     /**
@@ -75,7 +91,7 @@ trait FieldTagTrait
      */
     public static function buttonField($name, $value = null, array $attributes = [])
     {
-        return self::field('button', $name, $value, $attributes);
+        return static::field('button', $name, $value, $attributes);
     }
 
     /**
@@ -92,7 +108,7 @@ trait FieldTagTrait
      */
     public static function fileField($name, $value = null, array $attributes = [])
     {
-        return self::field('file', $name, $value, $attributes);
+        return static::field('file', $name, $value, $attributes);
     }
 
     /**
@@ -109,7 +125,7 @@ trait FieldTagTrait
      */
     public static function hiddenField($name, $value = null, array $attributes = [])
     {
-        return self::field('hidden', $name, $value, $attributes);
+        return static::field('hidden', $name, $value, $attributes);
     }
 
     /**
@@ -129,7 +145,7 @@ trait FieldTagTrait
     {
         $attributes['src'] = $srcFile;
 
-        return self::field('image', $name, $value, $attributes);
+        return static::field('image', $name, $value, $attributes);
     }
 
     /**
@@ -146,7 +162,7 @@ trait FieldTagTrait
      */
     public static function passwordField($name, $value = null, array $attributes = [])
     {
-        return self::field('password', $name, $value, $attributes);
+        return static::field('password', $name, $value, $attributes);
     }
 
     /**
@@ -163,7 +179,7 @@ trait FieldTagTrait
      */
     public static function textField($name, $value = null, array $attributes = [])
     {
-        return self::field('text', $name, $value, $attributes);
+        return static::field('text', $name, $value, $attributes);
     }
 
     /**
@@ -180,7 +196,7 @@ trait FieldTagTrait
      */
     public static function colorField($name, $value = null, array $attributes = [])
     {
-        return self::field('color', $name, $value, $attributes);
+        return static::field('color', $name, $value, $attributes);
     }
 
     /**
@@ -197,7 +213,7 @@ trait FieldTagTrait
      */
     public static function dateField($name, $value = null, array $attributes = [])
     {
-        return self::field('date', $name, $value, $attributes);
+        return static::field('date', $name, $value, $attributes);
     }
 
     /**
@@ -214,7 +230,7 @@ trait FieldTagTrait
      */
     public static function datetimeField($name, $value = null, array $attributes = [])
     {
-        return self::field('datetime', $name, $value, $attributes);
+        return static::field('datetime', $name, $value, $attributes);
     }
 
     /**
@@ -231,7 +247,7 @@ trait FieldTagTrait
      */
     public static function datetimeLocalField($name, $value = null, array $attributes = [])
     {
-        return self::field('datetime-local', $name, $value, $attributes);
+        return static::field('datetime-local', $name, $value, $attributes);
     }
 
     /**
@@ -248,7 +264,7 @@ trait FieldTagTrait
      */
     public static function emailField($name, $value = null, array $attributes = [])
     {
-        return self::field('email', $name, $value, $attributes);
+        return static::field('email', $name, $value, $attributes);
     }
 
     /**
@@ -265,7 +281,7 @@ trait FieldTagTrait
      */
     public static function numberField($name, $value = null, array $attributes = [])
     {
-        return self::field('number', $name, $value, $attributes);
+        return static::field('number', $name, $value, $attributes);
     }
 
     /**
@@ -282,7 +298,7 @@ trait FieldTagTrait
      */
     public static function rangeField($name, $value = null, array $attributes = [])
     {
-        return self::field('range', $name, $value, $attributes);
+        return static::field('range', $name, $value, $attributes);
     }
 
     /**
@@ -299,7 +315,7 @@ trait FieldTagTrait
      */
     public static function searchField($name, $value = null, array $attributes = [])
     {
-        return self::field('search', $name, $value, $attributes);
+        return static::field('search', $name, $value, $attributes);
     }
 
     /**
@@ -316,7 +332,7 @@ trait FieldTagTrait
      */
     public static function telField($name, $value = null, array $attributes = [])
     {
-        return self::field('tel', $name, $value, $attributes);
+        return static::field('tel', $name, $value, $attributes);
     }
 
     /**
@@ -333,7 +349,7 @@ trait FieldTagTrait
      */
     public static function timeField($name, $value = null, array $attributes = [])
     {
-        return self::field('time', $name, $value, $attributes);
+        return static::field('time', $name, $value, $attributes);
     }
 
     /**
@@ -350,7 +366,7 @@ trait FieldTagTrait
      */
     public static function urlField($name, $value = null, array $attributes = [])
     {
-        return self::field('url', $name, $value, $attributes);
+        return static::field('url', $name, $value, $attributes);
     }
 
     /**
@@ -367,7 +383,7 @@ trait FieldTagTrait
      */
     public static function monthField($name, $value = null, array $attributes = [])
     {
-        return self::field('month', $name, $value, $attributes);
+        return static::field('month', $name, $value, $attributes);
     }
 
     /**
@@ -384,7 +400,7 @@ trait FieldTagTrait
      */
     public static function weekField($name, $value = null, array $attributes = [])
     {
-        return self::field('week', $name, $value, $attributes);
+        return static::field('week', $name, $value, $attributes);
     }
 
     /**
@@ -407,7 +423,7 @@ trait FieldTagTrait
             if (strcmp($radio['value'], $selected) === 0) {
                 $radio['attributes']['checked'] = 'checked';
             }
-            $rad = self::radioField($name, $radio['value'],
+            $rad = static::radioField($name, $radio['value'],
                 !empty($radio['attributes']) ? $radio['attributes'] : []);
             $rads .= str_replace(['%radio%', '%text%'], [$rad, $radio['text']], $format);
         }
@@ -439,7 +455,7 @@ trait FieldTagTrait
             if ($checkbox['value'] === $selected) {
                 $checkbox['attributes']['selected'] = 'selected';
             }
-            $check = self::checkBoxField($name, $checkbox['value'], $checkbox['attributes']);
+            $check = static::checkBoxField($name, $checkbox['value'], $checkbox['attributes']);
             $checks .= str_replace('%text%', $checkbox['text'], str_replace('%check%', $check, $format));
         }
 

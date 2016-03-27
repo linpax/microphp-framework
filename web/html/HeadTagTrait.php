@@ -151,10 +151,10 @@ trait HeadTagTrait
      */
     public static function script($text, array $attributes = [], $type = 'text/javascript')
     {
-        return self::openTag('script',
+        return static::openTag('script',
             array_merge($attributes, ['type' => $type])) .
             ' /*<![CDATA[*/ ' . $text . ' /*]]>*/ ' .
-            self::closeTag('script');
+            static::closeTag('script');
     }
 
     /**
@@ -184,6 +184,6 @@ trait HeadTagTrait
      */
     public static function title($name)
     {
-        return self::openTag('title') . $name . self::closeTag('title');
+        return static::openTag('title') . $name . static::closeTag('title');
     }
 }
