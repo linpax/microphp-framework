@@ -16,11 +16,20 @@ namespace Micro\Web\Html;
  */
 class Html
 {
-    use TagTrait;
-    use HeadTagTrait;
-    use TableTagTrait;
-    use Html5TagTrait;
-    use FieldTagTrait;
+    use TagTrait, HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait {
+        TagTrait::openTag insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::closeTag insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::tag insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::br insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::embed insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::heading insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::href insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::image insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::imageMap insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::lists insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::mailto insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+        TagTrait::object insteadof HeadTagTrait, TableTagTrait, Html5TagTrait, FieldTagTrait;
+    }
 
 
     /**
