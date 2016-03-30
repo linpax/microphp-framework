@@ -136,7 +136,11 @@ class Micro
             $this->initializeContainer();
 
             $this->addListener('kernel.kill', function(array $params) {
-                if ($params['container']->kernel->isDebug() && !$params['container']->request->isCli()) {
+                if (
+                    $params['container']->kernel->isDebug() &&
+                    !$params['container']->request->isCli() &&
+                    !$params['container']->request->isAjax()
+                ) {
                     // Add timer into page
                     echo '<div class=debug_timer>', (microtime(true) - $params['container']->kernel->getStartTime()), '</div>';
                 }
