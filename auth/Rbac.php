@@ -75,7 +75,8 @@ abstract class Rbac
      */
     public function check($userId, $permission, array $data = [])
     {
-        $tree = $this->tree($this->rawRoles());
+        $rawRoles = $this->rawRoles();
+        $tree = $this->tree($rawRoles);
 
         /** @var array $roles */
         $roles = $this->assigned($userId);
