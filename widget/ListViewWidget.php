@@ -188,6 +188,7 @@ class ListViewWidget extends Widget
             echo Html::openTag('li', $this->attributesElement);
 
             /** @noinspection PhpIncludeInspection */
+            /** @noinspection UntrustedInclusionInspection */
             include $this->pathView;
 
             echo Html::closeTag('li');

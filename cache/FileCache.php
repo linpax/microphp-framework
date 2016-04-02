@@ -88,7 +88,7 @@ class FileCache extends BaseCache
      */
     public function increment($name, $offset = 1)
     {
-        $this->set($name, ((int)$this->get($name) + $offset));
+        $this->set($name, (int)$this->get($name) + $offset);
     }
 
     /**
@@ -112,6 +112,6 @@ class FileCache extends BaseCache
      */
     public function decrement($name, $offset = 1)
     {
-        $this->set($name, ((int)$this->get($name) - $offset));
+        $this->set($name, (int)$this->get($name) - $offset);
     }
 } 

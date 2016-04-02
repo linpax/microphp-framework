@@ -81,7 +81,7 @@ class RedisCache extends BaseCache
      */
     public function set($name, $value, $duration = 0)
     {
-        return ($duration) ? $this->driver->setex($name, $duration, $value) : $this->driver->set($name, $value);
+        return $duration ? $this->driver->setex($name, $duration, $value) : $this->driver->set($name, $value);
     }
 
     /**

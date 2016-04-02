@@ -57,9 +57,9 @@ class MemcachedCache extends BaseCache
         } elseif ($config['server']) {
             $conf = $config['server'];
             $server = [
-                'hostname' => (!empty($conf['hostname']) ? $conf['hostname'] : '127.0.0.1'),
-                'port' => (!empty($conf['port']) ? $conf['port'] : 11211),
-                'weight' => (!empty($conf['weight']) ? $conf['weight'] : 1)
+                'hostname' => !empty($conf['hostname']) ? $conf['hostname'] : '127.0.0.1',
+                'port' => !empty($conf['port']) ? $conf['port'] : 11211,
+                'weight' => !empty($conf['weight']) ? $conf['weight'] : 1
             ];
 
             if (get_class($this->driver) === 'Memcached') {

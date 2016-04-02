@@ -53,7 +53,7 @@ class WincacheCache extends BaseCache
         $success = false;
         $data = wincache_ucache_get($name, $success);
 
-        return ($success) ? $data : false;
+        return $success ? $data : false;
     }
 
     /**

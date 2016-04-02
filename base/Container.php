@@ -165,14 +165,14 @@ class Container extends \stdClass implements IContainer
 
         /** @noinspection AlterInForeachInspection */
         foreach ($options['arguments'] AS $key => &$val) {
-            if (is_string($options['arguments'][$key]) && (substr($val, 0, 1) === '@')) {
+            if (is_string($options['arguments'][$key]) && (0 === strpos($val, '@'))) {
                 if ($val === '@this') {
                     $val = $this;
                 } else {
                     if (null === $this->{substr($val, 1)}) {
                         return false;
                     }
-                    $val = $this->__get(substr($val, 1));
+                    $val = $this->{substr($val, 1)};
                 }
             }
         }

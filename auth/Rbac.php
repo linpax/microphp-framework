@@ -199,7 +199,7 @@ abstract class Rbac
         if (!$role['data']) {
             return true;
         } else {
-            extract($data);
+            extract($data, EXTR_OVERWRITE);
 
             return eval('return ' . $role['data']);
         }

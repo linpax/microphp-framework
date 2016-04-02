@@ -32,7 +32,7 @@ class FatalError
      * @param int $line
      * @param array $context
      */
-    public static function handle($number = 0, $message = '', $file = '', $line = 0, $context = [])
+    public static function handle($number = 0, $message = '', $file = '', $line = 0, array $context = [])
     {
         self::$context = $context;
         self::$message = $message;

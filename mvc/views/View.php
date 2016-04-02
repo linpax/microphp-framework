@@ -5,6 +5,7 @@ namespace Micro\Mvc\Views;
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
 use Micro\Mvc\Module;
+use Micro\Mvc\Widget;
 use Micro\Web\Html\Html;
 
 /**
@@ -119,6 +120,7 @@ abstract class View implements IView
     public function endWidget($name = '')
     {
         if (!$name && $GLOBALS['widgetStack']) {
+            /** @var Widget $widget */
             $widget = array_pop($GLOBALS['widgetStack']);
             $v = $widget->run();
 

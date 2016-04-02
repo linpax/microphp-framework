@@ -54,7 +54,7 @@ class Form
         return [
             'id' => $smallName . '_' . $property,
             'name' => $smallName . '[' . $property . ']',
-            'value' => (property_exists($model, $property)) ? $model->$property : null
+            'value' => property_exists($model, $property) ? $model->$property : null
         ];
     }
 

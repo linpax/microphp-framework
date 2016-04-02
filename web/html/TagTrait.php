@@ -253,7 +253,7 @@ trait TagTrait
      */
     public static function lists(array $items = [], array $attributes = [], $isNumeric = false)
     {
-        $parentTag = ($isNumeric) ? 'ol' : 'ul';
+        $parentTag = $isNumeric ? 'ol' : 'ul';
 
         $result = null;
         foreach ($items AS $item) {

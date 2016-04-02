@@ -147,6 +147,8 @@ class DetailViewWidget extends Widget
                 case 'raw':
                     /** @noinspection OnlyWritesOnParameterInspection */
                     /** @noinspection PhpUnusedLocalVariableInspection */
+                    /** @noinspection OnlyWritesOnParameterInspection */
+                    /** @noinspection PhpUnusedLocalVariableInspection */
                     $data = $this->data; // for eval
                     $buffer .= eval('return ' . $val['value']);
                     break;

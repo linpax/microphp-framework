@@ -67,7 +67,7 @@ class Query implements IQuery
      */
     public function addSearch($column, $keyword, $escaped = false, $operand = 'AND')
     {
-        $keyword = ($escaped) ? $keyword : '"%' . $keyword . '%"';
+        $keyword = $escaped ? $keyword : '"%' . $keyword . '%"';
         $this->addWhere($column . ' LIKE ' . $keyword, $operand);
     }
 
@@ -76,7 +76,7 @@ class Query implements IQuery
      */
     public function addWhere($sql, $operand = 'AND')
     {
-        $this->where .= ($this->where) ? ' ' . $operand . ' (' . $sql . ')' : ' ' . $this->where . ' (' . $sql . ')';
+        $this->where .= $this->where ? ' ' . $operand . ' (' . $sql . ')' : ' ' . $this->where . ' (' . $sql . ')';
     }
 
     /**
@@ -84,7 +84,7 @@ class Query implements IQuery
      */
     public function addNotSearch($column, $keyword, $escaped, $operand = 'AND')
     {
-        $keyword = ($escaped) ? $keyword : '"%' . $keyword . '%"';
+        $keyword = $escaped ? $keyword : '"%' . $keyword . '%"';
         $this->addWhere($column . ' NOT LIKE ' . $keyword, $operand);
     }
 
@@ -155,13 +155,13 @@ class Query implements IQuery
     public function getQuery()
     {
         $query = 'SELECT ';
-        $query .= ($this->distinct) ? 'DISTINCT ' : '';
+        $query .= $this->distinct ? 'DISTINCT ' : '';
         $query .= $this->select . ' FROM ' . $this->table;
-        $query .= ($this->join) ? ' ' . $this->join : '';
-        $query .= ($this->where) ? ' WHERE ' . $this->where : '';
-        $query .= ($this->group) ? ' GROUP BY ' . $this->group : '';
-        $query .= ($this->having) ? ' HAVING ' . $this->having : '';
-        $query .= ($this->order) ? ' ORDER BY ' . $this->order : '';
+        $query .= $this->join ? ' ' . $this->join : '';
+        $query .= $this->where ? ' WHERE ' . $this->where : '';
+        $query .= $this->group ? ' GROUP BY ' . $this->group : '';
+        $query .= $this->having ? ' HAVING ' . $this->having : '';
+        $query .= $this->order ? ' ORDER BY ' . $this->order : '';
 
         if ($this->limit !== -1) {
             $query .= ' LIMIT ';
