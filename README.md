@@ -1,5 +1,7 @@
 # MicroPHP Framework
 
+[![Join the chat at https://gitter.im/linpax/microphp-framework](https://badges.gitter.im/linpax/microphp-framework.svg)](https://gitter.im/linpax/microphp-framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Micro — молодой H-MVC [фреймворк](http://wiki.micro.linpax.org/Фреймворк) со свободным исходным кодом, написанный на языке программирования [PHP](http://wiki.micro.linpax.org/PHP), для разработки полноценных веб-сервисов и приложений.
 Micro реализует [паттерн](http://wiki.micro.linpax.org/Шаблон проектирования) «иерархический [модель](http://wiki.micro.linpax.org/Модель)-[представление](http://wiki.micro.linpax.org/Представление)-[контроллер](http://wiki.micro.linpax.org/Контроллер)» (HMVC).
 Текущая стабильная версия отсутствует, распространяется по свободной [лицензией MIT](http://wiki.micro.linpax.org/Лицензия MIT).
