@@ -127,7 +127,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir() . strtolower($this->extensions ?: '');
+        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
             if ($block && file_exists($path . strtolower($this->modules) . '/modules/' . $block)) {
