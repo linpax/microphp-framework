@@ -47,11 +47,12 @@ class Router implements IRouter
         }
 
         // scan routes
-        foreach ($this->routes AS $condition => $config) {
+        foreach ($this->routes as $condition => $config) {
             if (is_array($config) && !empty($config['route'])) {
                 if (!empty($config['verb']) && ($config['verb'] !== $method)) {
                     continue;
                 }
+
                 $replacement = $config['route'];
             } elseif (is_string($config)) {
                 $replacement = $config;
@@ -164,14 +165,18 @@ class Router implements IRouter
     private function buildResult(&$attr, $repBlocks)
     {
         $result = null;
+
         foreach ($repBlocks AS $value) {
-            if (0 === strpos($value, '<')) {
+            if (0 !== strpos($value, '<')) {
                 $result .= '/' . $value;
+
                 unset($attr[$value]);
             } else {
                 $element = substr($value, 1, -1);
+
                 if (!empty($attr[$element])) {
                     $result .= '/' . $attr[$element];
+
                     unset($attr[$element]);
                 } else {
                     return false;

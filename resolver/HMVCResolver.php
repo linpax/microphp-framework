@@ -101,14 +101,16 @@ class HMVCResolver extends Resolver
      */
     protected function prepareExtensions(&$uriBlocks)
     {
-        foreach ($uriBlocks AS $i => $block) {
+        foreach ($uriBlocks as $i => $block) {
             if (file_exists($this->container->kernel->getAppDir() . $this->extensions . '/extensions/' . $block)) {
-                $this->extensions .= '/extensions/' . $block;
+                $this->extensions .= '/Extensions/' . ucfirst($block);
+
                 unset($uriBlocks[$i]);
             } else {
                 break;
             }
         }
+
         $this->extensions = str_replace('/', '\\', $this->extensions);
     }
 
@@ -125,11 +127,12 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '');
+        $path = $this->container->kernel->getAppDir() . strtolower($this->extensions ?: '');
 
-        foreach ($uriBlocks AS $i => $block) {
-            if ($block && file_exists($path . $this->modules . '/modules/' . $block)) {
-                $this->modules .= '/modules/' . $block;
+        foreach ($uriBlocks as $i => $block) {
+            if ($block && file_exists($path . strtolower($this->modules) . '/modules/' . $block)) {
+                $this->modules .= '/Modules/' . ucfirst($block);
+
                 unset($uriBlocks[$i]);
             } else {
                 break;
@@ -150,13 +153,14 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '') . ($this->modules ?: '');
+        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
         if (file_exists(str_replace('\\', '/', $path . '/controllers/' . ucfirst($str) . 'Controller.php'))) {
             $this->controller = $str;
         } else {
             $this->controller = 'default';
+
             array_unshift($uriBlocks, $str);
         }
     }
