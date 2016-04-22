@@ -163,18 +163,8 @@ class Container extends \stdClass implements IContainer
         $options['property'] = !empty($options['property']) ? $this->buildParams($options['property']) : null;
         $options['calls'] = !empty($options['calls']) ? $this->buildCalls($options['calls']) : null;
 
-        try { // create object
-            $reflection = new \ReflectionClass($className);
-            $reflectionMethod = new \ReflectionMethod($className, '__construct');
-
-            if ($reflectionMethod->getNumberOfParameters() === 0) {
-                $this->data[$name] = new $className;
-            } else {
-                $this->data[$name] = $reflection->newInstanceArgs($options['arguments']);
-            }
-
-            unset($reflection, $reflectionMethod);
-        } catch (Exception $e) {
+        $this->data[$name] = $this->makeObject($className, $options['arguments']);
+        if (!$this->data[$name]) {
             return false;
         }
 
@@ -200,6 +190,32 @@ class Container extends \stdClass implements IContainer
         }
 
         return true;
+    }
+
+    /**
+     * Make object with arguments
+     *
+     * @access private
+     *
+     * @param string $className
+     * @param array $arguments
+     *
+     * @return mixed
+     */
+    private function makeObject($className, array $arguments = [])
+    {
+        try {
+            $reflection = new \ReflectionClass($className);
+            $reflectionMethod = new \ReflectionMethod($className, '__construct');
+
+            if ($reflectionMethod->getNumberOfParameters() === 0) {
+                return new $className;
+            } else {
+                return $reflection->newInstanceArgs($arguments);
+            }
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
