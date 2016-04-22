@@ -214,7 +214,7 @@ class Container extends \stdClass implements IContainer
         $calls = [];
 
         if (!is_array($params[0])) {
-            $call[] = $params[0];
+            $call = [ $params[0] ];
             unset($params[0]);
 
             if (!empty($params[1])) {
@@ -227,7 +227,7 @@ class Container extends \stdClass implements IContainer
 
         foreach ($params as $arguments) {
             if (is_string($arguments[0])) {
-                if (!empty($arguments[1])) {
+                if (!empty($arguments[1]) && is_array($arguments[1])) {
                     $calls[$arguments[0]] = $this->buildParams($arguments[1]);
                 } else {
                     $calls[$arguments[0]] = null;
