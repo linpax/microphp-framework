@@ -179,21 +179,21 @@ class Container extends \stdClass implements IContainer
         }
 
         if (!empty($options['property'])) { // load properties
-            foreach ($options['property'] as $key => $val) {
-                if (property_exists($this->data[$name], $key)) {
-                    $this->data[$name]->$key = $val;
+            foreach ($options['property'] as $property => $value) {
+                if (property_exists($this->data[$name], $property)) {
+                    $this->data[$name]->$property = $value;
                 }
             }
         }
 
         if (!empty($options['calls'])) { // run methods
-            foreach ($options['calls'] as $key => $val) {
-                if (method_exists($this->data['name'], $key)) {
-                    $reflectionMethod = new \ReflectionMethod($className, $key);
+            foreach ($options['calls'] as $method => $arguments) {
+                if (method_exists($this->data['name'], $method)) {
+                    $reflectionMethod = new \ReflectionMethod($className, $method);
                     if ($reflectionMethod->getNumberOfParameters() === 0) {
-                        $this->data['name']->$key();
+                        $this->data['name']->$method();
                     } else {
-                        call_user_func_array([$this->data['name'], $key], $val);
+                        call_user_func_array([$this->data['name'], $method], $arguments);
                     }
                 }
             }
@@ -211,31 +211,25 @@ class Container extends \stdClass implements IContainer
      */
     private function buildCalls(array $params)
     {
-        $calls = [];
+        $callers = [];
 
         if (!is_array($params[0])) {
-            $call = [ $params[0] ];
-            unset($params[0]);
-
-            if (!empty($params[1])) {
-                $call[] = $params[1];
-                unset($params[1]);
-            }
-
-            $params[] = $call;
+            $params = [
+                $params
+            ];
         }
 
         foreach ($params as $arguments) {
             if (is_string($arguments[0])) {
                 if (!empty($arguments[1]) && is_array($arguments[1])) {
-                    $calls[$arguments[0]] = $this->buildParams($arguments[1]);
+                    $callers[$arguments[0]] = $this->buildParams($arguments[1]);
                 } else {
-                    $calls[$arguments[0]] = null;
+                    $callers[$arguments[0]] = null;
                 }
             }
         }
 
-        return $calls;
+        return $callers;
     }
 
     /**
