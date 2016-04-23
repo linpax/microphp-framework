@@ -35,13 +35,13 @@ class FlashMessage
      *
      * @access public
      *
-     * @param array $params
+     * @param ISession $session
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(ISession $session)
     {
-        $this->session = $params['session'];
+        $this->session = $session;
     }
 
     /**

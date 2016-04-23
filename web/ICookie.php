@@ -17,16 +17,6 @@ namespace Micro\Web;
  */
 interface ICookie
 {
-    /**
-     * Constructor of object
-     *
-     * @access public
-     *
-     * @param array $params Configuration array
-     *
-     * @result void
-     */
-    public function __construct(array $params);
 
     /**
      * Get cookie

@@ -25,13 +25,13 @@ class Cookie implements ICookie
      *
      * @access public
      *
-     * @param array $params Configuration array
+     * @param IRequest $request
      *
      * @result void
      */
-    public function __construct(array $params)
+    public function __construct(IRequest $request)
     {
-        $this->request = $params['request'];
+        $this->request = $request;
     }
 
     /**

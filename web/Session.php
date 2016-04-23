@@ -26,15 +26,16 @@ class Session extends \stdClass implements ISession
      *
      * @access public
      *
-     * @param array $config configuration array
+     * @param IRequest $request
+     * @param bool $autoStart
      *
      * @result void
      */
-    public function __construct(array $config = [])
+    public function __construct(IRequest $request, $autoStart = false)
     {
-        $this->request = $config['request'];
+        $this->request = $request;
 
-        if (array_key_exists('autoStart', $config) && $config['autoStart'] === true) {
+        if ($autoStart === true) {
             $this->create();
         }
     }
