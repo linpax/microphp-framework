@@ -27,13 +27,13 @@ class Router implements IRouter
      *
      * @access public
      *
-     * @param array $config
+     * @param array $routes
      *
      * @result void
      */
-    public function __construct(array $config = [])
+    public function __construct(array $routes = [])
     {
-        $this->routes = $config['routes'];
+        $this->routes = $routes;
     }
 
     /**
