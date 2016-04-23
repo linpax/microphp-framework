@@ -39,13 +39,13 @@ class Curl
     public $error = false;
     /** @var int $error_code error code */
     public $error_code = 0;
-    /** @var null|string $error_message error message */
+    /** @var string $error_message error message */
     public $error_message;
     /** @var bool $curl_error is cURL error */
     public $curl_error = false;
     /** @var int $curl_error_code cURL error code */
     public $curl_error_code = 0;
-    /** @var null|string $curl_error_message cURL error message */
+    /** @var string $curl_error_message cURL error message */
     public $curl_error_message;
     /** @var bool $http_error is HTTP error */
     public $http_error = false;
@@ -53,11 +53,11 @@ class Curl
     public $http_status_code = 0;
     /** @var null $http_error_message HTTP error message */
     public $http_error_message;
-    /** @var null $request_headers request headers */
+    /** @var array $request_headers request headers */
     public $request_headers;
-    /** @var null $response_headers response headers */
+    /** @var array $response_headers response headers */
     public $response_headers;
-    /** @var null $response response */
+    /** @var string $response response */
     public $response;
     /** @var array $_cookies cookies for request */
     private $_cookies = [];
@@ -79,7 +79,7 @@ class Curl
         }
 
         $this->curl = curl_init();
-        $this->setUserAgent(self::USER_AGENT);
+        $this->setUserAgent(static::USER_AGENT);
         $this->setopt(CURLINFO_HEADER_OUT, true);
         $this->setopt(CURLOPT_HEADER, true);
         $this->setopt(CURLOPT_RETURNTRANSFER, true);
@@ -148,7 +148,7 @@ class Curl
         $this->curl_error_message = curl_error($this->curl);
         $this->curl_error = !($this->curl_error_code === 0);
         $this->http_status_code = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
-        $this->http_error = in_array(floor($this->http_status_code / 100), array(4, 5), true);
+        $this->http_error = in_array(floor($this->http_status_code / 100), [4, 5], true);
         $this->error = $this->curl_error || $this->http_error;
         if ($this->error) {
             $this->error_code = $this->curl_error ? $this->curl_error_code : $this->http_status_code;
@@ -258,7 +258,7 @@ class Curl
      */
     public function setBasicAuthentication($username, $password)
     {
-        $this->setHttpAuth(self::AUTH_BASIC);
+        $this->setHttpAuth(static::AUTH_BASIC);
         $this->setopt(CURLOPT_USERPWD, $username . ':' . $password);
     }
 
@@ -267,13 +267,13 @@ class Curl
      *
      * @access public
      *
-     * @param mixed $httpauth http auth type
+     * @param mixed $httpAuth http auth type
      *
      * @return void
      */
-    protected function setHttpAuth($httpauth)
+    protected function setHttpAuth($httpAuth)
     {
-        $this->setopt(CURLOPT_HTTPAUTH, $httpauth);
+        $this->setopt(CURLOPT_HTTPAUTH, $httpAuth);
     }
 
     /**
