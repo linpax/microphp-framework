@@ -23,12 +23,12 @@ class User implements IUser
 
     /**
      * @access public
-     * @param array $config
+     * @param IContainer $container
      * @result void
      */
-    public function __construct(array $config)
+    public function __construct(IContainer $container)
     {
-        $this->container = $config['container'];
+        $this->container = $container;
     }
 
     /**
