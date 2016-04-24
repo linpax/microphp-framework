@@ -44,7 +44,7 @@ class DbConnection extends Connection
                     $config['connectionString'],
                     $config['username'],
                     $config['password'],
-                    $config['options']
+                    $options
                 );
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
