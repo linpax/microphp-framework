@@ -27,13 +27,14 @@ abstract class Connection implements IConnection
      *
      * @access public
      *
-     * @param array $config configuration array
+     * @param IContainer $container
+     * 
      *
      * @result void
      * @throws \Micro\Base\Exception
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container)
     {
-        $this->container = $config['container'];
+        $this->container = $container;
     }
 }

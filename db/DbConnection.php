@@ -3,6 +3,7 @@
 namespace Micro\Db;
 
 use Micro\Base\Exception;
+use Micro\Base\IContainer;
 
 /**
  * Connection class file.
@@ -27,26 +28,24 @@ class DbConnection extends Connection
      *
      * @access public
      *
-     * @param array $config configuration array
+     * @param IContainer $container
+     * @param array $config
+     * @param array $options
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container, array $config = [], array $options = [])
     {
-        parent::__construct($config);
+        parent::__construct($container);
 
         try {
-            if (empty($config['options'])) {
-                $config['options'] = null;
-            }
-
-            $this->conn = new \PDO(
-                $config['connectionString'],
-                $config['username'],
-                $config['password'],
-                $config['options']
-            );
+                $this->conn = new \PDO(
+                    $config['connectionString'],
+                    $config['username'],
+                    $config['password'],
+                    $config['options']
+                );
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
                 throw new Exception('Connect to DB failed: ' . $e->getMessage());
