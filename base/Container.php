@@ -178,12 +178,12 @@ class Container extends \stdClass implements IContainer
 
         if (!empty($options['calls'])) { // run methods
             foreach ($options['calls'] as $method => $arguments) {
-                if (method_exists($this->data['name'], $method)) {
+                if (method_exists($this->data[$name], $method)) {
                     $reflectionMethod = new \ReflectionMethod($className, $method);
                     if ($reflectionMethod->getNumberOfParameters() === 0) {
-                        $this->data['name']->$method();
+                        $this->data[$name]->$method();
                     } else {
-                        call_user_func_array([$this->data['name'], $method], $arguments);
+                        call_user_func_array([$this->data[$name], $method], $arguments);
                     }
                 }
             }
