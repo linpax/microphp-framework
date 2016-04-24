@@ -47,13 +47,9 @@ class Cache
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $servers = [])
+    public function __construct(IContainer $container, array $servers)
     {
         $this->container = $container;
-
-        if ($servers) {
-            throw new Exception('Caching not configured');
-        }
 
         foreach ($servers AS $key => $server) {
             if (array_key_exists($server['driver'], array_keys(self::$drivers))) {
