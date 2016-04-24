@@ -80,7 +80,7 @@ abstract class Model extends FormModel implements IModel
     {
         $query = new Query($container->db);
         foreach ($attributes AS $key => $val) {
-            $query->addWhere($key . ' = :' . $key);
+            $query->addWhere($key.' = :'.$key);
         }
         $query->params = $attributes;
 
@@ -103,7 +103,7 @@ abstract class Model extends FormModel implements IModel
     public static function finder(IQuery $query = null, $single = false, IContainer $container = null)
     {
         $query = ($query instanceof Query) ? $query : new Query($container->db);
-        $query->table = static::tableName() . ' `m`';
+        $query->table = static::tableName().' `m`';
         $query->objectName = get_called_class();
         $query->single = $single;
 
@@ -158,7 +158,7 @@ abstract class Model extends FormModel implements IModel
             if (empty($this->cacheRelations[$name])) {
                 $sql = new Query($this->container->db);
 
-                $sql->addWhere('`m`.`' . $relation['On'][1] . '`=:' . $relation['On'][0]);
+                $sql->addWhere('`m`.`'.$relation['On'][1].'`=:'.$relation['On'][0]);
 
                 if ($relation['Where']) {
                     $sql->addWhere($relation['Where']);
@@ -368,10 +368,10 @@ abstract class Model extends FormModel implements IModel
         if ($this->beforeUpdate()) {
             if (!$where) {
                 if (self::$primaryKey) {
-                    $where .= '`' . self::$primaryKey . '` = :' . self::$primaryKey;
+                    $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
                 } else {
                     throw new Exception($this->container,
-                        'In table ' . static::tableName() . ' option `id` not defined/not use.'
+                        'In table '.static::tableName().' option `id` not defined/not use.'
                     );
                 }
             }
@@ -415,13 +415,13 @@ abstract class Model extends FormModel implements IModel
         }
         if ($this->beforeDelete()) {
             if (!self::$primaryKey) {
-                throw new Exception('In table ' . static::tableName() . ' option `id` not defined/not use.');
+                throw new Exception('In table '.static::tableName().' option `id` not defined/not use.');
             }
 
             if (
             $this->container->db->delete(
                 static::tableName(),
-                self::$primaryKey . '=:' . self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
+                self::$primaryKey.'=:'.self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
             )
             ) {
                 $this->afterDelete();
