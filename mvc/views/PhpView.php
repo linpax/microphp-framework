@@ -90,7 +90,7 @@ class PhpView extends View
         if ($this->layout && (!$layoutPath = $this->getLayoutFile($this->container->kernel->getAppDir(),
                 $this->module))
         ) {
-            $this->container->logger->send('error', 'Layout `' . $this->layout . '` not found');
+            $this->container->logger->send('error', 'Layout `'.$this->layout.'` not found');
         }
 
         if ($layoutPath) {
@@ -119,15 +119,15 @@ class PhpView extends View
             $module = substr($module, 0, strrpos($module, '/'));
         }
 
-        $layout = $appDir . '/' . ($module ? $module . '/' : $module);
-        $afterPath = 'views/layouts/' . ucfirst($this->layout) . '.php';
+        $layout = $appDir.'/'.($module ? $module.'/' : $module);
+        $afterPath = 'views/layouts/'.ucfirst($this->layout).'.php';
 
-        if (file_exists($layout . $afterPath)) {
-            return $layout . $afterPath;
+        if (file_exists($layout.$afterPath)) {
+            return $layout.$afterPath;
         }
 
-        if (file_exists($appDir . '/' . $afterPath)) {
-            return $appDir . '/' . $afterPath;
+        if (file_exists($appDir.'/'.$afterPath)) {
+            return $appDir.'/'.$afterPath;
         }
 
         return false;
@@ -156,7 +156,7 @@ class PhpView extends View
         include str_replace('\\', '/', $fileName);
 
         if (!empty($GLOBALS['widgetStack'])) {
-            throw new Exception(count($GLOBALS['widgetStack']) . ' widgets not endings.');
+            throw new Exception(count($GLOBALS['widgetStack']).' widgets not endings.');
         }
 
         return ob_get_clean();
@@ -187,17 +187,17 @@ class PhpView extends View
         $cl = substr($cl, strpos($cl, '/'));
 
         if ($this->asWidget) {
-            $path .= $cl . '/views/' . $view . '.php';
+            $path .= $cl.'/views/'.$view.'.php';
         } else {
             $className = str_replace('controller', '',
-                strtolower(basename(str_replace('\\', '/', '/' . $this->path))));
-            $path .= dirname($cl) . '/views/' . $className . '/' . $view . '.php';
+                strtolower(basename(str_replace('\\', '/', '/'.$this->path))));
+            $path .= dirname($cl).'/views/'.$className.'/'.$view.'.php';
         }
 
         $path = str_replace('//', '/', $path);
 
         if (!file_exists($path)) {
-            throw new Exception('View path `' . $path . '` not exists.');
+            throw new Exception('View path `'.$path.'` not exists.');
         }
 
         return $path;
