@@ -41,20 +41,21 @@ class Cache
      *
      * @access public
      *
-     * @param array $config Caching config
+     * @param IContainer $container
+     * @param array $servers
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container, array $servers = [])
     {
-        $this->container = $config['container'];
+        $this->container = $container;
 
-        if (empty($config['servers'])) {
+        if ($servers) {
             throw new Exception('Caching not configured');
         }
 
-        foreach ($config['servers'] AS $key => $server) {
+        foreach ($servers AS $key => $server) {
             if (array_key_exists($server['driver'], array_keys(self::$drivers))) {
                 $this->servers[$key] = new self::$drivers[$server['driver']] (
                     array_merge($server, ['container' => $this->container])
