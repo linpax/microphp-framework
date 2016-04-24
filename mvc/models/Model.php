@@ -24,9 +24,11 @@ abstract class Model extends FormModel implements IModel
 {
     /** @var string $primaryKey Primary key on table */
     public static $primaryKey = 'id';
-    /** @var boolean $_isNewRecord is new record? */
+    /** @var string $tableName Table name */
+    public static $tableName;
+    /** @var boolean $_isNewRecord Is new record? */
     protected $_isNewRecord = false;
-    /** @var array $cacheRelations cached loads relations */
+    /** @var array $cacheRelations Cached loads relations */
     protected $cacheRelations = [];
 
 
@@ -39,10 +41,15 @@ abstract class Model extends FormModel implements IModel
      * @param boolean $new is new model?
      *
      * @result void
+     * @throws Exception
      */
     public function __construct(IContainer $container, $new = true)
     {
         parent::__construct($container);
+
+        if (!static::$tableName) {
+            throw new Exception('Table name not set in `' . __CLASS__ . '`` model.');
+        }
 
         $this->_isNewRecord = $new;
     }
@@ -103,7 +110,7 @@ abstract class Model extends FormModel implements IModel
     public static function finder(IQuery $query = null, $single = false, IContainer $container = null)
     {
         $query = ($query instanceof Query) ? $query : new Query($container->db);
-        $query->table = static::tableName().' `m`';
+        $query->table = static::$tableName . ' `m`';
         $query->objectName = get_called_class();
         $query->single = $single;
 
@@ -135,7 +142,7 @@ abstract class Model extends FormModel implements IModel
     public function getAttributes()
     {
         $fields = [];
-        foreach ($this->container->db->listFields(static::tableName()) AS $field) {
+        foreach ($this->container->db->listFields(static::$tableName) AS $field) {
             $fields[] = $field['field'];
         }
 
@@ -295,7 +302,7 @@ abstract class Model extends FormModel implements IModel
         $arr = Type::getVars($this);
 
         $buffer = [];
-        foreach ($this->container->db->listFields(static::tableName()) AS $row) {
+        foreach ($this->container->db->listFields(static::$tableName) AS $row) {
             $buffer[] = $row['field'];
         }
 
@@ -326,7 +333,7 @@ abstract class Model extends FormModel implements IModel
         }
 
         $res = false;
-        foreach ($this->container->db->listFields(static::tableName()) AS $row) {
+        foreach ($this->container->db->listFields(static::$tableName) AS $row) {
             if ($row['field'] === $name) {
                 $res = true;
                 break;
@@ -371,12 +378,12 @@ abstract class Model extends FormModel implements IModel
                     $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
                 } else {
                     throw new Exception($this->container,
-                        'In table '.static::tableName().' option `id` not defined/not use.'
+                        'In table ' . static::$tableName . ' option `id` not defined/not use.'
                     );
                 }
             }
 
-            if ($this->container->db->update(static::tableName(), $this->mergeAttributesDb(), $where)) {
+            if ($this->container->db->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
                 $this->afterUpdate();
 
                 return true;
@@ -420,7 +427,7 @@ abstract class Model extends FormModel implements IModel
 
             if (
             $this->container->db->delete(
-                static::tableName(),
+                static::$tableName,
                 self::$primaryKey.'=:'.self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
             )
             ) {
