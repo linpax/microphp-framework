@@ -67,8 +67,8 @@ class Query implements IQuery
      */
     public function addSearch($column, $keyword, $escaped = false, $operand = 'AND')
     {
-        $keyword = $escaped ? $keyword : '"%' . $keyword . '%"';
-        $this->addWhere($column . ' LIKE ' . $keyword, $operand);
+        $keyword = $escaped ? $keyword : '"%'.$keyword.'%"';
+        $this->addWhere($column.' LIKE '.$keyword, $operand);
     }
 
     /**
@@ -76,7 +76,7 @@ class Query implements IQuery
      */
     public function addWhere($sql, $operand = 'AND')
     {
-        $this->where .= $this->where ? ' ' . $operand . ' (' . $sql . ')' : ' ' . $this->where . ' (' . $sql . ')';
+        $this->where .= $this->where ? ' '.$operand.' ('.$sql.')' : ' '.$this->where.' ('.$sql.')';
     }
 
     /**
@@ -84,8 +84,8 @@ class Query implements IQuery
      */
     public function addNotSearch($column, $keyword, $escaped, $operand = 'AND')
     {
-        $keyword = $escaped ? $keyword : '"%' . $keyword . '%"';
-        $this->addWhere($column . ' NOT LIKE ' . $keyword, $operand);
+        $keyword = $escaped ? $keyword : '"%'.$keyword.'%"';
+        $this->addWhere($column.' NOT LIKE '.$keyword, $operand);
     }
 
     /**
@@ -94,10 +94,10 @@ class Query implements IQuery
     public function addIn($column, $params, $operand = 'AND')
     {
         if (is_array($params)) {
-            $params = "'" . implode('\',\'', $params) . '\'';
+            $params = "'".implode('\',\'', $params).'\'';
         }
 
-        $this->addWhere($column . ' IN (' . $params . ')', $operand);
+        $this->addWhere($column.' IN ('.$params.')', $operand);
     }
 
     /**
@@ -106,10 +106,10 @@ class Query implements IQuery
     public function addNotIn($column, $params, $operand = 'AND')
     {
         if (is_array($params)) {
-            $params = "'" . implode('\',\'', $params) . '\'';
+            $params = "'".implode('\',\'', $params).'\'';
         }
 
-        $this->addWhere($column . ' NOT IN (' . $params . ')', $operand);
+        $this->addWhere($column.' NOT IN ('.$params.')', $operand);
     }
 
     /**
@@ -117,7 +117,7 @@ class Query implements IQuery
      */
     public function addBetween($column, $start, $stop, $operand = 'AND')
     {
-        $this->addWhere($column . ' BETWEEN ' . $start . ' AND ' . $stop, $operand);
+        $this->addWhere($column.' BETWEEN '.$start.' AND '.$stop, $operand);
     }
 
     /**
@@ -125,7 +125,7 @@ class Query implements IQuery
      */
     public function addNotBetween($column, $start, $stop, $operand = 'AND')
     {
-        $this->addWhere($column . ' BETWEEN ' . $start . ' AND ' . $stop, $operand);
+        $this->addWhere($column.' BETWEEN '.$start.' AND '.$stop, $operand);
     }
 
     /**
@@ -133,7 +133,7 @@ class Query implements IQuery
      */
     public function addJoin($table, $condition, $type = 'LEFT')
     {
-        $this->join .= ' ' . $type . ' JOIN ' . $table . ' ON ' . $condition;
+        $this->join .= ' '.$type.' JOIN '.$table.' ON '.$condition;
     }
 
     /**
@@ -156,18 +156,18 @@ class Query implements IQuery
     {
         $query = 'SELECT ';
         $query .= $this->distinct ? 'DISTINCT ' : '';
-        $query .= $this->select . ' FROM ' . $this->table;
-        $query .= $this->join ? ' ' . $this->join : '';
-        $query .= $this->where ? ' WHERE ' . $this->where : '';
-        $query .= $this->group ? ' GROUP BY ' . $this->group : '';
-        $query .= $this->having ? ' HAVING ' . $this->having : '';
-        $query .= $this->order ? ' ORDER BY ' . $this->order : '';
+        $query .= $this->select.' FROM '.$this->table;
+        $query .= $this->join ? ' '.$this->join : '';
+        $query .= $this->where ? ' WHERE '.$this->where : '';
+        $query .= $this->group ? ' GROUP BY '.$this->group : '';
+        $query .= $this->having ? ' HAVING '.$this->having : '';
+        $query .= $this->order ? ' ORDER BY '.$this->order : '';
 
         if ($this->limit !== -1) {
             $query .= ' LIMIT ';
 
             if ($this->offset !== -1) {
-                $query .= $this->offset . ',';
+                $query .= $this->offset.',';
             }
 
             $query .= $this->limit;
