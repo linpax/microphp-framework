@@ -3,6 +3,7 @@
 namespace Micro\Queue;
 
 use Micro\Base\Exception;
+use Micro\Base\IContainer;
 
 /**
  * Queue class file.
@@ -28,19 +29,21 @@ class Queue
 
 
     /**
-     * Initialize service manager
+     * Initialize Queue manager
      *
      * @access public
      *
-     * @param array $params Initialization parameters
+     * @param IContainer $container
+     * @param array $servers
+     * @param array $routes
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $servers = [], array $routes = [])
     {
-        $this->container = $params['container'];
-        $this->servers = !empty($params['servers']) ? $params['servers'] : [];
-        $this->routes = !empty($params['routes']) ? $params['routes'] : [];
+        $this->container = $container;
+        $this->servers = $servers;
+        $this->routes = $routes;
     }
 
     /**

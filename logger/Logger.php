@@ -2,6 +2,8 @@
 
 namespace Micro\Logger;
 
+use Micro\Base\IContainer;
+
 /**
  * Logger manager
  *
@@ -37,13 +39,14 @@ class Logger
      *
      * @access public
      *
-     * @param array $params configuration array
+     * @param IContainer $container
+     * @param array $loggers
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $loggers = [])
     {
-        foreach ($params['loggers'] AS $name => $log) {
+        foreach ($loggers AS $name => $log) {
             if (empty($log['class']) || !class_exists($log['class'])) {
                 continue;
             }
@@ -52,7 +55,7 @@ class Logger
                 continue;
             }
 
-            $this->loggers[$name] = new $log['class']($params['container'], $log);
+            $this->loggers[$name] = new $log['class']($container, $log);
         }
     }
 
