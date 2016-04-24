@@ -20,15 +20,6 @@ use Micro\Form\IFormModel;
 interface IModel extends IFormModel
 {
     /**
-     * Get name of table
-     *
-     * @access public
-     * @return string
-     * @static
-     */
-    public static function tableName();
-
-    /**
      * Relations for model
      *
      * @access public
