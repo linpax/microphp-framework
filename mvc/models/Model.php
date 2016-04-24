@@ -252,7 +252,7 @@ abstract class Model extends FormModel implements IModel
             return false;
         }
         if ($this->beforeCreate() && $this->beforeSave()) {
-            $id = $this->container->db->insert(static::tableName(), $this->mergeAttributesDb());
+            $id = $this->container->db->insert(static::$tableName, $this->mergeAttributesDb());
             if (!$id) {
                 return false;
             }
@@ -422,7 +422,7 @@ abstract class Model extends FormModel implements IModel
         }
         if ($this->beforeDelete()) {
             if (!self::$primaryKey) {
-                throw new Exception('In table '.static::tableName().' option `id` not defined/not use.');
+                throw new Exception('In table ' . static::$tableName . ' option `id` not defined/not use.');
             }
 
             if (
