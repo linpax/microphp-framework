@@ -135,7 +135,7 @@ abstract class View implements IView
             echo $v;
         }
 
-        if (!class_exists($name) || empty($GLOBALS['widgetStack'][$name])) {
+        if (!class_exists($name) && empty($GLOBALS['widgetStack'][$name])) {
             throw new Exception('Widget ' . $name . ' not started.');
         }
 
