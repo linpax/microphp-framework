@@ -36,9 +36,9 @@ abstract class Rbac
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container)
     {
-        $this->container = $params['container'];
+        $this->container = $container;
 
         if (!$this->container->db->tableExists('rbac_user')) {
             $this->container->db->createTable('rbac_user', [
@@ -100,6 +100,14 @@ abstract class Rbac
     }
 
     /**
+     * Get raw roles
+     *
+     * @access public
+     * @return mixed
+     */
+    abstract public function rawRoles();
+
+    /**
      * Build tree from RBAC rules
      *
      * @access public
@@ -125,14 +133,6 @@ abstract class Rbac
 
         return $branch;
     }
-
-    /**
-     * Get raw roles
-     *
-     * @access public
-     * @return mixed
-     */
-    abstract public function rawRoles();
 
     /**
      * Get assigned to user RBAC elements

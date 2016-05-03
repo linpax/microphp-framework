@@ -2,6 +2,8 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\IContainer;
+
 /**
  * File RBAC class file.
  *
@@ -30,9 +32,9 @@ class FileRbac extends Rbac
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container)
     {
-        parent::__construct();
+        parent::__construct($container);
 
         if (!empty($params['roles'])) {
             $this->roles = $this->tree($params['roles']);

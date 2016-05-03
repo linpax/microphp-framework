@@ -92,7 +92,7 @@ class GridViewWidget extends Widget
             if ($args['data']->objectName) {
                 /** @var IModel $cls */
                 $cls = $args['data']->objectName;
-                $args['data']->table = $cls::tableName();
+                $args['data']->table = $cls::$tableName;
             } elseif (!$args['data']->table) {
                 throw new Exception('Data query not set table or objectName');
             }

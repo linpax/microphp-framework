@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -25,9 +26,9 @@ class DbRbac extends Rbac
      *
      * @inheritdoc
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container)
     {
-        parent::__construct($params);
+        parent::__construct($container);
 
         if (!$this->container->db->tableExists('rbac_role')) {
             $this->container->db->createTable('rbac_role', [
