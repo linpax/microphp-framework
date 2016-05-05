@@ -40,6 +40,7 @@
     }
   },
   "require-dev": {
+    "phpunit/phpunit-selenium": "*",
     "phpunit/phpunit": "*",
     "codeclimate/php-test-reporter": "dev-master"
   }
