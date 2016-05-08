@@ -32,10 +32,10 @@ trait TagTrait
     {
         $result = '';
         foreach ($attributes AS $elem => $value) {
-            $result .= ' ' . $elem . '="' . $value . '" ';
+            $result .= ' '.$elem.'="'.$value.'" ';
         }
 
-        return '<' . $name . $result . '/>';
+        return '<'.$name.$result.'/>';
     }
 
     /**
@@ -53,10 +53,10 @@ trait TagTrait
     {
         $result = '';
         foreach ($attributes AS $key => $value) {
-            $result .= ' ' . $key . '="' . $value . '"';
+            $result .= ' '.$key.'="'.$value.'"';
         }
 
-        return '<' . $name . $result . '>';
+        return '<'.$name.$result.'>';
     }
 
     /**
@@ -71,7 +71,7 @@ trait TagTrait
      */
     public static function closeTag($name)
     {
-        return '</' . $name . '>';
+        return '</'.$name.'>';
     }
 
 
@@ -110,8 +110,8 @@ trait TagTrait
      */
     public static function mailto($name, $email, array $attributes = [])
     {
-        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:' . $email])) .
-            $name .
+        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:'.$email])).
+            $name.
             static::closeTag('a');
     }
 
@@ -129,8 +129,8 @@ trait TagTrait
      */
     public static function href($name, $url, array $attributes = [])
     {
-        return static::openTag('a', array_merge($attributes, ['href' => $url])) .
-            $name .
+        return static::openTag('a', array_merge($attributes, ['href' => $url])).
+            $name.
             static::closeTag('a');
     }
 
@@ -148,7 +148,7 @@ trait TagTrait
      */
     public static function heading($num, $value = null, array $attributes = [])
     {
-        return static::openTag('h' . $num, $attributes) . $value . static::closeTag('h' . $num);
+        return static::openTag('h'.$num, $attributes).$value.static::closeTag('h'.$num);
     }
 
     /**
@@ -172,9 +172,9 @@ trait TagTrait
             $areas .= static::tag('area', $coord);
         }
 
-        return static::image($alt, $source, array_merge($attributeImg, ['usemap' => $name])) .
-        static::openTag('map', ['name' => $name, 'id' => $name]) .
-        $areas .
+        return static::image($alt, $source, array_merge($attributeImg, ['usemap' => $name])).
+        static::openTag('map', ['name' => $name, 'id' => $name]).
+        $areas.
         static::closeTag('map');
     }
 
@@ -219,7 +219,7 @@ trait TagTrait
             $paramsConverted .= static::tag('param', ['name' => $key, 'value' => $val]);
         }
 
-        return static::openTag('object', $attributes) . $paramsConverted . static::closeTag('object');
+        return static::openTag('object', $attributes).$paramsConverted.static::closeTag('object');
     }
 
     /**
@@ -236,7 +236,7 @@ trait TagTrait
     {
         $attributes['source'] = $source;
 
-        return static::openTag('embed', $attributes) . static::closeTag('embed');
+        return static::openTag('embed', $attributes).static::closeTag('embed');
     }
 
     /**
@@ -271,6 +271,6 @@ trait TagTrait
             $result .= static::closeTag('li');
         }
 
-        return static::openTag($parentTag, $attributes) . $result . static::closeTag($parentTag);
+        return static::openTag($parentTag, $attributes).$result.static::closeTag($parentTag);
     }
 }

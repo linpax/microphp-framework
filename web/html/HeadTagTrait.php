@@ -69,8 +69,8 @@ trait HeadTagTrait
      */
     public static function link($name, $url, array $attributes = [])
     {
-        return static::openTag('link', array_merge($attributes, ['href' => $url])) .
-            $name .
+        return static::openTag('link', array_merge($attributes, ['href' => $url])).
+            $name.
             static::closeTag('link');
     }
 
@@ -116,7 +116,7 @@ trait HeadTagTrait
      */
     public static function scriptFile($file)
     {
-        return static::openTag('script', ['src' => $file, 'type' => 'text/javascript']) . static::closeTag('script');
+        return static::openTag('script', ['src' => $file, 'type' => 'text/javascript']).static::closeTag('script');
     }
 
     /**
@@ -132,8 +132,8 @@ trait HeadTagTrait
      */
     public static function css($text, array $attributes = [])
     {
-        return static::openTag('style', array_merge($attributes, ['type' => 'text/css'])) .
-            $text .
+        return static::openTag('style', array_merge($attributes, ['type' => 'text/css'])).
+            $text.
             static::closeTag('style');
     }
 
@@ -152,8 +152,8 @@ trait HeadTagTrait
     public static function script($text, array $attributes = [], $type = 'text/javascript')
     {
         return static::openTag('script',
-            array_merge($attributes, ['type' => $type])) .
-            ' /*<![CDATA[*/ ' . $text . ' /*]]>*/ ' .
+            array_merge($attributes, ['type' => $type])).
+            ' /*<![CDATA[*/ '.$text.' /*]]>*/ '.
             static::closeTag('script');
     }
 
@@ -184,6 +184,6 @@ trait HeadTagTrait
      */
     public static function title($name)
     {
-        return static::openTag('title') . $name . static::closeTag('title');
+        return static::openTag('title').$name.static::closeTag('title');
     }
 }

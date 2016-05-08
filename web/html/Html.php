@@ -96,7 +96,7 @@ class Html
      */
     public static function button($text, array $attributes = [])
     {
-        return static::openTag('button', $attributes) . $text . static::closeTag('button');
+        return static::openTag('button', $attributes).$text.static::closeTag('button');
     }
 
     /**
@@ -116,7 +116,7 @@ class Html
         return static::openTag('textarea', array_merge($attributes, [
             'id' => $name,
             'name' => $name
-        ])) . $text . static::closeTag('textarea');
+        ])).$text.static::closeTag('textarea');
     }
 
     /**
@@ -132,7 +132,7 @@ class Html
      */
     public static function legend($text, array $attributes = [])
     {
-        return static::openTag('legend', $attributes) . $text . static::closeTag('legend');
+        return static::openTag('legend', $attributes).$text.static::closeTag('legend');
     }
 
     /**
@@ -151,7 +151,7 @@ class Html
     {
         return static::openTag('label', array_merge($attributes, [
             'for' => $elemId
-        ])) . $name . static::closeTag('label');
+        ])).$name.static::closeTag('label');
     }
 
     /**
@@ -213,7 +213,7 @@ class Html
 
         $attributes['name'] .= array_key_exists('multiple', $attributes) ? '[]' : '';
 
-        return static::openTag('select', $attributes) . $opts . static::closeTag('select');
+        return static::openTag('select', $attributes).$opts.static::closeTag('select');
     }
 
     /**
@@ -241,7 +241,7 @@ class Html
 
         return static::openTag('optgroup', array_merge($attributes, [
             'label' => $label
-        ])) . $opts . static::closeTag('optgroup');
+        ])).$opts.static::closeTag('optgroup');
     }
 
     /**
@@ -260,7 +260,7 @@ class Html
     {
         return static::openTag('option', array_merge($attributes, [
             'value' =>$value
-        ])) . $text . static::closeTag('option');
+        ])).$text.static::closeTag('option');
     }
 
     /**

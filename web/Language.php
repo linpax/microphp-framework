@@ -45,11 +45,11 @@ class Language extends \stdClass
         $lang = $this->container->lang;
         $lang = $lang ?: $this->defaultLang;
 
-        if (!file_exists($viewName . $lang . '.ini')) {
+        if (!file_exists($viewName.$lang.'.ini')) {
             return;
         }
 
-        $this->language = parse_ini_file($viewName . $lang . '.ini', true);
+        $this->language = parse_ini_file($viewName.$lang.'.ini', true);
     }
 
     /**
@@ -67,7 +67,7 @@ class Language extends \stdClass
         if (!empty($this->language[$name])) {
             return $this->language[$name];
         } else {
-            throw new Exception($name . ' not defined into lang file');
+            throw new Exception($name.' not defined into lang file');
         }
     }
 }
