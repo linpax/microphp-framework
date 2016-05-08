@@ -98,7 +98,7 @@ class DbCache extends BaseCache
      */
     public function set($name, $value)
     {
-        return $this->driver->update($this->table, ['`name`="' . $value . '"'], 'name="' . $name . '"');
+        return $this->driver->update($this->table, ['`name`="'.$value.'"'], 'name="'.$name.'"');
     }
 
     /**
@@ -139,7 +139,7 @@ class DbCache extends BaseCache
      */
     public function increment($name, $offset = 1)
     {
-        return $this->driver->update($this->table, ['value' => 'value+' . $offset], 'name="' . $name . '"');
+        return $this->driver->update($this->table, ['value' => 'value+'.$offset], 'name="'.$name.'"');
     }
 
     /**
@@ -147,6 +147,6 @@ class DbCache extends BaseCache
      */
     public function decrement($name, $offset = 1)
     {
-        return $this->driver->update($this->table, ['value' => 'value-' . $offset], 'name="' . $name . '"');
+        return $this->driver->update($this->table, ['value' => 'value-'.$offset], 'name="'.$name.'"');
     }
 } 

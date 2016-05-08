@@ -89,7 +89,7 @@ abstract class Threads
      */
     protected function createIPCSegment()
     {
-        $this->fileIPC1 = '/tmp/' . mt_rand() . md5($this->getName()) . '.shm';
+        $this->fileIPC1 = '/tmp/'.mt_rand().md5($this->getName()).'.shm';
 
         touch($this->fileIPC1);
 
@@ -141,7 +141,7 @@ abstract class Threads
      */
     protected function createIPCSemaphore()
     {
-        $this->fileIPC2 = '/tmp/' . mt_rand() . md5($this->getName()) . '.sem';
+        $this->fileIPC2 = '/tmp/'.mt_rand().md5($this->getName()).'.sem';
 
         touch($this->fileIPC2);
 
@@ -217,8 +217,8 @@ abstract class Threads
 
         if ($shm_bytes_written !== strlen($serialized_IPC_array)) {
             throw new Exception(
-                'Fatal exception writing SHM segment (shmop_write)' . strlen($serialized_IPC_array) .
-                '-' . shmop_size($this->internalIPCKey)
+                'Fatal exception writing SHM segment (shmop_write)'.strlen($serialized_IPC_array).
+                '-'.shmop_size($this->internalIPCKey)
             );
         }
     }
@@ -269,7 +269,7 @@ abstract class Threads
         $serialized_IPC_array = shmop_read($this->internalIPCKey, 0, shmop_size($this->internalIPCKey));
 
         if (!$serialized_IPC_array) {
-            throw new Exception('Fatal exception reading SHM segment (shmop_read)' . "\n");
+            throw new Exception('Fatal exception reading SHM segment (shmop_read)'."\n");
         }
 
         unset($this->internalIPCArray);

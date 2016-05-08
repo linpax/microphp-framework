@@ -65,19 +65,19 @@ class Asset
 
         $this->hash = md5($this->sourcePath);
 
-        $this->publishPath = '/' . (($dir = $view->container->assetsDirName) ? $dir : 'assets') . '/' . $this->hash;
+        $this->publishPath = '/'.(($dir = $view->container->assetsDirName) ? $dir : 'assets').'/'.$this->hash;
 
         $web = $this->view->container->kernel->getWebDir();
 
         if (!file_exists($this->sourcePath)) {
-            throw new Exception('Asset dir not exists: ' . $this->sourcePath);
+            throw new Exception('Asset dir not exists: '.$this->sourcePath);
         }
 
-        if (!is_dir($web . $this->publishPath) && (!mkdir($web . $this->publishPath, 0777) && !is_dir($web . $this->publishPath))) {
-            throw new Exception('Could not access to publish dir: ' . $this->publishPath);
+        if (!is_dir($web.$this->publishPath) && (!mkdir($web.$this->publishPath, 0777) && !is_dir($web.$this->publishPath))) {
+            throw new Exception('Could not access to publish dir: '.$this->publishPath);
         }
 
-        FileHelper::recurseCopyIfEdited($this->sourcePath, $web . $this->publishPath, $this->excludes);
+        FileHelper::recurseCopyIfEdited($this->sourcePath, $web.$this->publishPath, $this->excludes);
     }
 
     /**
@@ -102,7 +102,7 @@ class Asset
                 $this->js = [$this->js];
             }
             foreach ($this->js AS $script) {
-                $this->view->registerScriptFile($this->publishPath . $script, $this->isHead);
+                $this->view->registerScriptFile($this->publishPath.$script, $this->isHead);
             }
         }
         if ($this->css) {
@@ -110,7 +110,7 @@ class Asset
                 $this->css = [$this->css];
             }
             foreach ($this->css AS $style) {
-                $this->view->registerCssFile($this->publishPath . $style, $this->isHead);
+                $this->view->registerCssFile($this->publishPath.$style, $this->isHead);
             }
         }
     }

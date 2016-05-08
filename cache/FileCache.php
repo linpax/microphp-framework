@@ -36,9 +36,9 @@ class FileCache extends BaseCache
     {
         parent::__construct($config);
 
-        $path = !empty($config['path']) ? $config['path'] : sys_get_temp_dir() . '/cache';
+        $path = !empty($config['path']) ? $config['path'] : sys_get_temp_dir().'/cache';
         if (!@mkdir($path, 0600) && !is_dir($path)) {
-            throw new Exception('Can`not create/check access to directory: ' . $path);
+            throw new Exception('Can`not create/check access to directory: '.$path);
         }
         $this->driver = $path;
     }
@@ -56,7 +56,7 @@ class FileCache extends BaseCache
      */
     public function delete($name)
     {
-        unlink($this->driver . '/' . $name);
+        unlink($this->driver.'/'.$name);
     }
 
     /**
@@ -80,7 +80,7 @@ class FileCache extends BaseCache
      */
     public function getMeta($id)
     {
-        return filesize($this->driver . '/' . $id);
+        return filesize($this->driver.'/'.$id);
     }
 
     /**
@@ -96,7 +96,7 @@ class FileCache extends BaseCache
      */
     public function set($name, $value)
     {
-        return file_put_contents($this->driver . '/' . $name, $value);
+        return file_put_contents($this->driver.'/'.$name, $value);
     }
 
     /**
@@ -104,7 +104,7 @@ class FileCache extends BaseCache
      */
     public function get($name)
     {
-        return file_get_contents($this->driver . '/' . $name);
+        return file_get_contents($this->driver.'/'.$name);
     }
 
     /**

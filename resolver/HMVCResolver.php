@@ -52,7 +52,7 @@ class HMVCResolver extends Resolver
         $cls = $this->getCalculatePath();
 
         if (!class_exists($cls) || !is_subclass_of($cls, '\Micro\Mvc\Controllers\IController')) {
-            throw new Exception('Controller ' . $cls . ' not found or not a valid');
+            throw new Exception('Controller '.$cls.' not found or not a valid');
         }
 
         return new $cls($this->container, $this->getModules());
@@ -102,8 +102,8 @@ class HMVCResolver extends Resolver
     protected function prepareExtensions(&$uriBlocks)
     {
         foreach ($uriBlocks as $i => $block) {
-            if (file_exists($this->container->kernel->getAppDir() . $this->extensions . '/extensions/' . $block)) {
-                $this->extensions .= '/Extensions/' . ucfirst($block);
+            if (file_exists($this->container->kernel->getAppDir().$this->extensions.'/extensions/'.$block)) {
+                $this->extensions .= '/Extensions/'.ucfirst($block);
 
                 unset($uriBlocks[$i]);
             } else {
@@ -127,11 +127,11 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '');
+        $path = $this->container->kernel->getAppDir().($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
-            if ($block && file_exists($path . strtolower($this->modules) . '/modules/' . $block)) {
-                $this->modules .= '/Modules/' . ucfirst($block);
+            if ($block && file_exists($path.strtolower($this->modules).'/modules/'.$block)) {
+                $this->modules .= '/Modules/'.ucfirst($block);
 
                 unset($uriBlocks[$i]);
             } else {
@@ -153,10 +153,10 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
+        $path = $this->container->kernel->getAppDir().($this->extensions ?: '').strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
-        if (file_exists(str_replace('\\', '/', $path . '/controllers/' . ucfirst($str) . 'Controller.php'))) {
+        if (file_exists(str_replace('\\', '/', $path.'/controllers/'.ucfirst($str).'Controller.php'))) {
             $this->controller = $str;
         } else {
             $this->controller = 'default';
@@ -189,7 +189,7 @@ class HMVCResolver extends Resolver
      */
     public function getCalculatePath()
     {
-        return '\\App' . $this->getExtensions() . $this->getModules() . '\\Controllers\\' . $this->getController();
+        return '\\App'.$this->getExtensions().$this->getModules().'\\Controllers\\'.$this->getController();
     }
 
     /**
@@ -225,7 +225,7 @@ class HMVCResolver extends Resolver
      */
     public function getController()
     {
-        return ucfirst($this->controller) . 'Controller';
+        return ucfirst($this->controller).'Controller';
     }
 
 
