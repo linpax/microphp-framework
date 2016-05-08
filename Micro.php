@@ -225,7 +225,7 @@ class Micro
      */
     protected function getConfig()
     {
-        return $this->getAppDir() . '/configs/index.php';
+        return $this->getAppDir().'/configs/index.php';
     }
 
     /**
@@ -328,7 +328,7 @@ class Micro
         $output = $this->container->request->isCli() ? new DefaultConsoleCommand([]) : new Response();
 
         if ($this->container->request->isCli()) {
-            $output->data = '"Error #' . $e->getCode() . ' - ' . $e->getMessage() . '"';
+            $output->data = '"Error #'.$e->getCode().' - '.$e->getMessage().'"';
             $output->execute();
 
             return $output;
@@ -421,7 +421,7 @@ class Micro
      */
     public function getLogDir()
     {
-        return $this->getAppDir() . '/logs';
+        return $this->getAppDir().'/logs';
     }
 
     /**
@@ -431,7 +431,7 @@ class Micro
      */
     public function getCacheDir()
     {
-        return $this->getAppDir() . '/cache/' . $this->getEnvironment();
+        return $this->getAppDir().'/cache/'.$this->getEnvironment();
     }
 
     /**

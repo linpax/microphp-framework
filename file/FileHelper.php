@@ -34,12 +34,12 @@ class FileHelper
         if ($dirStream = opendir($dirName)) {
             while (false !== ($fileName = readdir($dirStream))) {
                 if ($fileName !== '.' && $fileName !== '..') {
-                    if (is_file($dirName . '/' . $fileName)) {
-                        $totalSize += filesize($dirName . '/' . $fileName);
+                    if (is_file($dirName.'/'.$fileName)) {
+                        $totalSize += filesize($dirName.'/'.$fileName);
                     }
 
-                    if (is_dir($dirName . '/' . $fileName)) {
-                        $totalSize += self::dirSize($dirName . '/' . $fileName);
+                    if (is_dir($dirName.'/'.$fileName)) {
+                        $totalSize += self::dirSize($dirName.'/'.$fileName);
                     }
                 }
             }
@@ -70,7 +70,7 @@ class FileHelper
                     continue;
                 }
 
-                static::removeDir($path . '/' . $dir);
+                static::removeDir($path.'/'.$dir);
             }
 
             rmdir($path);
@@ -93,16 +93,16 @@ class FileHelper
     {
         $dir = opendir($src);
         if (!@mkdir($dst, 0777) && !is_dir($dst)) {
-            throw new Exception('Copy dir error, access denied for path: ' . $dst);
+            throw new Exception('Copy dir error, access denied for path: '.$dst);
         }
 
         while (false !== ($file = readdir($dir))) {
             if (($file !== '.') && ($file !== '..')) {
-                if (is_dir($src . '/' . $file)) {
-                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                if (is_dir($src.'/'.$file)) {
+                    self::recurseCopy($src.'/'.$file, $dst.'/'.$file);
                 } else {
-                    copy($src . '/' . $file, $dst . '/' . $file);
-                    chmod($dst . '/' . $file, 0666);
+                    copy($src.'/'.$file, $dst.'/'.$file);
+                    chmod($dst.'/'.$file, 0666);
                 }
             }
         }
@@ -125,12 +125,12 @@ class FileHelper
     public static function recurseCopyIfEdited($src = '', $dst = '', array $excludes = ['php'])
     {
         if (!is_dir($dst) && (!mkdir($dst) && !is_dir($dst))) {
-            throw new Exception('Copy dir error, access denied for path: ' . $dst);
+            throw new Exception('Copy dir error, access denied for path: '.$dst);
         }
 
         $dir = opendir($src);
         if (!$dir) {
-            throw new Exception('Unable to read dir: ' . $src);
+            throw new Exception('Unable to read dir: '.$src);
         }
 
         while (false !== ($file = readdir($dir))) {
@@ -138,8 +138,8 @@ class FileHelper
                 continue;
             }
 
-            if (is_dir($src . '/' . $file)) {
-                self::recurseCopyIfEdited($src . '/' . $file, $dst . '/' . $file, $excludes);
+            if (is_dir($src.'/'.$file)) {
+                self::recurseCopyIfEdited($src.'/'.$file, $dst.'/'.$file, $excludes);
                 continue;
             }
 
@@ -148,12 +148,12 @@ class FileHelper
             }
 
 
-            if (file_exists($dst . '/' . $file) && (filemtime($src . '/' . $file) === filemtime($dst . '/' . $file))) {
+            if (file_exists($dst.'/'.$file) && (filemtime($src.'/'.$file) === filemtime($dst.'/'.$file))) {
                 continue;
             }
 
-            copy($src . '/' . $file, $dst . '/' . $file);
-            chmod($dst . '/' . $file, 0666);
+            copy($src.'/'.$file, $dst.'/'.$file);
+            chmod($dst.'/'.$file, 0666);
         }
         closedir($dir);
     }

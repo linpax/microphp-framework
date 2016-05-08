@@ -49,8 +49,8 @@ class Console
      */
     public function action($name)
     {
-        $command = '\\App\\Consoles\\' . ucfirst($name) . 'ConsoleCommand';
-        $command = class_exists($command) ? $command : '\\Micro\\Cli\\Consoles\\' . ucfirst($name) . 'ConsoleCommand';
+        $command = '\\App\\Consoles\\'.ucfirst($name).'ConsoleCommand';
+        $command = class_exists($command) ? $command : '\\Micro\\Cli\\Consoles\\'.ucfirst($name).'ConsoleCommand';
 
         if (!class_exists($command)) {
             return false;

@@ -57,7 +57,7 @@ class Cache
                     array_merge($server, ['container' => $this->container])
                 );
             } else {
-                throw new Exception('Cache driver `' . $server['driver'] . '` not found');
+                throw new Exception('Cache driver `'.$server['driver'].'` not found');
             }
         }
     }
@@ -81,7 +81,7 @@ class Cache
         if (in_array($driver, $this->servers, true)) {
             return $this->servers[$driver];
         } else {
-            throw new Exception('Cache `' . $driver . '` not found.');
+            throw new Exception('Cache `'.$driver.'` not found.');
         }
     }
 }
