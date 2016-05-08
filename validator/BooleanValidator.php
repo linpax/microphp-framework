@@ -40,14 +40,14 @@ class BooleanValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
             $elementValue = $model->$element;
 
             if (($elementValue !== $this->params['true']) && ($elementValue !== $this->params['false'])) {
-                $this->errors[] = $element . ' error: required element is empty.';
+                $this->errors[] = $element.' error: required element is empty.';
 
                 return false;
             }
@@ -61,7 +61,7 @@ class BooleanValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        return 'if (this.value != ' . $this->params['true'] . ' && this.value != ' . $this->params['false'] . ') {' .
+        return 'if (this.value != '.$this->params['true'].' && this.value != '.$this->params['false'].') {'.
         ' e.preventDefault(); this.focus(); alert(\'Value not compatible\'); }';
     }
 }

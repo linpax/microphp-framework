@@ -259,7 +259,7 @@ class Curl
     public function setBasicAuthentication($username, $password)
     {
         $this->setHttpAuth(static::AUTH_BASIC);
-        $this->setopt(CURLOPT_USERPWD, $username . ':' . $password);
+        $this->setopt(CURLOPT_USERPWD, $username.':'.$password);
     }
 
     /**

@@ -28,7 +28,6 @@ class FileRbac extends Rbac
      *
      * @access public
      *
-     * @param array $params configuration array
      *
      * @result void
      */

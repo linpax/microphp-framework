@@ -27,7 +27,7 @@ class FileValidator extends BaseValidator
             if (!$model->checkAttributeExists($element)) {
                 $files = $this->container->request->getFiles();
                 if (!empty($this->params['maxFiles']) && (count($files->files) > $this->params['maxFiles'])) {
-                    $this->errors[] = 'Too many files in parameter ' . $element;
+                    $this->errors[] = 'Too many files in parameter '.$element;
 
                     return false;
                 }
@@ -35,17 +35,17 @@ class FileValidator extends BaseValidator
                     if (!empty($this->params['types']) && (strpos($this->params['types'],
                                 $fContext['type']) === false)
                     ) {
-                        $this->errors[] = 'File ' . $fContext['name'] . ' not allowed type';
+                        $this->errors[] = 'File '.$fContext['name'].' not allowed type';
 
                         return false;
                     }
                     if (!empty($this->params['minSize']) && ($fContext['size'] < $this->params['minSize'])) {
-                        $this->errors[] = 'File ' . $fContext['name'] . ' too small size';
+                        $this->errors[] = 'File '.$fContext['name'].' too small size';
 
                         return false;
                     }
                     if (!empty($this->params['maxSize']) && ($fContext['type'] > $this->params['maxSize'])) {
-                        $this->errors[] = 'File ' . $fContext['name'] . ' too many size';
+                        $this->errors[] = 'File '.$fContext['name'].' too many size';
 
                         return false;
                     }

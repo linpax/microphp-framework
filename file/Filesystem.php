@@ -69,7 +69,7 @@ class Filesystem
     public function __call($methodName, array $arguments = [])
     {
         if (!method_exists($this->driver, $methodName)) {
-            throw new Exception('Method `' . $methodName . '` not defined in `' . get_class($this->driver) . '` driver.');
+            throw new Exception('Method `'.$methodName.'` not defined in `'.get_class($this->driver).'` driver.');
         }
 
         return call_user_func_array([$this->driver, $methodName], $arguments);

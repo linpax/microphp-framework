@@ -82,6 +82,6 @@ class CsrfFilter extends Filter
 
         $s->csrf = array_merge(is_array($s->csrf) ? $s->csrf : [], [md5($gen)]);
 
-        return $matches[1] . '<input type="hidden" name="csrf" value="' . $gen . '" />' . $matches[2] . $matches[3];
+        return $matches[1].'<input type="hidden" name="csrf" value="'.$gen.'" />'.$matches[2].$matches[3];
     }
 }

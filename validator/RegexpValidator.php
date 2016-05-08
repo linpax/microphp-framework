@@ -25,13 +25,13 @@ class RegexpValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
             $elementValue = $model->$element;
             if (preg_match($this->params['pattern'], $elementValue) === false) {
-                $this->errors[] = 'Parameter ' . $element . ' not valid with regular expression';
+                $this->errors[] = 'Parameter '.$element.' not valid with regular expression';
 
                 return false;
             }
@@ -45,7 +45,7 @@ class RegexpValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        $js = 'if (!this.value.match(' . $this->params['pattern'] . ')) {' .
+        $js = 'if (!this.value.match('.$this->params['pattern'].')) {'.
             ' e.preventDefault(); this.focus(); alert(\'Value not valid with regular expression\'); }';
 
         return $js;

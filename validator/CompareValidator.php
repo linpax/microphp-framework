@@ -30,23 +30,23 @@ class CompareValidator extends BaseValidator
         }
 
         if (!$model->checkAttributeExists($this->params['attribute'])) {
-            throw new Exception('Attribute `' . $this->params['attribute'] . '` not found into ' . get_class($model));
+            throw new Exception('Attribute `'.$this->params['attribute'].'` not found into '.get_class($model));
         }
 
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
 
             $elementValue = $model->$element;
             if (!empty($this->params['value']) && ($this->params['value'] !== $elementValue)) {
-                $this->errors[] = 'Parameter ' . $element . ' not equal ' . $this->params['value'];
+                $this->errors[] = 'Parameter '.$element.' not equal '.$this->params['value'];
 
                 return false;
             } elseif (!empty($this->params['attribute']) && ($model->{$this->params['attribute']} !== $elementValue)) {
-                $this->errors[] = 'Parameter ' . $element . ' not equal ' . $model->{$this->params['attribute']};
+                $this->errors[] = 'Parameter '.$element.' not equal '.$model->{$this->params['attribute']};
 
                 return false;
             }
@@ -66,7 +66,7 @@ class CompareValidator extends BaseValidator
             $value = $model->$attribute;
         }
 
-        $js = 'if (this.value!="' . $value . '") { e.preventDefault(); this.focus(); alert(\'Value is not compatible\'); }';
+        $js = 'if (this.value!="'.$value.'") { e.preventDefault(); this.focus(); alert(\'Value is not compatible\'); }';
 
         return $js;
     }

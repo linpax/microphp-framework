@@ -100,7 +100,7 @@ class GridViewWidget extends Widget
             if ($args['data']->having || $args['data']->group) {
                 $res = new Query($this->container->db);
                 $res->select = 'COUNT(*)';
-                $res->table = '(' . $args['data']->getQuery() . ') micro_count';
+                $res->table = '('.$args['data']->getQuery().') micro_count';
                 $res->single = true;
             } else {
                 /** @var Query $res */
@@ -136,7 +136,7 @@ class GridViewWidget extends Widget
      */
     public function init()
     {
-        $this->filterPrefix = ucfirst($this->filterPrefix ?: 'data' . $this->totalCount);
+        $this->filterPrefix = ucfirst($this->filterPrefix ?: 'data'.$this->totalCount);
         $this->fields = (null !== $this->rows) ? array_keys(Type::getVars($this->rows[0])) : [];
         $this->rowsCount = count($this->rows);
         $this->paginationConfig['countRows'] = $this->totalCount;
@@ -165,7 +165,7 @@ class GridViewWidget extends Widget
     public function run()
     {
         if (!$this->rows) {
-            return Html::openTag('div', $this->attributesEmpty) . $this->emptyText . Html::closeTag('div');
+            return Html::openTag('div', $this->attributesEmpty).$this->emptyText.Html::closeTag('div');
         }
 
         ob_start();
@@ -187,8 +187,8 @@ class GridViewWidget extends Widget
      */
     protected function getCounter()
     {
-        return Html::openTag('div', $this->attributesCounter) .
-        $this->counterText . $this->totalCount . Html::closeTag('div');
+        return Html::openTag('div', $this->attributesCounter).
+        $this->counterText.$this->totalCount.Html::closeTag('div');
     }
 
     /**
@@ -225,7 +225,7 @@ class GridViewWidget extends Widget
             $this->templateTable
         );
 
-        return Html::openTag('table', $this->attributes) . $table . Html::closeTag('table');
+        return Html::openTag('table', $this->attributes).$table.Html::closeTag('table');
     }
 
     /**
@@ -252,7 +252,7 @@ class GridViewWidget extends Widget
             $result .= Html::closeTag('th');
         }
 
-        return $result . Html::closeTag('tr');
+        return $result.Html::closeTag('tr');
     }
 
     /**
@@ -282,15 +282,15 @@ class GridViewWidget extends Widget
                 $result .= $row['filter'];
             } else {
                 $buffer = is_array($row) ? $key : $row;
-                $fieldName = $this->filterPrefix . '[' . $buffer . ']';
-                $fieldId = $this->filterPrefix . '_' . $buffer;
+                $fieldName = $this->filterPrefix.'['.$buffer.']';
+                $fieldId = $this->filterPrefix.'_'.$buffer;
                 $val = !empty($filtersData[$buffer]) ? $filtersData[$buffer] : '';
                 $result .= Html::textField($fieldName, $val, ['id' => $fieldId]);
             }
             $result .= Html::closeTag('td');
         }
 
-        return $result . Html::closeTag('tr') . Html::endForm();
+        return $result.Html::closeTag('tr').Html::endForm();
     }
 
     /**
@@ -305,8 +305,8 @@ class GridViewWidget extends Widget
         $result = null;
 
         if (0 === count($this->rows)) {
-            return Html::openTag('tr') .
-            Html::openTag('td', ['cols' => count($this->fields)]) . $this->emptyText . Html::closeTag('td') .
+            return Html::openTag('tr').
+            Html::openTag('td', ['cols' => count($this->fields)]).$this->emptyText.Html::closeTag('td').
             Html::closeTag('tr');
         }
 
@@ -322,7 +322,7 @@ class GridViewWidget extends Widget
                         $row + ['str' => (null === $data) ?: $data, 'pKey' => $primaryKey]
                     ));
                 } elseif (!empty($row['value'])) {
-                    $result .= eval('return ' . $row['value'] . ';');
+                    $result .= eval('return '.$row['value'].';');
                 } else {
                     $result .= property_exists($data, $key) ? $data->$key : null;
                 }

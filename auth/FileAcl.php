@@ -94,7 +94,7 @@ class FileAcl extends Acl
         $query = new Query($this->container->db);
         $query->select = '*';
         $query->table = 'acl_user';
-        $query->addWhere('`user`=' . $userId);
+        $query->addWhere('`user`='.$userId);
         $query->single = false;
 
         return $query->run();
