@@ -127,7 +127,7 @@ class ListViewWidget extends Widget
     public function init()
     {
         if (!file_exists($this->pathView)) {
-            throw new Exception('View path not valid: ' . $this->pathView);
+            throw new Exception('View path not valid: '.$this->pathView);
         }
 
         $this->rowsCount = count($this->rows);
@@ -162,8 +162,8 @@ class ListViewWidget extends Widget
      */
     protected function getCounter()
     {
-        return Html::openTag('div', $this->attributesCounter) .
-        $this->counterText . $this->totalCount . Html::closeTag('div');
+        return Html::openTag('div', $this->attributesCounter).
+        $this->counterText.$this->totalCount.Html::closeTag('div');
     }
 
     /**
@@ -176,7 +176,7 @@ class ListViewWidget extends Widget
     protected function getElements()
     {
         if (!$this->rows) {
-            return Html::openTag('div', $this->attributesEmpty) . $this->emptyText . Html::closeTag('div');
+            return Html::openTag('div', $this->attributesEmpty).$this->emptyText.Html::closeTag('div');
         }
 
         ob_start();

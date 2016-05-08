@@ -136,7 +136,7 @@ abstract class View implements IView
         }
 
         if (!class_exists($name) && empty($GLOBALS['widgetStack'][$name])) {
-            throw new Exception('Widget ' . $name . ' not started.');
+            throw new Exception('Widget '.$name.' not started.');
         }
 
         /** @var \Micro\mvc\Widget $widget widget */
