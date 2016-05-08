@@ -35,13 +35,13 @@ class RangeValidator extends BaseValidator
 
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
             if (!in_array($model->$element, $rang, true)) {
-                $this->errors[] = 'Parameter ' . $element . ' not find in rage ' .
-                    $this->params['min'] . '..' . $this->params['max'];
+                $this->errors[] = 'Parameter '.$element.' not find in rage '.
+                    $this->params['min'].'..'.$this->params['max'];
 
                 return false;
             }
@@ -55,7 +55,7 @@ class RangeValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        $js = 'if (this.value < ' . $this->params['min'] . ' || this.value > ' . $this->params['max'] . ') {' .
+        $js = 'if (this.value < '.$this->params['min'].' || this.value > '.$this->params['max'].') {'.
             ' e.preventDefault(); this.focus(); alert(\'Value not find in range\'); }';
 
         return $js;

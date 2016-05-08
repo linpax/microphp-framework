@@ -32,7 +32,6 @@ abstract class Rbac
      *
      * @access public
      *
-     * @param array $params
      *
      * @result void
      */
