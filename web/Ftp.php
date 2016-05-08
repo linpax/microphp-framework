@@ -150,7 +150,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to set file permissions for "' . $remote_file . '"';
+        $this->error = 'Failed to set file permissions for "'.$remote_file.'"';
 
         return false;
     }
@@ -166,7 +166,7 @@ final class Ftp
         $this->_stream = $func($this->_host, $this->_port, $this->_timeout);
 
         if (!$this->_stream) {
-            $this->error = 'Failed to connect ' . $this->_host . '.';
+            $this->error = 'Failed to connect '.$this->_host.'.';
 
             return false;
         }
@@ -179,7 +179,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to connect to ' . $this->_host . ' (login failed)';
+        $this->error = 'Failed to connect to '.$this->_host.' (login failed)';
 
         return false;
     }
@@ -197,7 +197,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to delete file "' . $remote_file . '"';
+        $this->error = 'Failed to delete file "'.$remote_file.'"';
 
         return false;
     }
@@ -217,7 +217,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to download file "' . $remote_file . '"';
+        $this->error = 'Failed to download file "'.$remote_file.'"';
 
         return false;
     }
@@ -253,7 +253,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to create directory "' . $directory . '"';
+        $this->error = 'Failed to create directory "'.$directory.'"';
 
         return false;
     }
@@ -273,7 +273,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to upload file "' . $local_file . '"';
+        $this->error = 'Failed to upload file "'.$local_file.'"';
 
         return false;
     }
@@ -302,7 +302,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to rename file "' . $old_name . '"';
+        $this->error = 'Failed to rename file "'.$old_name.'"';
 
         return false;
     }
@@ -320,7 +320,7 @@ final class Ftp
             return true;
         }
 
-        $this->error = 'Failed to remove directory "' . $directory . '"';
+        $this->error = 'Failed to remove directory "'.$directory.'"';
 
         return false;
     }

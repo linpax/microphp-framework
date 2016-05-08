@@ -53,7 +53,7 @@ trait TableTagTrait
             );
         }
 
-        return static::beginTable($attributes) . $output . static::endTable();
+        return static::beginTable($attributes).$output.static::endTable();
     }
 
     /**
@@ -85,7 +85,7 @@ trait TableTagTrait
             }
         }
 
-        return static::openTag('tr', $attributes) . $output . static::closeTag('tr');
+        return static::openTag('tr', $attributes).$output.static::closeTag('tr');
     }
 
     /**
@@ -101,7 +101,7 @@ trait TableTagTrait
      */
     public static function tableCell($text, array $attributes = [])
     {
-        return static::openTag('td', $attributes) . $text . static::closeTag('td');
+        return static::openTag('td', $attributes).$text.static::closeTag('td');
     }
 
     /**
@@ -117,7 +117,7 @@ trait TableTagTrait
      */
     public static function tableHeading($text, array $attributes = [])
     {
-        return static::openTag('th', $attributes) . $text . static::closeTag('th');
+        return static::openTag('th', $attributes).$text.static::closeTag('th');
     }
 
     /**
@@ -160,6 +160,6 @@ trait TableTagTrait
      */
     public static function tableCaption($text, array $attributes = [])
     {
-        return static::openTag('caption', $attributes) . $text . static::closeTag('caption');
+        return static::openTag('caption', $attributes).$text.static::closeTag('caption');
     }
 }
