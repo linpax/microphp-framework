@@ -79,7 +79,7 @@ class Message implements IMessage
      */
     public function setSubject($text)
     {
-        $this->subject = '=?utf-8?B?' . base64_encode($text) . '?=';
+        $this->subject = '=?utf-8?B?'.base64_encode($text).'?=';
     }
 
     /**
@@ -117,7 +117,7 @@ class Message implements IMessage
      */
     public function setHeaders($name, $value)
     {
-        $this->headers[$name] = $name . ': ' . $value;
+        $this->headers[$name] = $name.': '.$value;
     }
 
     /**
@@ -129,7 +129,7 @@ class Message implements IMessage
             return false;
         }
 
-        return implode("\r\n", array_values($this->params)) . "\r\n";
+        return implode("\r\n", array_values($this->params))."\r\n";
     }
 
     /**
@@ -137,6 +137,6 @@ class Message implements IMessage
      */
     public function setParams($name, $value)
     {
-        $this->params[$name] = $name . ': ' . $value;
+        $this->params[$name] = $name.': '.$value;
     }
 }

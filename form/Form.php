@@ -52,8 +52,8 @@ class Form
         $smallName = substr($cl, strrpos($cl, '\\') + 1);
 
         return [
-            'id' => $smallName . '_' . $property,
-            'name' => $smallName . '[' . $property . ']',
+            'id' => $smallName.'_'.$property,
+            'name' => $smallName.'['.$property.']',
             'value' => property_exists($model, $property) ? $model->$property : null
         ];
     }
@@ -130,9 +130,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->textField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->textField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -194,9 +194,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->fileField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->fileField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -235,9 +235,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->imageField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->imageField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -277,9 +277,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->passwordField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->passwordField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -318,9 +318,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->textAreaField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->textAreaField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -359,9 +359,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->checkBoxField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->checkBoxField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -402,9 +402,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->listBoxField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->listBoxField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -448,9 +448,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->dropDownListField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->dropDownListField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -493,9 +493,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->checkBoxListField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->checkBoxListField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -535,9 +535,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->radioButtonListField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->radioButtonListField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -579,9 +579,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->colorField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->colorField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -620,9 +620,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->dateField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->dateField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -661,9 +661,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->dateTimeField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->dateTimeField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -702,9 +702,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->dateTimeLocalField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->dateTimeLocalField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -743,9 +743,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->emailField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->emailField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -784,9 +784,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->numberField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->numberField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -825,9 +825,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->rangeField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->rangeField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -866,9 +866,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->searchField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->searchField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -907,9 +907,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->telField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->telField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -948,9 +948,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->timeField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->timeField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -989,9 +989,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->urlField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->urlField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -1030,9 +1030,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->monthField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->monthField($model, $property, $options).
         Html::closeTag('div');
     }
 
@@ -1071,9 +1071,9 @@ class Form
         $element = $this->getField($model, $property);
         $options['id'] = $element['id'];
 
-        return Html::openTag('div', $this->getBlock('block', $options)) .
-        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)) .
-        $this->weekField($model, $property, $options) .
+        return Html::openTag('div', $this->getBlock('block', $options)).
+        Html::label($model->getLabel($property), $element['id'], $this->getBlock('label', $options)).
+        $this->weekField($model, $property, $options).
         Html::closeTag('div');
     }
 

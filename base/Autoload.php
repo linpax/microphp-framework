@@ -96,8 +96,8 @@ class Autoload
                 continue;
             }
 
-            $path = $alias . '\\' . substr($className, mb_strlen($prefix) + 1);
-            $absolutePath = str_replace('\\', DIRECTORY_SEPARATOR, $path) . $extension;
+            $path = $alias.'\\'.substr($className, mb_strlen($prefix) + 1);
+            $absolutePath = str_replace('\\', DIRECTORY_SEPARATOR, $path).$extension;
 
             if (is_readable($absolutePath)) {
                 return $absolutePath;

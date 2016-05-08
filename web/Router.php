@@ -111,7 +111,7 @@ class Router implements IRouter
         $result .= '?';
         foreach ($attributes AS $key => $val) {
             if ($key !== $val) {
-                $result .= '&' . $key . '=' . $val;
+                $result .= '&'.$key.'='.$val;
             }
         }
 
@@ -136,7 +136,7 @@ class Router implements IRouter
             if (0 === strpos($patBlocks[$i], '<')) {
                 $cut = strpos($patBlocks[$i], ':');
 
-                if (preg_match('/' . substr($patBlocks[$i], $cut + 1, -1) . '/', $uriBlocks[$i])) {
+                if (preg_match('/'.substr($patBlocks[$i], $cut + 1, -1).'/', $uriBlocks[$i])) {
                     $attr[substr($patBlocks[$i], 1, $cut - 1)] = $uriBlocks[$i];
                 } else {
                     return false;
@@ -168,14 +168,14 @@ class Router implements IRouter
 
         foreach ($repBlocks AS $value) {
             if (0 !== strpos($value, '<')) {
-                $result .= '/' . $value;
+                $result .= '/'.$value;
 
                 unset($attr[$value]);
             } else {
                 $element = substr($value, 1, -1);
 
                 if (!empty($attr[$element])) {
-                    $result .= '/' . $attr[$element];
+                    $result .= '/'.$attr[$element];
 
                     unset($attr[$element]);
                 } else {

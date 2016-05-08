@@ -227,12 +227,12 @@ class Response implements IOutput, IResponse
     public function sendHeaders()
     {
         $message = $this->statusMessage ?: $this->getStatusMessageFromCode($this->statusCode);
-        header($this->httpVersion . ' ' . $this->statusCode . ' ' . $message);
+        header($this->httpVersion.' '.$this->statusCode.' '.$message);
 
-        header('Content-Type: ' . $this->contentType);
+        header('Content-Type: '.$this->contentType);
 
         foreach ($this->headers AS $key => $val) {
-            header($key . ': ' . $val);
+            header($key.': '.$val);
         }
 
     }
