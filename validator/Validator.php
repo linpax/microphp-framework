@@ -97,7 +97,7 @@ class Validator
 
                 return true;
             } else {
-                throw new Exception('Validator ' . $name . ' not defined.');
+                throw new Exception('Validator '.$name.' not defined.');
             }
         }
 
@@ -125,11 +125,11 @@ class Validator
     protected function getValidatorClass($name)
     {
         if (!empty(self::$validators[$name])) {
-            return '\\Micro\\Validator\\' . self::$validators[$name];
+            return '\\Micro\\Validator\\'.self::$validators[$name];
         } elseif (class_exists($name) && is_subclass_of($name, '\Micro\Validator\IValidator')) {
             return $name;
-        } elseif (file_exists($this->container->kernel->getAppDir() . '/validator/' . $name . '.php')) {
-            return '\\App\\Validator\\' . $name;
+        } elseif (file_exists($this->container->kernel->getAppDir().'/validator/'.$name.'.php')) {
+            return '\\App\\Validator\\'.$name;
         }
 
         return false;
@@ -151,9 +151,9 @@ class Validator
 
         $result = null;
         foreach ($validator->elements AS $element) {
-            $id = $object . '_' . $element;
+            $id = $object.'_'.$element;
             /** @noinspection PhpUndefinedMethodInspection */
-            $result .= 'jQuery("#' . $id . '").bind("change blur submit", function(e){ ';
+            $result .= 'jQuery("#'.$id.'").bind("change blur submit", function(e){ ';
             /** @noinspection DisconnectedForeachInstructionInspection */
             $result .= $validator->client($model);
             $result .= ' });';

@@ -150,7 +150,7 @@ abstract class Rbac
         $query->distinct = true;
         $query->select = '`role` AS `name`';
         $query->table = '`rbac_user`';
-        $query->addWhere('`user`=' . $userId);
+        $query->addWhere('`user`='.$userId);
         $query->single = false;
 
         return $query->run(\PDO::FETCH_ASSOC);
@@ -201,7 +201,7 @@ abstract class Rbac
         } else {
             extract($data, EXTR_OVERWRITE);
 
-            return eval('return ' . $role['data']);
+            return eval('return '.$role['data']);
         }
     }
 

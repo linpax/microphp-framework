@@ -57,7 +57,7 @@ abstract class View implements IView
     public function widget($name, array $options = [], $capture = false)
     {
         if (!class_exists($name)) {
-            throw new Exception('Widget ' . $name . ' not found.');
+            throw new Exception('Widget '.$name.' not found.');
         }
 
         $options = array_merge($options, ['container' => $this->container]);
@@ -98,11 +98,11 @@ abstract class View implements IView
     public function beginWidget($name, array $options = [])
     {
         if (!class_exists($name)) {
-            throw new Exception('Widget ' . $name . ' not found.');
+            throw new Exception('Widget '.$name.' not found.');
         }
 
         if (!empty($GLOBALS['widgetStack'][$name])) {
-            throw new Exception('This widget (' . $name . ') already started!');
+            throw new Exception('This widget ('.$name.') already started!');
         }
 
         $options = array_merge($options, ['container' => $this->container]);

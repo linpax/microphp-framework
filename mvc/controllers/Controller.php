@@ -46,7 +46,7 @@ abstract class Controller implements IController
 
         // if module defined
         if ($modules) {
-            $className = '\\App' . $modules . '\\' . ucfirst(basename(str_replace('\\', '/', $modules))) . 'Module';
+            $className = '\\App'.$modules.'\\'.ucfirst(basename(str_replace('\\', '/', $modules))).'Module';
 
             if (class_exists($className) && is_subclass_of($className, '\Micro\Mvc\Module')) {
                 $this->module = new $className($this->container);

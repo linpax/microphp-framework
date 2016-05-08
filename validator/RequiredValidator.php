@@ -25,12 +25,12 @@ class RequiredValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
             if (!$model->$element) {
-                $this->errors[] = $element . ' error: required element is empty.';
+                $this->errors[] = $element.' error: required element is empty.';
 
                 return false;
             }

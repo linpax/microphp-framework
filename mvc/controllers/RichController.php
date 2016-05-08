@@ -50,8 +50,8 @@ abstract class RichController extends Controller
         $actionClass = false;
 
         // check action exists
-        if (!method_exists($this, 'action' . ucfirst($name)) && !$actionClass = $this->getActionClassByName($name)) {
-            $this->response->setStatus(500, 'Action "' . $name . '" not found into ' . get_class($this));
+        if (!method_exists($this, 'action'.ucfirst($name)) && !$actionClass = $this->getActionClassByName($name)) {
+            $this->response->setStatus(500, 'Action "'.$name.'" not found into '.get_class($this));
 
             return $this->response;
         }
@@ -60,7 +60,7 @@ abstract class RichController extends Controller
 
         if (!empty($types[$name]) && $this->methodType !== $types[$name]) {
             $this->response->setStatus(500,
-                'Action "' . $name . '" not run with method "' . $this->methodType . '" into ' . get_class($this)
+                'Action "'.$name.'" not run with method "'.$this->methodType.'" into '.get_class($this)
             );
 
             return $this->response;
@@ -76,7 +76,7 @@ abstract class RichController extends Controller
             $cl = new $actionClass($this->container);
             $view = $cl->run();
         } else {
-            $view = $this->{'action' . ucfirst($name)}();
+            $view = $this->{'action'.ucfirst($name)}();
         }
 
         if ($this->response->getContentType() !== $this->format) {

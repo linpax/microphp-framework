@@ -150,7 +150,7 @@ class DetailViewWidget extends Widget
                     /** @noinspection OnlyWritesOnParameterInspection */
                     /** @noinspection PhpUnusedLocalVariableInspection */
                     $data = $this->data; // for eval
-                    $buffer .= eval('return ' . $val['value']);
+                    $buffer .= eval('return '.$val['value']);
                     break;
 
                 default:
@@ -161,7 +161,7 @@ class DetailViewWidget extends Widget
                     }
             }
 
-            $result .= (strlen($buffer) ? $buffer : '&nbsp;') . Html::closeTag('dd');
+            $result .= (strlen($buffer) ? $buffer : '&nbsp;').Html::closeTag('dd');
         }
 
         echo $result, Html::closeTag('dl');

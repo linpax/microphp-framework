@@ -79,9 +79,9 @@ class ActionsGridColumn extends GridColumn
         $result = [];
 
         foreach ($this->buttons AS $key => $row) {
-            $result['{' . $key . '}'] = Html::href(
+            $result['{'.$key.'}'] = Html::href(
                 !empty($row['text']) ? $row['text'] : $key,
-                $this->params['link'] . (!empty($row['link']) ? $row['link'] : '/') . $this->params['pKey'],
+                $this->params['link'].(!empty($row['link']) ? $row['link'] : '/').$this->params['pKey'],
                 !empty($row['attributes']) ? $row['attributes'] : []
             );
         }
