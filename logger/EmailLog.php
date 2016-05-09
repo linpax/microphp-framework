@@ -39,7 +39,7 @@ class EmailLog extends Log
 
         $this->from = !empty($params['from']) ? $params['from'] : getenv('SERVER_ADMIN');
         $this->to = !empty($params['to']) ? $params['to'] : $this->from;
-        $this->subject = $params['subject'] ?: getenv('SERVER_NAME') . ' log message';
+        $this->subject = $params['subject'] ?: getenv('SERVER_NAME').' log message';
     }
 
     /**
@@ -50,7 +50,7 @@ class EmailLog extends Log
         $mail = new Message($this->from);
 
         $mail->setTo($this->to);
-        $mail->setText(ucfirst($level) . ': ' . $message, $this->type);
+        $mail->setText(ucfirst($level).': '.$message, $this->type);
 
         $this->container->mail->send($mail);
     }

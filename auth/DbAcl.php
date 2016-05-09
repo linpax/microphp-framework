@@ -80,7 +80,7 @@ class DbAcl extends Acl
         $query->addJoin('`acl_role_perm` AS  `arp`', '`arp`.`role` =  `au`.`role`');
         $query->addJoin('`acl_perm` AS  `ap1`', '`ap1`.`id` =  `arp`.`perm`');
 
-        $query->addWhere('`au`.`user`=' . $userId);
+        $query->addWhere('`au`.`user`='.$userId);
         $query->addWhere('`ap`.`name`=:perm OR `ap1`.`name`=:perm');
 
         $query->limit = 1;
@@ -170,7 +170,7 @@ class DbAcl extends Acl
         $query = new Query($this->container->db);
         $query->select = '*';
         $query->table = 'acl_role_perm';
-        $query->addWhere('role=' . $role);
+        $query->addWhere('role='.$role);
         $query->single = false;
 
         return $query->run();
@@ -238,9 +238,9 @@ class DbAcl extends Acl
     public function forbidPrivilege($userId, $privilege = null, $asRole = true)
     {
         if ($asRole) {
-            $this->container->db->delete('acl_user', '`user`="' . $userId . '" AND `role`="' . $privilege . '"');
+            $this->container->db->delete('acl_user', '`user`="'.$userId.'" AND `role`="'.$privilege.'"');
         } else {
-            $this->container->db->delete('acl_user', '`user`="' . $userId . '" AND `perm`="' . $privilege . '"');
+            $this->container->db->delete('acl_user', '`user`="'.$userId.'" AND `perm`="'.$privilege.'"');
         }
     }
 }

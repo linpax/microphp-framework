@@ -56,7 +56,7 @@ class FatalError
      */
     protected static function doCli()
     {
-        return static::$number . ' - ' . static::$message . ' on ' . static::$file . ':' . static::$line;
+        return static::$number.' - '.static::$message.' on '.static::$file.':'.static::$line;
     }
 
     /**
@@ -65,20 +65,20 @@ class FatalError
     protected static function doRun()
     {
         $str = '<div class="error" style="width: 100%;">';
-        $str .= '<h2>FatalError ' . static::$number . ' - ' . static::$message . ' on ' . static::$file . ':' . static::$line . '</h2>';
+        $str .= '<h2>FatalError '.static::$number.' - '.static::$message.' on '.static::$file.':'.static::$line.'</h2>';
 
         $str .= '<table width="100%" style="width: 100%">';
         $str .= '<tr>';
         $str .= '<th width="100px">Context</th>';
         $str .= '<td style="vertical-align: top; height: 300px">';
-        $str .= '<textarea disabled style="width:100%; height: 100%">' . print_r(static::$context,
-                true) . '</textarea>';
+        $str .= '<textarea disabled style="width:100%; height: 100%">'.print_r(static::$context,
+                true).'</textarea>';
         $str .= '</td>';
         $str .= '</tr>';
         $str .= '<tr>';
         $str .= '<th width="100px">Debug trace</th>';
         $str .= '<td style="vertical-align: top; height: 300px">';
-        $str .= '<textarea disabled style="width: 100%; height: 100%">' . print_r(static::$trace, true) . '</textarea>';
+        $str .= '<textarea disabled style="width: 100%; height: 100%">'.print_r(static::$trace, true).'</textarea>';
         $str .= '</td>';
         $str .= '</tr>';
         $str .= '</table>';

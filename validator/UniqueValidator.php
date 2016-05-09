@@ -26,7 +26,7 @@ class UniqueValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $this->errors[] = 'Parameter ' . $element . ' not defined in class ' . get_class($model);
+                $this->errors[] = 'Parameter '.$element.' not defined in class '.get_class($model);
 
                 return false;
             }
@@ -35,7 +35,7 @@ class UniqueValidator extends BaseValidator
             $query = new Query($this->container->db);
             $query->select = $this->params['attribute'];
             $query->table = $this->params['table'];
-            $query->addWhere($this->params['attribute'] . '="' . $elementValue . '"');
+            $query->addWhere($this->params['attribute'].'="'.$elementValue.'"');
             $query->limit = 1;
             $query->single = true;
 

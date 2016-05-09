@@ -76,11 +76,11 @@ abstract class FormModel implements IFormModel
         foreach ($this->rules() AS $rule) {
             $validator = new Validator(['container' => $this->container, 'rule' => $rule]);
             if (is_string($js = $validator->run($this, true))) {
-                $result .= ' ' . $js;
+                $result .= ' '.$js;
             }
         }
 
-        return $result . '});';
+        return $result.'});';
     }
 
     /**

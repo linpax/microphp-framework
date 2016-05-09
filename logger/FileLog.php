@@ -43,7 +43,7 @@ class FileLog extends Log
         if (is_writable($params['filename']) || is_writable(dirname($params['filename']))) {
             $this->connect = fopen($params['filename'], 'a+');
         } else {
-            throw new Exception('Directory or file "' . $params['filename'] . '" is read-only');
+            throw new Exception('Directory or file "'.$params['filename'].'" is read-only');
         }
     }
 
@@ -53,7 +53,7 @@ class FileLog extends Log
     public function sendMessage($level, $message)
     {
         if (is_resource($this->connect)) {
-            fwrite($this->connect, '[' . date('H:i:s d.m.Y') . '] ' . ucfirst($level) . ": {$message}\n");
+            fwrite($this->connect, '['.date('H:i:s d.m.Y').'] '.ucfirst($level).": {$message}\n");
         } else {
             throw new Exception('Error write log in file.');
         }

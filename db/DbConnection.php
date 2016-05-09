@@ -48,7 +48,7 @@ class DbConnection extends Connection
                 );
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
-                throw new Exception('Connect to DB failed: ' . $e->getMessage());
+                throw new Exception('Connect to DB failed: '.$e->getMessage());
             }
         }
     }
@@ -146,7 +146,7 @@ class DbConnection extends Connection
     public function createTable($name, array $elements = [], $params = '')
     {
         return $this->conn->exec(
-            "CREATE TABLE IF NOT EXISTS `{$name}` (" . implode(',', $elements) . ") {$params};"
+            "CREATE TABLE IF NOT EXISTS `{$name}` (".implode(',', $elements).") {$params};"
         );
     }
 
@@ -229,8 +229,8 @@ class DbConnection extends Connection
      */
     public function insert($table, array $line = [], $multi = false)
     {
-        $fields = '`' . implode('`, `', array_keys($multi ? $line[0] : $line)) . '`';
-        $values = ':' . implode(', :', array_keys($multi ? $line[0] : $line));
+        $fields = '`'.implode('`, `', array_keys($multi ? $line[0] : $line)).'`';
+        $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
 
         $id = null;
         $dbh = null;
@@ -265,12 +265,12 @@ class DbConnection extends Connection
 
         $valStr = [];
         foreach ($keys as $key) {
-            $valStr[] = '`' . $key . '` = :' . $key;
+            $valStr[] = '`'.$key.'` = :'.$key;
         }
         $valStr = implode(',', $valStr);
 
         if ($conditions) {
-            $conditions = 'WHERE ' . $conditions;
+            $conditions = 'WHERE '.$conditions;
         }
 
         return $this->conn->prepare(
@@ -295,11 +295,11 @@ class DbConnection extends Connection
     {
         $keys = [];
         foreach ($params AS $key => $val) {
-            $keys[] = '`' . $table . '`.`' . $key . '`="' . $val . '"';
+            $keys[] = '`'.$table.'`.`'.$key.'`="'.$val.'"';
         }
 
         $sth = $this->conn->prepare(
-            'SELECT * FROM `' . $table . '` WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;'
+            'SELECT * FROM `'.$table.'` WHERE '.implode(' AND ', $keys).' LIMIT 1;'
         );
         $sth->execute();
 

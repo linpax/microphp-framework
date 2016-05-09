@@ -123,12 +123,12 @@ class Request implements IRequest
 
         switch ($required) {
             case true:
-                $char = $char ? $char . ':' : $char;
-                $name = $name ? $name . ':' : $name;
+                $char = $char ? $char.':' : $char;
+                $name = $name ? $name.':' : $name;
                 break;
             case false:
-                $char = $char ? $char . '::' : $char;
-                $name = $name ? $name . '::' : $name;
+                $char = $char ? $char.'::' : $char;
+                $name = $name ? $name.'::' : $name;
                 break;
         }
 

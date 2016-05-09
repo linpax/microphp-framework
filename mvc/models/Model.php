@@ -48,7 +48,7 @@ abstract class Model extends FormModel implements IModel
         parent::__construct($container);
 
         if (!static::$tableName) {
-            throw new Exception('Table name not set in `' . __CLASS__ . '`` model.');
+            throw new Exception('Table name not set in `'.__CLASS__.'`` model.');
         }
 
         $this->_isNewRecord = $new;
@@ -110,7 +110,7 @@ abstract class Model extends FormModel implements IModel
     public static function finder(IQuery $query = null, $single = false, IContainer $container = null)
     {
         $query = ($query instanceof Query) ? $query : new Query($container->db);
-        $query->table = static::$tableName . ' `m`';
+        $query->table = static::$tableName.' `m`';
         $query->objectName = get_called_class();
         $query->single = $single;
 
@@ -378,7 +378,7 @@ abstract class Model extends FormModel implements IModel
                     $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
                 } else {
                     throw new Exception($this->container,
-                        'In table ' . static::$tableName . ' option `id` not defined/not use.'
+                        'In table '.static::$tableName.' option `id` not defined/not use.'
                     );
                 }
             }
@@ -422,7 +422,7 @@ abstract class Model extends FormModel implements IModel
         }
         if ($this->beforeDelete()) {
             if (!self::$primaryKey) {
-                throw new Exception('In table ' . static::$tableName . ' option `id` not defined/not use.');
+                throw new Exception('In table '.static::$tableName.' option `id` not defined/not use.');
             }
 
             if (

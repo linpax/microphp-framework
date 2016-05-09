@@ -32,7 +32,7 @@ abstract class Module
 
         $path = dirname(
                 str_replace(['\\', 'App'], ['/', $container->kernel->getAppDir()], get_called_class())
-            ) . '/config.php';
+            ).'/config.php';
 
         if (file_exists($path)) {
             $container->load($path);

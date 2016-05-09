@@ -127,7 +127,7 @@ class Curl
     public function get($url, array $data = [])
     {
         if (count($data) > 0) {
-            $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
+            $this->setopt(CURLOPT_URL, $url.'?'.http_build_query($data));
         } else {
             $this->setopt(CURLOPT_URL, $url);
         }
@@ -206,7 +206,7 @@ class Curl
      */
     public function put($url, array $data = [])
     {
-        $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
+        $this->setopt(CURLOPT_URL, $url.'?'.http_build_query($data));
         $this->setopt(CURLOPT_CUSTOMREQUEST, 'PUT');
         $this->_exec();
     }
@@ -241,7 +241,7 @@ class Curl
      */
     public function delete($url, array $data = [])
     {
-        $this->setopt(CURLOPT_URL, $url . '?' . http_build_query($data));
+        $this->setopt(CURLOPT_URL, $url.'?'.http_build_query($data));
         $this->setopt(CURLOPT_CUSTOMREQUEST, 'DELETE');
         $this->_exec();
     }
@@ -259,7 +259,7 @@ class Curl
     public function setBasicAuthentication($username, $password)
     {
         $this->setHttpAuth(static::AUTH_BASIC);
-        $this->setopt(CURLOPT_USERPWD, $username . ':' . $password);
+        $this->setopt(CURLOPT_USERPWD, $username.':'.$password);
     }
 
     /**
@@ -288,7 +288,7 @@ class Curl
      */
     public function setHeader($key, $value)
     {
-        $this->_headers[$key] = $key . ': ' . $value;
+        $this->_headers[$key] = $key.': '.$value;
         $this->setopt(CURLOPT_HTTPHEADER, array_values($this->_headers));
     }
 

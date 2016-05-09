@@ -208,7 +208,7 @@ class FormBuilder
             }
         }
         foreach ($this->config['buttons'] AS $button) {
-            $type = $button['type'] . 'Button';
+            $type = $button['type'].'Button';
             echo Html::$type($button['label'], !empty($button['options']) ? $button['options'] : []);
         }
     }

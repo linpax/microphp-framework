@@ -90,7 +90,7 @@ class PaginationWidget extends Widget
         if ($this->totalPages > 0) {
             for ($i = 1; $i <= $this->totalPages; $i++) {
                 $items[] = [
-                    'text' => Html::href($i, $this->url . ($i - 1), $this->attributesLink),
+                    'text' => Html::href($i, $this->url.($i - 1), $this->attributesLink),
                     'attr' => array_merge(
                         $this->attributesElement,
                         ($i === (int)$this->currentPage + 1 ? ['class' => 'active'] : [])

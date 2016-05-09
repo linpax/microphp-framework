@@ -40,10 +40,10 @@ abstract class ViewController extends Controller
         $view = null;
         $actionClass = false;
 
-        if (!method_exists($this, 'action' . ucfirst($name))) {
+        if (!method_exists($this, 'action'.ucfirst($name))) {
             $actionClass = $this->getActionClassByName($name);
             if (!$actionClass) {
-                throw new Exception('Action "' . $name . '" not found into ' . get_class($this));
+                throw new Exception('Action "'.$name.'" not found into '.get_class($this));
             }
         }
 
@@ -59,7 +59,7 @@ abstract class ViewController extends Controller
             $cl = new $actionClass($this->container);
             $view = $cl->run();
         } else {
-            $view = $this->{'action' . ucfirst($name)}();
+            $view = $this->{'action'.ucfirst($name)}();
         }
 
         if (is_object($view)) {

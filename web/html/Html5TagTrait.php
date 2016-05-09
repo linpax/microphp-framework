@@ -65,7 +65,7 @@ trait Html5TagTrait
             ]);
         }
 
-        return static::openTag('video', $attributes) . $srcs . $noCodec . static::closeTag('video');
+        return static::openTag('video', $attributes).$srcs.$noCodec.static::closeTag('video');
     }
 
     /**
@@ -98,7 +98,7 @@ trait Html5TagTrait
             ]);
         }
 
-        return static::openTag('audio', $attributes) . $srcs . $noCodec . static::closeTag('audio');
+        return static::openTag('audio', $attributes).$srcs.$noCodec.static::closeTag('audio');
     }
 
     /**
@@ -114,6 +114,6 @@ trait Html5TagTrait
      */
     public static function canvas(array $attributes = [], $noCodec = '')
     {
-        return static::openTag('canvas', $attributes) . $noCodec . static::closeTag('canvas');
+        return static::openTag('canvas', $attributes).$noCodec.static::closeTag('canvas');
     }
 }
