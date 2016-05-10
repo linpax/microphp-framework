@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -25,13 +26,14 @@ class DbAcl extends Acl
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $params = [])
     {
-        parent::__construct($params);
+        parent::__construct($container, $params);
 
         $tables = $this->container->db->listTables();
         if (empty($tables['acl_role'])) {
@@ -68,7 +70,7 @@ class DbAcl extends Acl
      * @param array $data for compatible, not used!
      *
      * @return bool
-     * @throws \Micro\base\Exception
+     * @throws \Micro\Base\Exception
      */
     public function check($userId, $permission, array $data = [])
     {
@@ -145,7 +147,7 @@ class DbAcl extends Acl
      * @param string $name role name
      *
      * @return void
-     * @throws \Micro\base\Exception
+     * @throws \Micro\Base\Exception
      */
     public function deleteRole($name)
     {
@@ -163,7 +165,7 @@ class DbAcl extends Acl
      * @param string $role role name
      *
      * @return array
-     * @throws \Micro\base\Exception
+     * @throws \Micro\Base\Exception
      */
     protected function rolePerms($role)
     {

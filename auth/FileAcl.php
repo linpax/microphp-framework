@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -33,13 +34,14 @@ class FileAcl extends Acl
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $params configuration array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $params = [])
     {
-        parent::__construct($params);
+        parent::__construct($container, $params);
 
         $roles = !empty($params['roles']) ? $params['roles'] : [];
         $this->roles = !empty($roles['roles']) ? $roles['roles'] : [];

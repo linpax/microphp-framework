@@ -24,7 +24,11 @@ class DbRbac extends Rbac
     /**
      * Constructor file RBAC
      *
-     * @inheritdoc
+     * @public
+     *
+     * @param IContainer $container
+     *
+     * @result void
      */
     public function __construct(IContainer $container)
     {
@@ -76,11 +80,7 @@ class DbRbac extends Rbac
      */
     public function check($userId, $action, array $data = [])
     {
-        if (!$this->container->db->exists('rbac_role', ['name' => $action])) {
-            return false;
-        }
-
-        return parent::check($userId, $action, $data);
+        return $this->container->db->exists('rbac_role', ['name' => $action]) ? parent::check($userId, $action, $data) : false;
     }
 
     /**

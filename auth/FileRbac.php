@@ -27,7 +27,8 @@ class FileRbac extends Rbac
      * Redefine constructor for RBAC
      *
      * @access public
-     *
+     * 
+     * @param IContainer $container;
      *
      * @result void
      */

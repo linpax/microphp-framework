@@ -32,17 +32,19 @@ abstract class Acl implements IAuth
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $params = [])
     {
-        $this->container = $params['container'];
+        $this->container = $container;
 
         if (!empty($params['groupTable'])) {
             $this->groupTable = $params['groupTable'];
         }
+
         if (!$this->container->db->tableExists('acl_user')) {
             $this->container->db->createTable('acl_user', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',

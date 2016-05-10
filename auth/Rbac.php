@@ -32,6 +32,7 @@ abstract class Rbac
      *
      * @access public
      *
+     * @param IContainer $container
      *
      * @result void
      */
