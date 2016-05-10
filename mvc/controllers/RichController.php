@@ -8,7 +8,7 @@ use Micro\Base\IContainer;
  * Class RichController
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -21,6 +21,7 @@ abstract class RichController extends Controller
 {
     /** @var string $format Format for response */
     public $format = 'application/json';
+
     /** @var string $methodType */
     protected $methodType = 'get';
 

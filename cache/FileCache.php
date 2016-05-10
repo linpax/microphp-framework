@@ -3,13 +3,14 @@
 namespace Micro\Cache;
 
 use Micro\Base\Exception;
+use Micro\Base\IContainer;
 use Micro\File\FileHelper;
 
 /**
  * Class FileCache
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -22,24 +23,28 @@ class FileCache extends BaseCache
     /** @var string $driver directory name */
     protected $driver;
 
+
     /**
      * Constructor
      *
      * @access pubic
      *
+     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container, array $config = [])
     {
-        parent::__construct($config);
+        parent::__construct($container, $config);
 
         $path = !empty($config['path']) ? $config['path'] : sys_get_temp_dir().'/cache';
+
         if (!@mkdir($path, 0600) && !is_dir($path)) {
             throw new Exception('Can`not create/check access to directory: '.$path);
         }
+
         $this->driver = $path;
     }
 

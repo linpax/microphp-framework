@@ -11,7 +11,7 @@ use Micro\Base\IContainer;
  * Writer logs in DB
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -23,6 +23,7 @@ class DbLog extends Log
 {
     /** @var string $tableName logger table name */
     public $tableName;
+
 
     /**
      * Constructor prepare DB

@@ -6,7 +6,7 @@ namespace Micro\Base;
  * Autoload class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -34,21 +34,6 @@ class Autoload
     public static function setAlias($alias, $realPath)
     {
         static::$aliases[strtolower($alias)] = $realPath;
-    }
-
-    /**
-     * Get alias
-     *
-     * @access public
-     * @param string $alias
-     * @return string|bool
-     * @static
-     */
-    public static function getAlias($alias)
-    {
-        $alias = strtolower($alias);
-
-        return array_key_exists($alias, static::$aliases) ? static::$aliases[$alias] : false;
     }
 
     /**
@@ -126,5 +111,20 @@ class Autoload
         $classNameArr[] = ucfirst(array_pop($classNameArr));
 
         return implode('\\', $classNameArr);
+    }
+
+    /**
+     * Get alias
+     *
+     * @access public
+     * @param string $alias
+     * @return string|bool
+     * @static
+     */
+    public static function getAlias($alias)
+    {
+        $alias = strtolower($alias);
+
+        return array_key_exists($alias, static::$aliases) ? static::$aliases[$alias] : false;
     }
 }

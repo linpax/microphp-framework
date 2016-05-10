@@ -9,7 +9,7 @@ use Micro\base\IContainer;
  * Language getter language tags from *.ini files
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -21,6 +21,7 @@ class Language extends \stdClass
 {
     /** @var IContainer $container */
     protected $container;
+
     /** @var array $language language array */
     private $language = [];
     /** @var string $defaultLang default language */

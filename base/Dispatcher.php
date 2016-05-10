@@ -8,7 +8,7 @@ use Micro\Web\IResponse;
  * Dispatcher class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -18,8 +18,9 @@ use Micro\Web\IResponse;
  */
 class Dispatcher implements IDispatcher
 {
-    /** @var array $listeners listeners objects on events */
+    /** @var array $listeners Listeners objects on events */
     protected $listeners = [];
+
 
     /**
      * Add listener on event

@@ -3,12 +3,13 @@
 namespace Micro\Cache;
 
 use Micro\Base\Exception;
+use Micro\Base\IContainer;
 
 /**
  * Class MemcachedCache
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -21,19 +22,21 @@ class MemcachedCache extends BaseCache
     /** @var \Memcache|\Memcached $driver driver memcache(d) */
     protected $driver;
 
+
     /**
      * Constructor
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container, array $config = [])
     {
-        parent::__construct($config);
+        parent::__construct($container, $config);
 
         if (empty($config['type']) || !$this->check()) {
             throw new Exception('Memcache(d) not installed or not select type');

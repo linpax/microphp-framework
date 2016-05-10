@@ -8,7 +8,7 @@ use Micro\Cli\ConsoleCommand;
  * Class DefaultConsoleCommand
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -19,7 +19,9 @@ use Micro\Cli\ConsoleCommand;
  */
 class DefaultConsoleCommand extends ConsoleCommand
 {
+    /** @var mixed $data */
     public $data;
+
 
     /**
      * @inheritdoc

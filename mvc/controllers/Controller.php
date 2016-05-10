@@ -12,7 +12,7 @@ use Micro\Web\Response;
  * Class Controller
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -27,8 +27,10 @@ abstract class Controller implements IController
     public $module;
     /** @var IResponse $response Response HTTP data */
     public $response;
+
     /** @var IContainer $container */
     protected $container;
+
 
     /**
      * Constructor controller

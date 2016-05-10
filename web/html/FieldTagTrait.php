@@ -1,4 +1,4 @@
-<?php
+<?php /** MicroFieldTagTrait */
 
 namespace Micro\Web\Html;
 
@@ -7,7 +7,7 @@ namespace Micro\Web\Html;
  * FieldTagTrait trait file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -21,37 +21,20 @@ trait FieldTagTrait
 
 
     /**
-     * Render input radio tag
+     * Render input button tag
      *
      * @access public
      *
-     * @param  string $name radio name
-     * @param  string $value radio value
+     * @param  string $name button name
+     * @param  string $value button value
      * @param  array $attributes attributes tag
      *
      * @return string
      * @static
      */
-    public static function radioField($name, $value = null, array $attributes = [])
+    public static function buttonField($name, $value = null, array $attributes = [])
     {
-        return static::field('radio', $name, $value, $attributes);
-    }
-
-    /**
-     * Render input checkbox tag
-     *
-     * @access public
-     *
-     * @param  string $name checkBox name
-     * @param  string $value checkBox value
-     * @param  array $attributes attributes tag
-     *
-     * @return string
-     * @static
-     */
-    public static function checkBoxField($name, $value = null, array $attributes = [])
-    {
-        return static::field('checkbox', $name, $value, $attributes);
+        return static::field('button', $name, $value, $attributes);
     }
 
     /**
@@ -75,23 +58,6 @@ trait FieldTagTrait
         $attributes['value'] = $value;
 
         return static::tag('input', $attributes);
-    }
-
-    /**
-     * Render input button tag
-     *
-     * @access public
-     *
-     * @param  string $name button name
-     * @param  string $value button value
-     * @param  array $attributes attributes tag
-     *
-     * @return string
-     * @static
-     */
-    public static function buttonField($name, $value = null, array $attributes = [])
-    {
-        return static::field('button', $name, $value, $attributes);
     }
 
     /**
@@ -432,6 +398,23 @@ trait FieldTagTrait
     }
 
     /**
+     * Render input radio tag
+     *
+     * @access public
+     *
+     * @param  string $name radio name
+     * @param  string $value radio value
+     * @param  array $attributes attributes tag
+     *
+     * @return string
+     * @static
+     */
+    public static function radioField($name, $value = null, array $attributes = [])
+    {
+        return static::field('radio', $name, $value, $attributes);
+    }
+
+    /**
      * Render checkBoxList (input checkbox tags)
      *
      * @access public
@@ -460,5 +443,22 @@ trait FieldTagTrait
         }
 
         return $checks;
+    }
+
+    /**
+     * Render input checkbox tag
+     *
+     * @access public
+     *
+     * @param  string $name checkBox name
+     * @param  string $value checkBox value
+     * @param  array $attributes attributes tag
+     *
+     * @return string
+     * @static
+     */
+    public static function checkBoxField($name, $value = null, array $attributes = [])
+    {
+        return static::field('checkbox', $name, $value, $attributes);
     }
 }

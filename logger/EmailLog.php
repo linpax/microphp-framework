@@ -11,7 +11,7 @@ use Micro\Mail\Message;
  * Sender email for logger
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -29,6 +29,7 @@ class EmailLog extends Log
     private $to;
     /** @var string $subject message theme */
     private $subject;
+
 
     /**
      * @inheritdoc

@@ -6,7 +6,7 @@ namespace Micro\File\Drivers;
  * Class File is interface for filesystem drivers
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -18,6 +18,7 @@ abstract class File implements IFile
 {
     /** @var mixed $stream File stream */
     protected $stream;
+
 
     /**
      * @inheritdoc
