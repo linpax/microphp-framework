@@ -1,4 +1,4 @@
-<?php
+<?php /** MicroTagTrait */
 
 namespace Micro\Web\Html;
 
@@ -7,7 +7,7 @@ namespace Micro\Web\Html;
  * TagTrait trait file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -17,64 +17,6 @@ namespace Micro\Web\Html;
  */
 trait TagTrait
 {
-    /**
-     * Render tag
-     *
-     * @access public
-     *
-     * @param  string $name tag name
-     * @param  array $attributes tag attributes
-     *
-     * @return string
-     * @static
-     */
-    public static function tag($name, array $attributes = [])
-    {
-        $result = '';
-        foreach ($attributes AS $elem => $value) {
-            $result .= ' '.$elem.'="'.$value.'" ';
-        }
-
-        return '<'.$name.$result.'/>';
-    }
-
-    /**
-     * Render open tag
-     *
-     * @access public
-     *
-     * @param  string $name tag name
-     * @param  array $attributes tag attributes
-     *
-     * @return string
-     * @static
-     */
-    public static function openTag($name, array $attributes = [])
-    {
-        $result = '';
-        foreach ($attributes AS $key => $value) {
-            $result .= ' '.$key.'="'.$value.'"';
-        }
-
-        return '<'.$name.$result.'>';
-    }
-
-    /**
-     * Render close tag
-     *
-     * @access public
-     *
-     * @param  string $name tag name
-     *
-     * @return string
-     * @static
-     */
-    public static function closeTag($name)
-    {
-        return '</'.$name.'>';
-    }
-
-
     /**
      * Render BR tag
      *
@@ -97,6 +39,27 @@ trait TagTrait
     }
 
     /**
+     * Render tag
+     *
+     * @access public
+     *
+     * @param  string $name tag name
+     * @param  array $attributes tag attributes
+     *
+     * @return string
+     * @static
+     */
+    public static function tag($name, array $attributes = [])
+    {
+        $result = '';
+        foreach ($attributes AS $elem => $value) {
+            $result .= ' ' . $elem . '="' . $value . '" ';
+        }
+
+        return '<' . $name . $result . '/>';
+    }
+
+    /**
      * Render mail a tag
      *
      * @access public
@@ -110,9 +73,45 @@ trait TagTrait
      */
     public static function mailto($name, $email, array $attributes = [])
     {
-        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:'.$email])).
-            $name.
-            static::closeTag('a');
+        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:' . $email])) .
+        $name .
+        static::closeTag('a');
+    }
+
+    /**
+     * Render open tag
+     *
+     * @access public
+     *
+     * @param  string $name tag name
+     * @param  array $attributes tag attributes
+     *
+     * @return string
+     * @static
+     */
+    public static function openTag($name, array $attributes = [])
+    {
+        $result = '';
+        foreach ($attributes AS $key => $value) {
+            $result .= ' ' . $key . '="' . $value . '"';
+        }
+
+        return '<' . $name . $result . '>';
+    }
+
+    /**
+     * Render close tag
+     *
+     * @access public
+     *
+     * @param  string $name tag name
+     *
+     * @return string
+     * @static
+     */
+    public static function closeTag($name)
+    {
+        return '</' . $name . '>';
     }
 
     /**

@@ -10,7 +10,7 @@ use Micro\Base\IContainer;
  * Base logic for a ACL security
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -32,17 +32,19 @@ abstract class Acl implements IAuth
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $params = [])
     {
-        $this->container = $params['container'];
+        $this->container = $container;
 
         if (!empty($params['groupTable'])) {
             $this->groupTable = $params['groupTable'];
         }
+
         if (!$this->container->db->tableExists('acl_user')) {
             $this->container->db->createTable('acl_user', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',

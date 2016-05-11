@@ -2,6 +2,7 @@
 
 namespace Micro\cache;
 
+use Micro\Base\IContainer;
 use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
@@ -9,7 +10,7 @@ use Micro\Mvc\Models\Query;
  * Class DbCache
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -24,18 +25,20 @@ class DbCache extends BaseCache
     /** @var string $table table name */
     protected $table;
 
+
     /**
      * Constructor
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      */
-    public function __construct(array $config = [])
+    public function __construct(IContainer $container, array $config = [])
     {
-        parent::__construct($config);
+        parent::__construct($container, $config);
 
         $this->table = 'cache';
         if (!empty($config['table'])) {

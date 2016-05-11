@@ -11,7 +11,7 @@ use Micro\Form\FormModel;
  * Model class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -26,6 +26,7 @@ abstract class Model extends FormModel implements IModel
     public static $primaryKey = 'id';
     /** @var string $tableName Table name */
     public static $tableName;
+
     /** @var boolean $_isNewRecord Is new record? */
     protected $_isNewRecord = false;
     /** @var array $cacheRelations Cached loads relations */

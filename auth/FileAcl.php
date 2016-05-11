@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -10,7 +11,7 @@ use Micro\Mvc\Models\Query;
  * ACL security with files.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -33,13 +34,14 @@ class FileAcl extends Acl
      *
      * @access public
      *
+     * @param IContainer $container
      * @param array $params configuration array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IContainer $container, array $params = [])
     {
-        parent::__construct($params);
+        parent::__construct($container, $params);
 
         $roles = !empty($params['roles']) ? $params['roles'] : [];
         $this->roles = !empty($roles['roles']) ? $roles['roles'] : [];

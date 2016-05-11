@@ -6,7 +6,7 @@ namespace Micro\Web;
  * Session is a Session manager
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -20,6 +20,7 @@ class Session extends \stdClass implements ISession
 {
     /** @var IRequest $request */
     protected $request;
+
 
     /**
      * Construct for this class

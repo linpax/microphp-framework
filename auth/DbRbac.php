@@ -11,7 +11,7 @@ use Micro\Mvc\Models\Query;
  * RBAC security logic with DB
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -24,7 +24,11 @@ class DbRbac extends Rbac
     /**
      * Constructor file RBAC
      *
-     * @inheritdoc
+     * @public
+     *
+     * @param IContainer $container
+     *
+     * @result void
      */
     public function __construct(IContainer $container)
     {
@@ -76,11 +80,7 @@ class DbRbac extends Rbac
      */
     public function check($userId, $action, array $data = [])
     {
-        if (!$this->container->db->exists('rbac_role', ['name' => $action])) {
-            return false;
-        }
-
-        return parent::check($userId, $action, $data);
+        return $this->container->db->exists('rbac_role', ['name' => $action]) ? parent::check($userId, $action, $data) : false;
     }
 
     /**

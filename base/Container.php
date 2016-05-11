@@ -6,7 +6,7 @@ namespace Micro\Base;
  * Container class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -193,29 +193,29 @@ class Container extends \stdClass implements IContainer
     }
 
     /**
-     * Make object with arguments
+     * Build params from array
      *
      * @access private
-     *
-     * @param string $className
-     * @param array $arguments
-     *
-     * @return mixed
+     * @param array $params
+     * @return array
      */
-    private function makeObject($className, array $arguments = [])
+    private function buildParams(array $params)
     {
-        try {
-            $reflection = new \ReflectionClass($className);
-            $reflectionMethod = new \ReflectionMethod($className, '__construct');
-
-            if ($reflectionMethod->getNumberOfParameters() === 0) {
-                return new $className;
-            } else {
-                return $reflection->newInstanceArgs($arguments);
+        /** @noinspection AlterInForeachInspection */
+        foreach ($params AS $key => &$val) { // IoC Constructor
+            if (is_string($params[$key]) && (0 === strpos($val, '@'))) {
+                if ($val === '@this') {
+                    $val = $this;
+                } else {
+                    if (null === $this->{substr($val, 1)}) {
+                        return false;
+                    }
+                    $val = $this->{substr($val, 1)};
+                }
             }
-        } catch (Exception $e) {
-            return false;
         }
+
+        return $params;
     }
 
     /**
@@ -249,28 +249,28 @@ class Container extends \stdClass implements IContainer
     }
 
     /**
-     * Build params from array
+     * Make object with arguments
      *
      * @access private
-     * @param array $params
-     * @return array
+     *
+     * @param string $className
+     * @param array $arguments
+     *
+     * @return mixed
      */
-    private function buildParams(array $params)
+    private function makeObject($className, array $arguments = [])
     {
-        /** @noinspection AlterInForeachInspection */
-        foreach ($params AS $key => &$val) { // IoC Constructor
-            if (is_string($params[$key]) && (0 === strpos($val, '@'))) {
-                if ($val === '@this') {
-                    $val = $this;
-                } else {
-                    if (null === $this->{substr($val, 1)}) {
-                        return false;
-                    }
-                    $val = $this->{substr($val, 1)};
-                }
-            }
-        }
+        try {
+            $reflection = new \ReflectionClass($className);
+            $reflectionMethod = new \ReflectionMethod($className, '__construct');
 
-        return $params;
+            if ($reflectionMethod->getNumberOfParameters() === 0) {
+                return new $className;
+            } else {
+                return $reflection->newInstanceArgs($arguments);
+            }
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

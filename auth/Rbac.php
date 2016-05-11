@@ -9,7 +9,7 @@ use Micro\Mvc\Models\Query;
  * Abstract RBAC class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
- * @link https://github.com/lugnsk/micro
+ * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
@@ -19,8 +19,11 @@ use Micro\Mvc\Models\Query;
  */
 abstract class Rbac
 {
+    /** @const integer TYPE_ROLE */
     const TYPE_ROLE = 0;
+    /** @const integer TYPE_PERMISSION */
     const TYPE_PERMISSION = 1;
+    /** @const integer TYPE_OPERATION */
     const TYPE_OPERATION = 2;
 
     /** @var IContainer $container */
@@ -32,6 +35,7 @@ abstract class Rbac
      *
      * @access public
      *
+     * @param IContainer $container
      *
      * @result void
      */
