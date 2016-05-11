@@ -16,6 +16,21 @@ namespace Micro\Web;
  */
 class Response implements IOutput, IResponse
 {
+    /** @var array $codes Allowed HTTP codes */
+    protected static $codes = [
+        200 => 'OK',
+        201 => 'Created',
+        202 => 'Accepted',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        402 => 'Payment Required',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        503 => 'Service Unavailable',
+        // @TODO: add other elements
+    ];
     /** @var string $httpVersion Protocol version */
     protected $httpVersion = 'HTTP/1.1';
     /** @var int $statusCode Code for status of operation */
@@ -28,7 +43,6 @@ class Response implements IOutput, IResponse
     protected $headers = [];
     /** @var mixed $body Body of response */
     protected $body = false;
-
 
     /**
      * Create and initialize response
@@ -62,8 +76,10 @@ class Response implements IOutput, IResponse
      */
     public function setStatus($status = 200, $message = null)
     {
-        $this->statusCode = $status;
-        $this->setStatusMessage($message);
+        if (array_key_exists((integer)$status, self::$codes)) {
+            $this->statusCode = (integer)$status;
+            $this->setStatusMessage($message);
+        }
     }
 
     /**
@@ -91,22 +107,7 @@ class Response implements IOutput, IResponse
      */
     public function getStatusMessageFromCode($code = 200)
     {
-        $codes = [
-            200 => 'OK',
-            201 => 'Created',
-            202 => 'Accepted',
-            400 => 'Bad Request',
-            401 => 'Unauthorized',
-            402 => 'Payment Required',
-            403 => 'Forbidden',
-            404 => 'Not Found',
-            500 => 'Internal Server Error',
-            501 => 'Not Implemented',
-            503 => 'Service Unavailable',
-            // @TODO: add other elements
-        ];
-
-        return !empty($codes[$code]) ? $codes[$code] : '';
+        return !empty(self::$codes[$code]) ? self::$codes[$code] : '';
     }
 
     /**
