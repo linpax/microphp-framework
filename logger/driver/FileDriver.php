@@ -1,12 +1,12 @@
-<?php /** MicroFileLogger */
+<?php /** MicroFileDriver */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
 
 /**
- * File logger class file.
+ * FileDriver logger class file.
  *
  * Writer logs in file
  *
@@ -15,11 +15,11 @@ use Micro\Base\IContainer;
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Logger
+ * @subpackage Logger\Driver
  * @version 1.0
  * @since 1.0
  */
-class FileLog extends Log
+class FileDriver extends LoggerDriver
 {
     /** @var resource $connect File handler */
     protected $connect;
@@ -48,7 +48,15 @@ class FileLog extends Log
     }
 
     /**
-     * @inheritdoc
+     * Send message in log
+     *
+     * @access public
+     *
+     * @param integer $level level number
+     * @param string $message message to write
+     *
+     * @result void
+     * @throws \Micro\Base\Exception
      */
     public function sendMessage($level, $message)
     {

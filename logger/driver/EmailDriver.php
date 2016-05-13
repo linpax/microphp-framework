@@ -1,12 +1,12 @@
-<?php /** MicroEmailLogger */
+<?php /** MicroEmailDriver */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
 use Micro\Base\IContainer;
 use Micro\Mail\Message;
 
 /**
- * Email logger class file.
+ * EmailDriver logger class file.
  *
  * Sender email for logger
  *
@@ -15,11 +15,11 @@ use Micro\Mail\Message;
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Logger
+ * @subpackage Logger\Driver
  * @version 1.0
  * @since 1.0
  */
-class EmailLog extends Log
+class EmailDriver extends LoggerDriver
 {
     /** @var string $from email for sender attribute */
     private $from;
@@ -32,7 +32,15 @@ class EmailLog extends Log
 
 
     /**
-     * @inheritdoc
+     * Constructor is a initialize logger
+     *
+     * @access public
+     *
+     * @param IContainer $container Container
+     * @param array $params configuration params
+     *
+     * @throws \Micro\Base\Exception
+     * @result void
      */
     public function __construct(IContainer $container, array $params = [])
     {
@@ -44,7 +52,15 @@ class EmailLog extends Log
     }
 
     /**
-     * @inheritdoc
+     * Send message in log
+     *
+     * @access public
+     *
+     * @param integer $level level number
+     * @param string $message message to write
+     *
+     * @result void
+     * @throws \Micro\Base\Exception
      */
     public function sendMessage($level, $message)
     {
