@@ -1,24 +1,24 @@
-<?php /** MicroDbCache */
+<?php /** MicroDbDriver */
 
-namespace Micro\cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\IContainer;
 use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
 /**
- * Class DbCache
+ * Class DbDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class DbCache extends BaseCache
+class DbDriver extends BaseCacheDriver
 {
     /** @var IConnection $driver DB driver */
     protected $driver;

@@ -1,6 +1,6 @@
-<?php /** MicroBaseCache */
+<?php /** MicroBaseCacheDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\IContainer;
 
@@ -12,12 +12,12 @@ use Micro\Base\IContainer;
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  * @abstract
  */
-abstract class BaseCache implements ICache
+abstract class BaseCacheDriver implements ICacheDriver
 {
     /** @var IContainer $container */
     protected $container;

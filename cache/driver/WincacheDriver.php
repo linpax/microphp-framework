@@ -1,23 +1,23 @@
-<?php /** MicroWincacheCache */
+<?php /** MicroWincacheDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
 
 /**
- * Class WincacheCache
+ * Class WincacheDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class WincacheCache extends BaseCache
+class WincacheDriver extends BaseCacheDriver
 {
     /**
      * Constructor
