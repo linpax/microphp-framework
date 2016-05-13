@@ -18,7 +18,7 @@ use Micro\File\FileHelper;
  * @version 1.0
  * @since 1.0
  */
-class FileDriver extends BaseCacheDriver
+class FileDriver extends CacheDriver
 {
     /** @var string $driver directory name */
     protected $driver;

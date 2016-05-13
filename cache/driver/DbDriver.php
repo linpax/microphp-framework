@@ -18,7 +18,7 @@ use Micro\Mvc\Models\Query;
  * @version 1.0
  * @since 1.0
  */
-class DbDriver extends BaseCacheDriver
+class DbDriver extends CacheDriver
 {
     /** @var IConnection $driver DB driver */
     protected $driver;

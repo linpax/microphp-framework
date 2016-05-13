@@ -16,7 +16,7 @@ use Micro\File\Type;
  * @version 1.0
  * @since 1.0
  */
-class ArrayDriver extends BaseCacheDriver
+class ArrayDriver extends CacheDriver
 {
     /** @var array $driver array as driver */
     protected $driver = [];

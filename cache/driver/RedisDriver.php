@@ -17,7 +17,7 @@ use Micro\Base\IContainer;
  * @version 1.0
  * @since 1.0
  */
-class RedisDriver extends BaseCacheDriver
+class RedisDriver extends CacheDriver
 {
     /** @var \Redis $driver driver redis */
     protected $driver;

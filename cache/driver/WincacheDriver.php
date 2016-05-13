@@ -17,7 +17,7 @@ use Micro\Base\IContainer;
  * @version 1.0
  * @since 1.0
  */
-class WincacheDriver extends BaseCacheDriver
+class WincacheDriver extends CacheDriver
 {
     /**
      * Constructor

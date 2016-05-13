@@ -17,7 +17,7 @@ use Micro\Base\IContainer;
  * @since 1.0
  * @abstract
  */
-abstract class BaseCacheDriver implements ICacheDriver
+abstract class CacheDriver implements ICacheDriver
 {
     /** @var IContainer $container */
     protected $container;

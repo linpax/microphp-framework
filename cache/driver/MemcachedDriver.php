@@ -17,7 +17,7 @@ use Micro\Base\IContainer;
  * @version 1.0
  * @since 1.0
  */
-class MemcachedDriver extends BaseCacheDriver
+class MemcachedDriver extends CacheDriver
 {
     /** @var \Memcache|\Memcached $driver driver memcache(d) */
     protected $driver;

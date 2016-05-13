@@ -17,7 +17,7 @@ use Micro\Base\IContainer;
  * @version 1.0
  * @since 1.0
  */
-class ApcDriver extends BaseCacheDriver
+class ApcDriver extends CacheDriver
 {
     /**
      * Constructor
