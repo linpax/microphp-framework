@@ -1,4 +1,4 @@
-<?php /** MicroAutoloader */
+<?php /** MicroAutoload */
 
 namespace Micro\Base;
 
