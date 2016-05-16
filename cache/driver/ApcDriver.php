@@ -1,23 +1,23 @@
-<?php /** MicroApcCache */
+<?php /** MicroApcDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
 
 /**
- * Class ApcCache
+ * Class ApcDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class ApcCache extends BaseCache
+class ApcDriver extends CacheDriver
 {
     /**
      * Constructor

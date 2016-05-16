@@ -1,20 +1,20 @@
-<?php /** MicroInterfaceLogger */
+<?php /** MicroInterfaceLoggerDriver */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
 /**
- * Interface ILogger
+ * Interface ILoggerDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Logger
+ * @subpackage Logger\Driver
  * @version 1.0
  * @since 1.0
  */
-interface ILogger
+interface ILoggerDriver
 {
     /**
      * Send message in log

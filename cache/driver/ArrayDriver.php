@@ -1,22 +1,22 @@
 <?php /** MicroArrayCache */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\File\Type;
 
 /**
- * Class ArrayCache
+ * Class ArrayDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class ArrayCache extends BaseCache
+class ArrayDriver extends CacheDriver
 {
     /** @var array $driver array as driver */
     protected $driver = [];

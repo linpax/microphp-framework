@@ -1,6 +1,6 @@
-<?php /** MicroDbLogger */
+<?php /** MicroDbDriver */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
@@ -15,11 +15,11 @@ use Micro\Base\IContainer;
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Logger
+ * @subpackage Logger\Driver
  * @version 1.0
  * @since 1.0
  */
-class DbLog extends Log
+class DbDriver extends LoggerDriver
 {
     /** @var string $tableName logger table name */
     public $tableName;

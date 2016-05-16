@@ -1,23 +1,23 @@
-<?php /** MicroRedisCache */
+<?php /** MicroRedisDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
 
 /**
- * Class RedisCache
+ * Class RedisDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class RedisCache extends BaseCache
+class RedisDriver extends CacheDriver
 {
     /** @var \Redis $driver driver redis */
     protected $driver;

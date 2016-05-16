@@ -1,28 +1,33 @@
-<?php /** MicroXcacheCache */
+<?php /** MicroFileDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
+use Micro\File\FileHelper;
 
 /**
- * Class XcacheCache
+ * Class FileDriver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-class XcacheCache extends BaseCache
+class FileDriver extends CacheDriver
 {
+    /** @var string $driver directory name */
+    protected $driver;
+
+
     /**
      * Constructor
      *
-     * @access public
+     * @access pubic
      *
      * @param IContainer $container
      * @param array $config config array
@@ -34,9 +39,13 @@ class XcacheCache extends BaseCache
     {
         parent::__construct($container, $config);
 
-        if (!$this->check()) {
-            throw new Exception('Extension XCache not installed');
+        $path = !empty($config['path']) ? $config['path'] : sys_get_temp_dir().'/cache';
+
+        if (!@mkdir($path, 0600) && !is_dir($path)) {
+            throw new Exception('Can`not create/check access to directory: '.$path);
         }
+
+        $this->driver = $path;
     }
 
     /**
@@ -44,7 +53,7 @@ class XcacheCache extends BaseCache
      */
     public function check()
     {
-        return extension_loaded('xcache') ? true : false;
+        return is_writable($this->driver) ? true : false;
     }
 
     /**
@@ -52,7 +61,7 @@ class XcacheCache extends BaseCache
      */
     public function delete($name)
     {
-        return xcache_unset($name);
+        unlink($this->driver.'/'.$name);
     }
 
     /**
@@ -60,15 +69,7 @@ class XcacheCache extends BaseCache
      */
     public function clean()
     {
-        /** @noinspection PhpUndefinedConstantInspection */
-        for ($i = 0, $cnt = xcache_count(XC_TYPE_VAR); $i < $cnt; $i++) {
-            /** @noinspection PhpUndefinedConstantInspection */
-            if (xcache_clear_cache(XC_TYPE_VAR, $i) === false) {
-                return false;
-            }
-        }
-
-        return true;
+        FileHelper::removeDir($this->driver);
     }
 
     /**
@@ -76,8 +77,7 @@ class XcacheCache extends BaseCache
      */
     public function info()
     {
-        /** @noinspection PhpUndefinedConstantInspection */
-        return xcache_count(XC_TYPE_VAR);
+        return count(scandir($this->driver)) - 2;
     }
 
     /**
@@ -85,7 +85,7 @@ class XcacheCache extends BaseCache
      */
     public function getMeta($id)
     {
-        return false;
+        return filesize($this->driver.'/'.$id);
     }
 
     /**
@@ -93,9 +93,15 @@ class XcacheCache extends BaseCache
      */
     public function increment($name, $offset = 1)
     {
-        $val = $this->get($name) + $offset;
+        $this->set($name, (int)$this->get($name) + $offset);
+    }
 
-        return $this->set($name, $val);
+    /**
+     * @inheritdoc
+     */
+    public function set($name, $value)
+    {
+        return file_put_contents($this->driver.'/'.$name, $value);
     }
 
     /**
@@ -103,15 +109,7 @@ class XcacheCache extends BaseCache
      */
     public function get($name)
     {
-        return xcache_isset($name) ? xcache_get($name) : false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function set($name, $value, $duration = 0)
-    {
-        return xcache_set($name, $value, $duration);
+        return file_get_contents($this->driver.'/'.$name);
     }
 
     /**
@@ -119,8 +117,6 @@ class XcacheCache extends BaseCache
      */
     public function decrement($name, $offset = 1)
     {
-        $val = $this->get($name) - $offset;
-
-        return $this->set($name, $val);
+        $this->set($name, (int)$this->get($name) - $offset);
     }
 } 

@@ -21,14 +21,15 @@ class Cache
 {
     /** @var array $drivers Supported drivers */
     protected static $drivers = [
-        'array' => '\\Micro\\Cache\\ArrayCache',
-        'apc' => '\\Micro\\Cache\\ApcCache',
-        'file' => '\\Micro\\Cache\\FileCache',
-        'memcache' => '\\Micro\\Cache\\MemcacheCache',
-        'memcached' => '\\Micro\\Cache\\MemcacheCache',
-        'redis' => '\\Micro\\Cache\\RedisCache',
-        'wincache' => '\\Micro\\Cache\\WincacheCache',
-        'xcache' => '\\Micro\\Cache\\XcacheCache'
+        'apc' => '\\Micro\\Cache\\Driver\\ApcDriver',
+        'array' => '\\Micro\\Cache\\Driver\\ArrayDriver',
+        'db' => '\\Micro\\Cache\\Driver\\DbDriver',
+        'file' => '\\Micro\\Cache\\Driver\\FileDriver',
+        'memcache' => '\\Micro\\Cache\\Driver\\MemcachedDriver',
+        'memcached' => '\\Micro\\Cache\\Driver\\MemcachedDriver',
+        'redis' => '\\Micro\\Cache\\Driver\\RedisDriver',
+        'wincache' => '\\Micro\\Cache\\Driver\\WincacheDriver',
+        'xcache' => '\\Micro\\Cache\\Driver\\XcacheDriver'
     ];
 
     /** @var array $servers Activated servers */
@@ -53,10 +54,8 @@ class Cache
         $this->container = $container;
 
         foreach ($servers AS $key => $server) {
-            if (array_key_exists($server['driver'], array_keys(self::$drivers))) {
-                $this->servers[$key] = new self::$drivers[$server['driver']] (
-                    array_merge($server, ['container' => $this->container])
-                );
+            if (array_key_exists($server['driver'], array_keys(static::$drivers))) {
+                $this->servers[$key] = new static::$drivers[$server['driver']] ($this->container, $server);
             } else {
                 throw new Exception('Cache driver `'.$server['driver'].'` not found');
             }

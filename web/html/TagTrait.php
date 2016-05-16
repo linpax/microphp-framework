@@ -53,10 +53,10 @@ trait TagTrait
     {
         $result = '';
         foreach ($attributes AS $elem => $value) {
-            $result .= ' ' . $elem . '="' . $value . '" ';
+            $result .= ' '.$elem.'="'.$value.'" ';
         }
 
-        return '<' . $name . $result . '/>';
+        return '<'.$name.$result.'/>';
     }
 
     /**
@@ -73,8 +73,8 @@ trait TagTrait
      */
     public static function mailto($name, $email, array $attributes = [])
     {
-        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:' . $email])) .
-        $name .
+        return static::openTag('a', array_merge($attributes, ['href' => 'mailto:'.$email])).
+        $name.
         static::closeTag('a');
     }
 
@@ -93,10 +93,10 @@ trait TagTrait
     {
         $result = '';
         foreach ($attributes AS $key => $value) {
-            $result .= ' ' . $key . '="' . $value . '"';
+            $result .= ' '.$key.'="'.$value.'"';
         }
 
-        return '<' . $name . $result . '>';
+        return '<'.$name.$result.'>';
     }
 
     /**
@@ -111,7 +111,7 @@ trait TagTrait
      */
     public static function closeTag($name)
     {
-        return '</' . $name . '>';
+        return '</'.$name.'>';
     }
 
     /**

@@ -1,12 +1,13 @@
-<?php /** MicroLogInterface */
+<?php /** MicroLoggerDriverInterface */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
 use Micro\Base\IContainer;
+use Micro\Logger\Logger;
 
 /**
- * Base logger class file.
+ * Base loggerDriver class file.
  *
  * Interface for loggers
  *
@@ -15,11 +16,11 @@ use Micro\Base\IContainer;
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Logger
+ * @subpackage Logger\Driver
  * @version 1.0
  * @since 1.0
  */
-abstract class Log implements ILogger
+abstract class LoggerDriver implements ILoggerDriver
 {
     /** @var array $supportedLevels supported log levels */
     protected $supportedLevels = [];

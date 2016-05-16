@@ -1,20 +1,20 @@
-<?php /** MicroInterfaceCache */
+<?php /** MicroInterfaceCacheDriver */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Driver;
 
 /**
- * Interface Cache
+ * Interface Cache Driver
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright &copy; 2013 Oleg Lunegov
  * @license /LICENSE
  * @package Micro
- * @subpackage Cache
+ * @subpackage Cache\Driver
  * @version 1.0
  * @since 1.0
  */
-interface ICache
+interface ICacheDriver
 {
     /**
      * Check driver
