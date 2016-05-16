@@ -7,6 +7,7 @@ use Micro\Base\Dispatcher;
 use Micro\Base\Exception;
 use Micro\Base\FatalError;
 use Micro\Base\IContainer;
+use Micro\Base\IDispatcher;
 use Micro\Cli\Console;
 use Micro\Cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
@@ -105,6 +106,7 @@ class Micro
      *
      * @return \Micro\Web\IOutput|\Micro\Web\IResponse
      * @throws \Exception
+     * @throws \Micro\Base\Exception
      */
     public function run(IRequest $request)
     {
@@ -112,7 +114,10 @@ class Micro
             return $this->doRun($request);
         } catch (\Exception $e) {
             if ($this->debug) {
-                $this->container->dispatcher->signal('kernel.exception', ['exception' => $e]);
+                if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+                    $dispatcher->signal('kernel.exception', ['exception' => $e]);
+                }
+
                 throw $e;
             }
 
@@ -200,7 +205,7 @@ class Micro
         $this->container->kernel = $this;
         $this->container->load($this->getConfig());
 
-        if (false === $this->container->dispatcher) {
+        if (false === $this->container->dispatcher || !($this->container->dispatcher instanceof IDispatcher)) {
             $this->container->dispatcher = new Dispatcher;
         }
 
@@ -243,16 +248,6 @@ class Micro
     }
 
     /**
-     * Get web root directory
-     *
-     * @return string
-     */
-    public function getWebDir()
-    {
-        return $this->webDir;
-    }
-
-    /**
      * Add listener on event
      *
      * @access public
@@ -269,9 +264,11 @@ class Micro
             return false;
         }
 
-        $this->container->dispatcher->addListener($listener, $event, $prior);
+        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+            return $dispatcher->addListener($listener, $event, $prior);
+        }
 
-        return true;
+        return null;
     }
 
     /**
@@ -283,7 +280,11 @@ class Micro
      */
     protected function sendSignal($signal, $params)
     {
-        return $this->container->dispatcher->signal($signal, $params);
+        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+            return $dispatcher->signal($signal, $params);
+        }
+
+        return null;
     }
 
     /**
@@ -338,7 +339,10 @@ class Micro
 
             return $output;
         }
-        $this->container->request->setPost('error', $e);
+
+        if (($request = $this->container->request) && $request instanceof IRequest) {
+            $request->setPost('error', $e);
+        }
 
         $controller = $this->container->errorController;
 
@@ -352,6 +356,16 @@ class Micro
         $output->setBody((string)$result);
 
         return $output;
+    }
+
+    /**
+     * Get web root directory
+     *
+     * @return string
+     */
+    public function getWebDir()
+    {
+        return $this->webDir;
     }
 
     /**
@@ -375,7 +389,9 @@ class Micro
      */
     public function terminate()
     {
-        $this->container->dispatcher->signal('kernel.kill', ['container' => $this->container]);
+        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+            $dispatcher->signal('kernel.kill', ['container' => $this->container]);
+        }
     }
 
     /**
