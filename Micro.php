@@ -8,6 +8,7 @@ use Micro\Base\Exception;
 use Micro\Base\FatalError;
 use Micro\Base\IContainer;
 use Micro\Base\IDispatcher;
+use Micro\Base\Injector;
 use Micro\Cli\Console;
 use Micro\Cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
@@ -204,6 +205,14 @@ class Micro
         $this->container = ($class instanceof IContainer) ? $class : new Container;
         $this->container->kernel = $this;
         $this->container->load($this->getConfig());
+
+        /// @TODO: HACK - send configs into injector
+        $config = $this->getConfig();
+        if (file_exists($config)) {
+            $config = require $config;
+        }
+        $inject = new Injector($config);
+        /// @TODO: END HACK
 
         if (false === $this->container->dispatcher || !($this->container->dispatcher instanceof IDispatcher)) {
             $this->container->dispatcher = new Dispatcher;
