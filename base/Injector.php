@@ -45,11 +45,11 @@ class Injector
      * }
      * $log = (new LogInject())->build();
      *
-     * @access private
+     * @access protected
      * @param string $name
      * @return bool
      */
-    private function get($name)
+    protected function get($name)
     {
         if (!empty(self::$CONFIG[$name])) {
             return $this->loadComponent(self::$CONFIG[$name]);
