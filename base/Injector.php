@@ -28,9 +28,11 @@ class Injector
      * @param array $config
      * @result void
      */
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
-        self::$CONFIG = $config;
+        if (0 === count($config)) {
+            self::$CONFIG = (0 === count(self::$CONFIG)) ? array_merge_recursive(self::$CONFIG, $config) : $config;
+        }
     }
 
     /**
