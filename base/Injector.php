@@ -18,7 +18,7 @@ namespace Micro\Base;
 class Injector
 {
     /** @var array $CONFIG Config data for components */
-    private static $CONFIG;
+    private static $CONFIG = [];
 
 
     /**
