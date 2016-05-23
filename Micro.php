@@ -2,13 +2,12 @@
 
 namespace Micro;
 
-use Micro\Base\Container;
 use Micro\Base\Dispatcher;
 use Micro\Base\Exception;
 use Micro\Base\FatalError;
 use Micro\Base\IContainer;
 use Micro\Base\IDispatcher;
-use Micro\Base\Injector;
+use Micro\Base\IInjector;
 use Micro\Cli\Console;
 use Micro\Cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
@@ -197,27 +196,22 @@ class Micro
      */
     protected function initializeContainer()
     {
-        $class = $this->getContainerClass();
-        if ($class) {
-            $class = new $class;
+        $class = $this->getInjectorClass();
+        if (!$class || !class_exists($class)) {
+            $class = '\Micro\Base\Injector';
         }
 
-        $this->container = ($class instanceof IContainer) ? $class : new Container;
-        $this->container->kernel = $this;
-        $this->container->load($this->getConfig());
-
-        /// @TODO: HACK - send configs into injector
-        $inject = new Injector($this->getConfig());
+        /** @var IInjector $inject */
+        $inject = new $class($this->getConfig());
         $inject->addRequirement('kernel', $this);
-        $inject->addRequirement('dispatcher', new Dispatcher);
-        /// @TODO: END HACK
 
-        if (false === $this->container->dispatcher || !($this->container->dispatcher instanceof IDispatcher)) {
-            $this->container->dispatcher = new Dispatcher;
+        if (!$inject->check('dispatcher') || !($inject->get('dispatcher') instanceof IDispatcher)) {
             $inject->addRequirement('dispatcher', new Dispatcher);
         }
 
-        $this->container->dispatcher->signal('kernel.boot', ['container' => $this->container]);
+        /** @var IDispatcher $dispatcher */
+        $dispatcher = $inject->get('dispatcher');
+        $dispatcher->signal('kernel.boot', ['injector' => $inject]);
 
         $this->loaded = true;
     }
@@ -226,7 +220,7 @@ class Micro
      * Get full class name
      * @return string
      */
-    protected function getContainerClass()
+    protected function getInjectorClass()
     {
         return '';
     }

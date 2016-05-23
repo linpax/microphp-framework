@@ -15,7 +15,7 @@ namespace Micro\Base;
  * @version 1.0
  * @since 1.0
  */
-class Injector
+class Injector implements IInjector
 {
     /** @var array $CONFIG Configuration */
     private static $CONFIG = [];
@@ -34,9 +34,7 @@ class Injector
     {
         if ($configPath !== '' && file_exists($configPath)) {
             /** @noinspection PhpIncludeInspection */
-            $config = require $configPath;
-
-            array_merge_recursive(self::$CONFIG, $config);
+            self::$CONFIG = array_merge_recursive(self::$CONFIG, require $configPath);
         }
     }
 
@@ -58,6 +56,18 @@ class Injector
     }
 
     /**
+     * Check injector or config
+     *
+     * @access public
+     * @param string $name
+     * @return bool
+     */
+    public function check($name)
+    {
+        return (bool)$this->get($name);
+    }
+
+    /**
      * Build object with injector
      *
      * class LogInject extends Injector {
@@ -71,14 +81,14 @@ class Injector
      * @param string $name
      * @return bool
      */
-    protected function get($name)
+    public function get($name)
     {
         if (!empty(self::$CONFIG[$name])) {
             return self::$CONFIG[$name];
         }
 
         if (!empty(self::$CONFIG['components'][$name])) {
-            return $this->loadInjection(self::$CONFIG[$name]);
+            return $this->loadInjection($name);
         }
 
         return false;
