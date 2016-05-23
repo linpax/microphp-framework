@@ -2,8 +2,6 @@
 
 namespace Micro\Cli;
 
-use Micro\Base\IContainer;
-
 /**
  * Console class file.
  *
@@ -19,8 +17,6 @@ use Micro\Base\IContainer;
  */
 class Console
 {
-    /** @var IContainer $container */
-    protected $container;
     /** @var string $command Parsed command */
     protected $command;
 
@@ -29,14 +25,10 @@ class Console
      * Constructor command
      *
      * @access public
-     *
-     * @param IContainer $container
-     *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**
@@ -58,7 +50,7 @@ class Console
         }
 
         /** @var ConsoleCommand $command */
-        $command = new $command(['container' => $this->container]);
+        $command = new $command();
         $command->execute();
 
         return $command;

@@ -3,7 +3,6 @@
 namespace Micro\Db;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * Connection class file.
@@ -28,16 +27,15 @@ class DbConnection extends Connection
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $config
      * @param array $options
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $config = [], array $options = [])
+    public function __construct(array $config = [], array $options = [])
     {
-        parent::__construct($container);
+        parent::__construct();
 
         try {
                 $this->conn = new \PDO(
@@ -73,7 +71,7 @@ class DbConnection extends Connection
 
         if ($fetchType === \PDO::FETCH_CLASS) {
             /** @noinspection PhpMethodParametersCountMismatchInspection */
-            $sth->setFetchMode($fetchType, ucfirst($fetchClass), ['container' => $this->container, 'new' => false]);
+            $sth->setFetchMode($fetchType, ucfirst($fetchClass), ['new' => false]);
         } else {
             $sth->setFetchMode($fetchType);
         }

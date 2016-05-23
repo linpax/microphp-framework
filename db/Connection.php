@@ -2,8 +2,6 @@
 
 namespace Micro\Db;
 
-use Micro\Base\IContainer;
-
 /**
  * Threads class file.
  *
@@ -18,23 +16,14 @@ use Micro\Base\IContainer;
  */
 abstract class Connection implements IConnection
 {
-    /** @var IContainer $container Container container */
-    protected $container;
-
-
     /**
      * Construct for this class
      *
      * @access public
-     *
-     * @param IContainer $container
-     * 
-     *
      * @result void
      * @throws \Micro\Base\Exception
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 }

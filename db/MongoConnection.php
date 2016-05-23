@@ -3,7 +3,6 @@
 namespace Micro\Db;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * MongoDB Connection class file.
@@ -33,7 +32,6 @@ class MongoConnection extends Connection
      * @access public
      *
      *
-     * @param IContainer $container
      * @param array $config
      * @param array $options
      *
@@ -41,9 +39,9 @@ class MongoConnection extends Connection
      * @throws \MongoConnectionException
      * @throws \Micro\Base\Exception
      */
-    public function __construct(IContainer $container, array $config = [], array $options = [])
+    public function __construct(array $config = [], array $options = [])
     {
-        parent::__construct($container);
+        parent::__construct();
 
         if (!empty($config['dbname'])) {
             $this->dbName = $config['dbname'];
