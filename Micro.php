@@ -5,7 +5,6 @@ namespace Micro;
 use Micro\Base\Dispatcher;
 use Micro\Base\Exception;
 use Micro\Base\FatalError;
-use Micro\Base\IContainer;
 use Micro\Base\IDispatcher;
 use Micro\Base\IInjector;
 use Micro\Cli\Console;
@@ -35,8 +34,8 @@ class Micro
     /** @const string VERSION Version framework */
     const VERSION = '1.1';
 
-    /** @var IContainer $container Container is a container for components and options */
-    protected $container;
+    /** @var IInjector $injector */
+    protected $injector;
     /** @var string $appDir */
     protected $appDir;
     /** @var string $webDir */
@@ -89,12 +88,11 @@ class Micro
      */
     public function __clone()
     {
-        if ($this->debug) { // start new timer
+        if ($this->debug) {
             $this->startTime = microtime(true);
         }
 
-        $this->loaded = false; // deactivate loaded
-        $this->container = null; // remove configured container
+        $this->loaded = false;
     }
 
     /**
@@ -114,7 +112,7 @@ class Micro
             return $this->doRun($request);
         } catch (\Exception $e) {
             if ($this->debug) {
-                if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+                if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
                     $dispatcher->signal('kernel.exception', ['exception' => $e]);
                 }
 
@@ -138,29 +136,27 @@ class Micro
     private function doRun(IRequest $request)
     {
         if (!$this->loaded) {
-            $this->initializeContainer();
+            $this->initialize();
 
-            $this->addListener('kernel.kill', function(array $params) {
-                if (
-                    $params['container']->kernel->isDebug() &&
-                    !$params['container']->request->isCli() &&
-                    !$params['container']->request->isAjax()
-                ) {
-                    // Add timer into page
-                    echo '<div class=debug_timer>', (microtime(true) - $params['container']->kernel->getStartTime()), '</div>';
+            $this->addListener('kernel.kill', function () {
+                /** @var IRequest $request */
+                $request = $this->injector->get('request');
+
+                if ($this->isDebug() && !$request->isCli() && !$request->isAjax()) {
+                    echo '<div class="debug_timer">', (microtime(true) - $this->getStartTime()), '</div>';
                 }
 
-                if (false === $params['container']->kernel->loaded) {
+                if (false === $this->loaded) {
                     return;
                 }
 
-                $params['container']->kernel->container = null;
-                $params['container']->kernel->loaded = false;
+                $this->loaded = false;
             });
         }
 
-        $this->container->request = $request;
-        if (($output = $this->sendSignal('kernel.request', ['container' => $this->container])) instanceof IResponse) {
+        $this->injector->addRequirement('request', $request);
+
+        if (($output = $this->sendSignal('kernel.request', [])) instanceof IResponse) {
             return $output;
         }
 
@@ -178,7 +174,7 @@ class Micro
 
         $output = $app->action((string)$resolver->getAction());
         if (!$output instanceof IOutput) {
-            $response = $this->container->response ?: new Response;
+            $response = $this->injector->get('response') ?: new Response;
             $response->setBody((string)$output);
             $output = $response;
         }
@@ -189,12 +185,12 @@ class Micro
     }
 
     /**
-     * Initialization container
+     * Initialization
      *
      * @access protected
      * @return void
      */
-    protected function initializeContainer()
+    protected function initialize()
     {
         $class = $this->getInjectorClass();
         if (!$class || !class_exists($class)) {
@@ -262,15 +258,39 @@ class Micro
      */
     protected function addListener($listener, $event, $prior = null)
     {
-        if (!is_string($listener) || !$this->container) {
+        if (!is_string($listener) || !$this->injector) {
             return false;
         }
 
-        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
             return $dispatcher->addListener($listener, $event, $prior);
         }
 
         return null;
+    }
+
+    /**
+     * Get status of debug
+     *
+     * @access public
+     *
+     * @return bool
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * Get start time
+     *
+     * @access public
+     *
+     * @return double
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
     }
 
     /**
@@ -282,7 +302,7 @@ class Micro
      */
     protected function sendSignal($signal, $params)
     {
-        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
+        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
             return $dispatcher->signal($signal, $params);
         }
 
@@ -299,14 +319,17 @@ class Micro
      */
     protected function getResolver()
     {
-        if ($this->container->request->isCli()) {
-            $resolver = $this->container->consoleResolver ?: '\Micro\Resolver\ConsoleResolver';
+        /** @var IRequest $request */
+        $request = $this->injector->get('request');
+
+        if ($request->isCli()) {
+            $resolver = $this->injector->get('consoleResolver') ?: '\Micro\Resolver\ConsoleResolver';
         } else {
-            $resolver = $this->container->resolver ?: '\Micro\Resolver\HMVCResolver';
+            $resolver = $this->injector->get('resolver') ?: '\Micro\Resolver\HMVCResolver';
         }
 
         if (is_string($resolver) && is_subclass_of($resolver, '\Micro\Resolver\IResolver')) {
-            $resolver = new $resolver($this->container);
+            $resolver = new $resolver();
         }
 
         if (!$resolver instanceof IResolver) {
@@ -328,29 +351,29 @@ class Micro
      */
     private function doException(\Exception $e)
     {
-        $output = $this->container->request->isCli() ? new DefaultConsoleCommand([]) : new Response();
+        /** @var IRequest $request */
+        $request = $this->injector->get('request');
 
-        if ($this->container->request->isCli()) {
+        $output = $request->isCli() ? new DefaultConsoleCommand([]) : new Response();
+
+        if ($request->isCli()) {
             $output->data = '"Error #'.$e->getCode().' - '.$e->getMessage().'"';
             $output->execute();
 
             return $output;
         }
-        if (!$this->container->errorController || !$this->container->errorAction) {
+        if (!$this->injector->get('errorController') || !$this->injector->get('errorAction')) {
             $output->setBody('Option `errorController` or `errorAction` not configured');
 
             return $output;
         }
 
-        if (($request = $this->container->request) && $request instanceof IRequest) {
-            $request->setPost('error', $e);
-        }
+        $request->setPost('error', $e);
+        $controller = $this->injector->get('errorController');
 
-        $controller = $this->container->errorController;
-
-        /** @var \Micro\mvc\controllers\IController $result */
-        $result = new $controller($this->container, false);
-        $result = $result->action($this->container->errorAction);
+        /** @var \Micro\Mvc\Controllers\IController $result */
+        $result = new $controller(false);
+        $result = $result->action($this->injector->get('errorAction'));
         if ($result instanceof IOutput) {
             return $result;
         }
@@ -371,18 +394,6 @@ class Micro
     }
 
     /**
-     * Get start time
-     *
-     * @access public
-     *
-     * @return double
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
      * Terminate application
      *
      * @access public
@@ -391,33 +402,9 @@ class Micro
      */
     public function terminate()
     {
-        if (($dispatcher = $this->container->dispatcher) && $dispatcher instanceof IDispatcher) {
-            $dispatcher->signal('kernel.kill', ['container' => $this->container]);
+        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
+            $dispatcher->signal('kernel.kill', []);
         }
-    }
-
-    /**
-     * Get status of debug
-     *
-     * @access public
-     *
-     * @return bool
-     */
-    public function isDebug()
-    {
-        return $this->debug;
-    }
-
-    /**
-     * Get components container
-     *
-     * @access public
-     *
-     * @return IContainer
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     /**
