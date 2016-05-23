@@ -2,6 +2,10 @@
 
 namespace Micro\Filter;
 
+use Micro\Base\Injector;
+use Micro\Web\IRequest;
+use Micro\Web\ISession;
+
 /**
  * Class CsrfFilter
  *
@@ -21,11 +25,16 @@ class CsrfFilter extends Filter
      */
     public function pre(array $params)
     {
-        if ($this->container->request->server('REQUEST_METHOD') !== 'POST') {
+        /** @var IRequest $request */
+        $request = (new Injector)->get('request');
+        /** @var ISession $session */
+        $session = (new Injector)->get('session');
+
+        if ($request->server('REQUEST_METHOD') !== 'POST') {
             return true;
         }
 
-        $postCSRF = $this->container->request->post('csrf');
+        $postCSRF = $request->post('csrf');
 
         if (!$postCSRF) {
             $this->result = [
@@ -36,12 +45,13 @@ class CsrfFilter extends Filter
             return false;
         }
 
-        $csrf = $this->container->session->csrf;
+        /** @var array $csrf */
+        $csrf = $session->csrf;
 
-        if (($key = in_array(md5($postCSRF), $csrf, true)) !== null) {
-            unset($csrf[$key]);
+        if (($key = in_array(md5($postCSRF), $session->csrf, true)) !== null) {
+            unset($session->csrf[$key]);
 
-            $this->container->session->csrf = $csrf;
+            $session->csrf = $csrf;
 
             return true;
         }
@@ -78,7 +88,8 @@ class CsrfFilter extends Filter
     public function insertProtect(array $matches = [])
     {
         $gen = md5(mt_rand());
-        $s = $this->container->session;
+        /** @var ISession $s */
+        $s = (new Injector)->get('session');
 
         $s->csrf = array_merge(is_array($s->csrf) ? $s->csrf : [], [md5($gen)]);
 
