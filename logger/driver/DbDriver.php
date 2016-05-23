@@ -3,7 +3,8 @@
 namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
+use Micro\Db\IConnection;
 
 /**
  * DB logger class file.
@@ -23,6 +24,8 @@ class DbDriver extends LoggerDriver
 {
     /** @var string $tableName logger table name */
     public $tableName;
+    /** @var IConnection $db */
+    protected $db;
 
 
     /**
@@ -30,20 +33,20 @@ class DbDriver extends LoggerDriver
      *
      * @access public
      *
-     * @param IContainer $container Container
      * @param array $params configuration params
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        parent::__construct($container, $params);
+        parent::__construct($params);
 
         $this->tableName = !empty($params['table']) ? $params['table'] : 'logs';
+        $this->db = (new Injector)->get('db');
 
-        if (!$this->container->db->tableExists($this->tableName)) {
-            $this->container->db->createTable(
+        if (!$this->db->tableExists($this->tableName)) {
+            $this->db->createTable(
                 $this->tableName,
                 array(
                     '`id` INT AUTO_INCREMENT',
@@ -69,7 +72,7 @@ class DbDriver extends LoggerDriver
      */
     public function sendMessage($level, $message)
     {
-        $this->container->db->insert($this->tableName, [
+        $this->db->insert($this->tableName, [
             'level' => $level,
             'message' => $message,
             'date_create' => $_SERVER['REQUEST_TIME']

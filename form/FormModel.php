@@ -2,7 +2,6 @@
 
 namespace Micro\Form;
 
-use Micro\Base\IContainer;
 use Micro\Validator\Validator;
 
 /**
@@ -19,8 +18,6 @@ use Micro\Validator\Validator;
  */
 abstract class FormModel implements IFormModel
 {
-    /** @var IContainer $container */
-    protected $container;
     /** @var array $errors validation errors */
     protected $errors = [];
 
@@ -29,14 +26,10 @@ abstract class FormModel implements IFormModel
      * Constructor form
      *
      * @access public
-     *
-     * @param IContainer $container
-     *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**
@@ -45,7 +38,7 @@ abstract class FormModel implements IFormModel
     public function validate()
     {
         foreach ($this->rules() AS $rule) {
-            $validator = new Validator(['container' => $this->container, 'rule' => $rule]);
+            $validator = new Validator(['rule' => $rule]);
 
             if (!$validator->run($this) && (0 < count($validator->errors))) {
                 $this->errors[] = $validator->errors;
@@ -74,7 +67,7 @@ abstract class FormModel implements IFormModel
         $result = 'jQuery(document).ready(function(){';
 
         foreach ($this->rules() AS $rule) {
-            $validator = new Validator(['container' => $this->container, 'rule' => $rule]);
+            $validator = new Validator(['rule' => $rule]);
             if (is_string($js = $validator->run($this, true))) {
                 $result .= ' '.$js;
             }

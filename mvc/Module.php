@@ -2,7 +2,8 @@
 
 namespace Micro\Mvc;
 
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
+use Micro\Micro;
 
 /**
  * Class Module
@@ -19,23 +20,21 @@ use Micro\Base\IContainer;
  */
 abstract class Module
 {
-    /** @var IContainer $container */
-    public $container;
-
-
     /**
-     * @param IContainer $container
+     * @access public
+     * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
+        /** @var Micro $kernel */
+        $kernel = (new Injector)->get('kernel');
 
         $path = dirname(
-                str_replace(['\\', 'App'], ['/', $container->kernel->getAppDir()], get_called_class())
+                str_replace(['\\', 'App'], ['/', $kernel->getAppDir()], get_called_class())
             ).'/config.php';
 
         if (file_exists($path)) {
-            $container->load($path);
+            new Injector($path);
         }
     }
 }

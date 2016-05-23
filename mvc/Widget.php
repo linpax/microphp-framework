@@ -2,8 +2,6 @@
 
 namespace Micro\Mvc;
 
-use Micro\Base\IContainer;
-
 /**
  * Class Widget
  *
@@ -19,10 +17,6 @@ use Micro\Base\IContainer;
  */
 abstract class Widget
 {
-    /** @var IContainer $container */
-    protected $container;
-
-
     /**
      * Constructor for widgets
      *

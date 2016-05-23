@@ -2,8 +2,9 @@
 
 namespace Micro\Logger\Driver;
 
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
 use Micro\Mail\Message;
+use Micro\Mail\Transport\ITransport;
 
 /**
  * EmailDriver logger class file.
@@ -36,15 +37,14 @@ class EmailDriver extends LoggerDriver
      *
      * @access public
      *
-     * @param IContainer $container Container
      * @param array $params configuration params
      *
      * @throws \Micro\Base\Exception
      * @result void
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        parent::__construct($container, $params);
+        parent::__construct($params);
 
         $this->from = !empty($params['from']) ? $params['from'] : getenv('SERVER_ADMIN');
         $this->to = !empty($params['to']) ? $params['to'] : $this->from;
@@ -69,6 +69,8 @@ class EmailDriver extends LoggerDriver
         $mail->setTo($this->to);
         $mail->setText(ucfirst($level).': '.$message, $this->type);
 
-        $this->container->mail->send($mail);
+        /** @var ITransport $transport */
+        $transport = (new Injector)->get('mail');
+        $transport->send($mail);
     }
 }

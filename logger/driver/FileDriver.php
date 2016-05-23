@@ -3,7 +3,6 @@
 namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * FileDriver logger class file.
@@ -30,15 +29,14 @@ class FileDriver extends LoggerDriver
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $params configuration params
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        parent::__construct($container, $params);
+        parent::__construct($params);
 
         if (is_writable($params['filename']) || is_writable(dirname($params['filename']))) {
             $this->connect = fopen($params['filename'], 'a+');

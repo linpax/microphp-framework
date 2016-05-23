@@ -3,7 +3,6 @@
 namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 use Micro\Logger\Logger;
 
 /**
@@ -24,8 +23,6 @@ abstract class LoggerDriver implements ILoggerDriver
 {
     /** @var array $supportedLevels supported log levels */
     protected $supportedLevels = [];
-    /** @var IContainer $container */
-    protected $container;
 
 
     /**
@@ -33,16 +30,13 @@ abstract class LoggerDriver implements ILoggerDriver
      *
      * @access public
      *
-     * @param IContainer $container Container
      * @param array $params configuration params
      *
      * @throws Exception
      * @result void
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        $this->container = $container;
-
         $levels = explode(',', str_replace(' ', '', strtolower($params['levels'])));
 
         foreach ($levels AS $level) {

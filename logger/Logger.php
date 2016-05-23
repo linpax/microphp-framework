@@ -2,7 +2,6 @@
 
 namespace Micro\Logger;
 
-use Micro\Base\IContainer;
 use Micro\Logger\Driver\ILoggerDriver;
 
 /**
@@ -40,12 +39,11 @@ class Logger
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $loggers
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $loggers = [])
+    public function __construct(array $loggers = [])
     {
         foreach ($loggers AS $name => $log) {
             if (empty($log['class']) || !class_exists($log['class'])) {
@@ -56,7 +54,7 @@ class Logger
                 continue;
             }
 
-            $this->loggers[$name] = new $log['class']($container, $log);
+            $this->loggers[$name] = new $log['class']($log);
         }
     }
 

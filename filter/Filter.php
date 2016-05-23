@@ -2,8 +2,6 @@
 
 namespace Micro\Filter;
 
-use Micro\Base\IContainer;
-
 /**
  * Filter class file.
  *
@@ -20,18 +18,14 @@ abstract class Filter implements IFilter
 {
     /** @var array|string|bool $result Result array */
     public $result;
-    /** @var IContainer $Container */
-    protected $container;
     /** @var string $action Current action */
     protected $action;
 
     /**
      * @param string $action current action
-     * @param IContainer $container
      */
-    public function __construct($action, IContainer $container)
+    public function __construct($action)
     {
         $this->action = $action;
-        $this->container = $container;
     }
 }
