@@ -2,7 +2,6 @@
 
 namespace Micro\Cache\Driver;
 
-use Micro\Base\IContainer;
 use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
@@ -31,14 +30,13 @@ class DbDriver extends CacheDriver
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($container, $config);
+        parent::__construct($config);
 
         $this->table = 'cache';
         if (!empty($config['table'])) {

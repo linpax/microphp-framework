@@ -23,8 +23,6 @@ abstract class Command implements ICommand
     public $result = false;
     /** @var string $message status message of execute command */
     public $message = '';
-    /** @var IContainer $container Container config */
-    protected $container;
 
 
     /**
@@ -38,10 +36,6 @@ abstract class Command implements ICommand
      */
     public function __construct(array $params)
     {
-        $this->container = $params['container'];
-
-        unset($params['container']);
-
         $this->args = $params;
     }
 }

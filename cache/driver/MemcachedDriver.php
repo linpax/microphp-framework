@@ -3,7 +3,6 @@
 namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * Class MemcachedDriver
@@ -28,15 +27,14 @@ class MemcachedDriver extends CacheDriver
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($container, $config);
+        parent::__construct($config);
 
         if (empty($config['type']) || !$this->check()) {
             throw new Exception('Memcache(d) not installed or not select type');

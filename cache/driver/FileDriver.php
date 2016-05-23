@@ -3,7 +3,6 @@
 namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 use Micro\File\FileHelper;
 
 /**
@@ -29,15 +28,14 @@ class FileDriver extends CacheDriver
      *
      * @access pubic
      *
-     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($container, $config);
+        parent::__construct($config);
 
         $path = !empty($config['path']) ? $config['path'] : sys_get_temp_dir().'/cache';
 

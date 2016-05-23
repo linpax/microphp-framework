@@ -2,7 +2,6 @@
 
 namespace Micro\Cache\Driver;
 
-use Micro\Base\IContainer;
 
 /**
  * Abstract class Base Cache
@@ -19,22 +18,16 @@ use Micro\Base\IContainer;
  */
 abstract class CacheDriver implements ICacheDriver
 {
-    /** @var IContainer $container */
-    protected $container;
-
-
     /**
      * Constructor for caches
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $params Configuration params
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        $this->container = $container;
     }
 }

@@ -3,7 +3,6 @@
 namespace Micro\Cache\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * Class XcacheDriver
@@ -24,15 +23,14 @@ class XcacheDriver extends CacheDriver
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $config config array
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($container, $config);
+        parent::__construct($config);
 
         if (!$this->check()) {
             throw new Exception('Extension XCache not installed');
