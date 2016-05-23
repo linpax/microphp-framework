@@ -207,15 +207,14 @@ class Micro
         $this->container->load($this->getConfig());
 
         /// @TODO: HACK - send configs into injector
-        $config = $this->getConfig();
-        if (file_exists($config)) {
-            $config = require $config;
-        }
-        $inject = new Injector($config);
+        $inject = new Injector($this->getConfig());
+        $inject->addRequirement('kernel', $this);
+        $inject->addRequirement('dispatcher', new Dispatcher);
         /// @TODO: END HACK
 
         if (false === $this->container->dispatcher || !($this->container->dispatcher instanceof IDispatcher)) {
             $this->container->dispatcher = new Dispatcher;
+            $inject->addRequirement('dispatcher', new Dispatcher);
         }
 
         $this->container->dispatcher->signal('kernel.boot', ['container' => $this->container]);

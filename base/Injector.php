@@ -17,21 +17,43 @@ namespace Micro\Base;
  */
 class Injector
 {
-    /** @var array $CONFIG Config data for components */
+    /** @var array $CONFIG Configuration */
     private static $CONFIG = [];
+    /** @var array $INJECTS Configured injects */
+    private static $INJECTS = [];
 
 
     /**
      * Injector constructor.
      *
      * @access public
-     * @param array $config
+     * @param string $configPath
      * @result void
      */
-    public function __construct(array $config = [])
+    public function __construct($configPath = '')
     {
-        if (0 === count($config)) {
-            self::$CONFIG = (0 === count(self::$CONFIG)) ? array_merge_recursive(self::$CONFIG, $config) : $config;
+        if ($configPath !== '' && file_exists($configPath)) {
+            /** @noinspection PhpIncludeInspection */
+            $config = require $configPath;
+
+            array_merge_recursive(self::$CONFIG, $config);
+        }
+    }
+
+    /**
+     * Add requirement to injector
+     *
+     * @access public
+     * @param string $name
+     * @param mixed $component
+     * @return void
+     */
+    public function addRequirement($name, $component)
+    {
+        if (is_object($component)) {
+            self::$INJECTS[$name] = $component;
+        } else {
+            self::$CONFIG[$name] = $component;
         }
     }
 
@@ -52,61 +74,69 @@ class Injector
     protected function get($name)
     {
         if (!empty(self::$CONFIG[$name])) {
-            return $this->loadComponent(self::$CONFIG[$name]);
+            return self::$CONFIG[$name];
+        }
+
+        if (!empty(self::$CONFIG['components'][$name])) {
+            return $this->loadInjection(self::$CONFIG[$name]);
         }
 
         return false;
     }
 
     /**
-     * Load component
+     * Load injection
      *
      * @access public
      *
-     * @param array $options component configs
+     * @param string $name Name injection
      *
      * @return bool
      */
-    private function loadComponent($options)
+    private function loadInjection($name)
     {
+        $options = self::$CONFIG['components'][$name];
+
         if (empty($options['class']) || !class_exists($options['class'])) {
             return false;
         }
 
         $className = $options['class'];
-        $object = null;
 
         $options['arguments'] = !empty($options['arguments']) ? $this->buildParams($options['arguments']) : null;
         $options['property'] = !empty($options['property']) ? $this->buildParams($options['property']) : null;
         $options['calls'] = !empty($options['calls']) ? $this->buildCalls($options['calls']) : null;
 
-        $object = $this->makeObject($className, $options['arguments']);
-        if (!$object) {
+        /** Depends via construction */
+        self::$INJECTS[$name] = $this->makeObject($className, $options['arguments']);
+        if (!self::$INJECTS[$name]) {
             return false;
         }
 
+        /** Depends via property */
         if (!empty($options['property'])) { // load properties
             foreach ($options['property'] as $property => $value) {
-                if (property_exists($object, $property)) {
-                    $object->$property = $value;
+                if (property_exists(self::$INJECTS[$name], $property)) {
+                    self::$INJECTS[$name]->$property = $value;
                 }
             }
         }
 
+        /** Depends via calls */
         if (!empty($options['calls'])) { // run methods
             foreach ($options['calls'] as $method => $arguments) {
-                if (method_exists($object, $method)) {
+                if (method_exists(self::$INJECTS[$name], $method)) {
                     $reflectionMethod = new \ReflectionMethod($className, $method);
                     if ($reflectionMethod->getNumberOfParameters() === 0) {
-                        $object->$method();
+                        self::$INJECTS[$name]->$method();
                     } else {
-                        call_user_func_array([$object, $method], $arguments);
+                        call_user_func_array([self::$INJECTS[$name], $method], $arguments);
                     }
                 }
             }
         }
 
-        return true;
+        return self::$INJECTS[$name];
     }
 
     /**
