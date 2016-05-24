@@ -3,7 +3,6 @@
 namespace Micro\Mvc\Views;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * Interface IView
@@ -16,8 +15,6 @@ use Micro\Base\IContainer;
  * @subpackage Mvc/Views
  * @version 1.0
  * @since 1.0
- *
- * @property IContainer $container
  */
 interface IView
 {

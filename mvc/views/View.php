@@ -3,7 +3,6 @@
 namespace Micro\Mvc\Views;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 use Micro\Mvc\Module;
 use Micro\Mvc\Widget;
 use Micro\Web\Html\Html;
@@ -32,16 +31,14 @@ abstract class View implements IView
     public $stack = [];
     /** @var Module $module */
     public $module;
-    /** @var IContainer $container */
-    public $container;
 
 
     /**
-     * @param IContainer $container
+     * @access public
+     * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**
@@ -60,8 +57,6 @@ abstract class View implements IView
         if (!class_exists($name)) {
             throw new Exception('Widget '.$name.' not found.');
         }
-
-        $options = array_merge($options, ['container' => $this->container]);
 
         /** @var \Micro\mvc\Widget $widget widget */
         $widget = new $name($options);
@@ -106,9 +101,7 @@ abstract class View implements IView
             throw new Exception('This widget ('.$name.') already started!');
         }
 
-        $options = array_merge($options, ['container' => $this->container]);
-
-        $GLOBALS['widgetStack'][$name] = new $name($options, $this->container);
+        $GLOBALS['widgetStack'][$name] = new $name($options);
 
         /** @noinspection PhpUndefinedMethodInspection */
 

@@ -3,7 +3,7 @@
 namespace Micro\Mvc\Models;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
 use Micro\File\Type;
 use Micro\Form\FormModel;
 
@@ -38,15 +38,14 @@ abstract class Model extends FormModel implements IModel
      *
      * @access public
      *
-     * @param IContainer $container
      * @param boolean $new is new model?
      *
      * @result void
      * @throws Exception
      */
-    public function __construct(IContainer $container, $new = true)
+    public function __construct($new = true)
     {
-        parent::__construct($container);
+        parent::__construct();
 
         if (!static::$tableName) {
             throw new Exception('Table name not set in `'.__CLASS__.'`` model.');
@@ -61,15 +60,14 @@ abstract class Model extends FormModel implements IModel
      * @access public
      *
      * @param int|string $value unique value
-     * @param IContainer $container
      *
      * @return mixed
      * @throws \Micro\base\Exception
      * @static
      */
-    public static function findByPk($value, IContainer $container)
+    public static function findByPk($value)
     {
-        return self::findByAttributes([self::$primaryKey => $value], true, $container);
+        return self::findByAttributes([self::$primaryKey => $value], true);
     }
 
     /**
@@ -79,14 +77,13 @@ abstract class Model extends FormModel implements IModel
      *
      * @param array $attributes attributes and data for search
      * @param bool $single single or more
-     * @param IContainer $container
      *
      * @return mixed
      * @throws \Micro\base\Exception
      */
-    public static function findByAttributes(array $attributes = [], $single = false, IContainer $container)
+    public static function findByAttributes(array $attributes = [], $single = false)
     {
-        $query = new Query($container->db);
+        $query = new Query((new Injector)->get('db'));
         foreach ($attributes AS $key => $val) {
             $query->addWhere($key.' = :'.$key);
         }
@@ -102,15 +99,14 @@ abstract class Model extends FormModel implements IModel
      *
      * @param IQuery $query query to search
      * @param boolean $single is single
-     * @param IContainer $container
      *
      * @return mixed One or more data
      * @throws \Micro\base\Exception
      * @static
      */
-    public static function finder(IQuery $query = null, $single = false, IContainer $container = null)
+    public static function finder(IQuery $query = null, $single = false)
     {
-        $query = ($query instanceof Query) ? $query : new Query($container->db);
+        $query = ($query instanceof Query) ? $query : new Query((new Injector)->get('db'));
         $query->table = static::$tableName.' `m`';
         $query->objectName = get_called_class();
         $query->single = $single;
@@ -130,7 +126,7 @@ abstract class Model extends FormModel implements IModel
      */
     public function find($single = false)
     {
-        return self::findByAttributes(Type::getVars($this), $single, $this->container);
+        return self::findByAttributes(Type::getVars($this), $single);
     }
 
     /**
@@ -143,7 +139,7 @@ abstract class Model extends FormModel implements IModel
     public function getAttributes()
     {
         $fields = [];
-        foreach ($this->container->db->listFields(static::$tableName) AS $field) {
+        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $field) {
             $fields[] = $field['field'];
         }
 
@@ -164,7 +160,7 @@ abstract class Model extends FormModel implements IModel
         /** @var array $relation */
         if ($relation = $this->relations()->get($name)) {
             if (empty($this->cacheRelations[$name])) {
-                $sql = new Query($this->container->db);
+                $sql = new Query((new Injector)->get('db'));
 
                 $sql->addWhere('`m`.`'.$relation['On'][1].'`=:'.$relation['On'][0]);
 
@@ -181,7 +177,7 @@ abstract class Model extends FormModel implements IModel
                 $sql->params[$relation['On'][0]] = $this->{$relation['On'][0]};
 
                 /** @noinspection PhpUndefinedMethodInspection */
-                $this->cacheRelations[$name] = $relation['Model']::finder($sql, !$relation['IsMany'], $this->container);
+                $this->cacheRelations[$name] = $relation['Model']::finder($sql, !$relation['IsMany']);
             }
 
             return $this->cacheRelations[$name];
@@ -253,7 +249,7 @@ abstract class Model extends FormModel implements IModel
             return false;
         }
         if ($this->beforeCreate() && $this->beforeSave()) {
-            $id = $this->container->db->insert(static::$tableName, $this->mergeAttributesDb());
+            $id = (new Injector)->get('db')->insert(static::$tableName, $this->mergeAttributesDb());
             if (!$id) {
                 return false;
             }
@@ -303,7 +299,7 @@ abstract class Model extends FormModel implements IModel
         $arr = Type::getVars($this);
 
         $buffer = [];
-        foreach ($this->container->db->listFields(static::$tableName) AS $row) {
+        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $row) {
             $buffer[] = $row['field'];
         }
 
@@ -334,7 +330,7 @@ abstract class Model extends FormModel implements IModel
         }
 
         $res = false;
-        foreach ($this->container->db->listFields(static::$tableName) AS $row) {
+        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $row) {
             if ($row['field'] === $name) {
                 $res = true;
                 break;
@@ -378,13 +374,12 @@ abstract class Model extends FormModel implements IModel
                 if (self::$primaryKey) {
                     $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
                 } else {
-                    throw new Exception($this->container,
-                        'In table '.static::$tableName.' option `id` not defined/not use.'
+                    throw new Exception('In table ' . static::$tableName . ' option `' . self::$primaryKey . '` not defined/not use.'
                     );
                 }
             }
 
-            if ($this->container->db->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
+            if ((new Injector)->get('db')->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
                 $this->afterUpdate();
 
                 return true;
@@ -423,11 +418,11 @@ abstract class Model extends FormModel implements IModel
         }
         if ($this->beforeDelete()) {
             if (!self::$primaryKey) {
-                throw new Exception('In table '.static::$tableName.' option `id` not defined/not use.');
+                throw new Exception('In table ' . static::$tableName . ' option `' . self::$primaryKey . '` not defined/not use.');
             }
 
             if (
-            $this->container->db->delete(
+            (new Injector)->get('db')->delete(
                 static::$tableName,
                 self::$primaryKey.'=:'.self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
             )

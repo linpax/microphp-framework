@@ -3,7 +3,7 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
 use Micro\Mvc\Module;
 use Micro\Web\IResponse;
 use Micro\Web\Response;
@@ -28,34 +28,28 @@ abstract class Controller implements IController
     /** @var IResponse $response Response HTTP data */
     public $response;
 
-    /** @var IContainer $container */
-    protected $container;
-
 
     /**
      * Constructor controller
      *
      * @access public
      *
-     * @param IContainer $container
      * @param string $modules
      *
      * @result void
      */
-    public function __construct(IContainer $container, $modules = '')
+    public function __construct($modules = '')
     {
-        $this->container = $container;
-
         // if module defined
         if ($modules) {
             $className = '\\App'.$modules.'\\'.ucfirst(basename(str_replace('\\', '/', $modules))).'Module';
 
             if (class_exists($className) && is_subclass_of($className, '\Micro\Mvc\Module')) {
-                $this->module = new $className($this->container);
+                $this->module = new $className();
             }
         }
 
-        if (!$this->response = $this->container->response) {
+        if (!$this->response = (new Injector)->get('response')) {
             $this->response = new Response;
         }
     }
@@ -89,13 +83,13 @@ abstract class Controller implements IController
             }
 
             /** @var \Micro\Filter\IFilter $_filter */
-            $_filter = new $filter['class']($action, $this->container);
+            $_filter = new $filter['class']($action);
             $response = $isPre ? $_filter->pre($filter) : $_filter->post($filter + ['data' => $data]);
 
             if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
                     /** @var IResponse $redirect */
-                    $redirect = $this->container->response ?: new Response;
+                    $redirect = (new Injector)->get('response') ?: new Response;
                     $redirect->addHeader('Location', $_filter->result['redirect']);
 
                     return $redirect;

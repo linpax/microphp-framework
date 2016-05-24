@@ -2,7 +2,9 @@
 
 namespace Micro\Mvc\Controllers;
 
-use Micro\Base\IContainer;
+use Micro\Base\Injector;
+use Micro\Web\IRequest;
+
 
 /**
  * Class RichController
@@ -31,16 +33,18 @@ abstract class RichController extends Controller
      *
      * @access public
      *
-     * @param IContainer $container
      * @param string $modules
      *
      * @result void
      */
-    public function __construct(IContainer $container, $modules = '')
+    public function __construct($modules = '')
     {
-        parent::__construct($container, $modules);
+        parent::__construct($modules);
 
-        $this->methodType = $this->container->request->getMethod() ?: 'GET';
+        /** @var IRequest $request */
+        $request = (new Injector)->get('request');
+
+        $this->methodType = $request->getMethod() ?: 'GET';
     }
 
     /**
@@ -74,7 +78,7 @@ abstract class RichController extends Controller
         $view = null;
         if ($actionClass) {
             /** @var \Micro\Mvc\Action $cl */
-            $cl = new $actionClass($this->container);
+            $cl = new $actionClass();
             $view = $cl->run();
         } else {
             $view = $this->{'action'.ucfirst($name)}();

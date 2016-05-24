@@ -2,7 +2,6 @@
 
 namespace Micro\Mvc\Models;
 
-use Micro\Base\IContainer;
 
 /**
  * Migration class file.
@@ -19,20 +18,14 @@ use Micro\Base\IContainer;
  */
 abstract class Migration
 {
-    /** @var IContainer $container */
-    protected $container;
-
-
     /**
      * Constructor for model
      *
      * @access public
-     * @param IContainer $container
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**

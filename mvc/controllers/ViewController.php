@@ -3,6 +3,7 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\Web\IResponse;
 use Micro\Web\Response;
 
@@ -56,7 +57,7 @@ abstract class ViewController extends Controller
 
         if ($actionClass) {
             /** @var \Micro\mvc\Action $cl */
-            $cl = new $actionClass($this->container);
+            $cl = new $actionClass();
             $view = $cl->run();
         } else {
             $view = $this->{'action'.ucfirst($name)}();
@@ -70,7 +71,7 @@ abstract class ViewController extends Controller
             $view = $view->render();
         }
 
-        $response = $this->container->response ?: new Response;
+        $response = (new Injector)->get('response') ?: new Response;
         $response->setBody($this->applyFilters($name, false, $filters, $view));
 
         return $response;
