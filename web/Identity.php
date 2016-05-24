@@ -2,8 +2,6 @@
 
 namespace Micro\Web;
 
-use Micro\Base\IContainer;
-
 /**
  * Identity class file.
  *
@@ -25,22 +23,19 @@ abstract class Identity
     public $password;
     /** @var string $error error string */
     public $error;
-    protected $container;
 
     /**
      * Initialize identity element
      *
      * @access public
      *
-     * @param IContainer $container
      * @param string $username
      * @param string $password
      *
      * @result void
      */
-    public function __construct(IContainer $container, $username, $password)
+    public function __construct($username, $password)
     {
-        $this->container = $container;
         $this->username = $username;
         $this->password = $password;
         $this->error = null;
@@ -50,7 +45,7 @@ abstract class Identity
      * Authenticate
      *
      * @access public
-     * @global Container
+     *
      * @return bool
      * @abstract
      */
@@ -60,7 +55,6 @@ abstract class Identity
      * Add data into session
      *
      * @access public
-     * @global Container
      *
      * @param string $name session parameter name
      * @param mixed $value session parameter value
@@ -69,14 +63,13 @@ abstract class Identity
      */
     public function addSession($name, $value)
     {
-        return $this->container->session->$name = $value;
+        return (new Injector)->get('session')->$name = $value;
     }
 
     /**
      * Add data into cookie
      *
      * @access public
-     * @global Container
      *
      * @param string $name cookie name
      * @param mixed $value data value
@@ -97,6 +90,6 @@ abstract class Identity
         $secure = false,
         $httpOnly = true
     ) {
-        return $this->container->cookie->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+        return (new Injector)->get('cookie')->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
 }

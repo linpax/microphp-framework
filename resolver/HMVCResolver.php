@@ -4,6 +4,7 @@ namespace Micro\Resolver;
 
 use Micro\Base\Exception;
 use Micro\Mvc\Controllers\IController;
+use Micro\Web\IRequest;
 
 /**
  * hMVC Resolver class file.
@@ -42,10 +43,13 @@ class HMVCResolver extends Resolver
      */
     public function getApplication()
     {
-        $query = $this->container->request->query('r') ?: '/default';
+        /** @var IRequest $request */
+        $request = (new Injector)->get('request');
+
+        $query = $request->query('r') ?: '/default';
         $query = (substr($query, -1) === '/') ? substr($query, 0, -1) : $query;
 
-        $this->uri = $this->container->router->parse($query, $this->container->request->getMethod());
+        $this->uri = (new Injector)->get('router')->parse($query, $request->getMethod());
 
         $this->initialize();
 
@@ -56,7 +60,7 @@ class HMVCResolver extends Resolver
             throw new Exception('Controller '.$cls.' not found or not a valid');
         }
 
-        return new $cls($this->container, $this->getModules());
+        return new $cls($this->getModules());
     }
 
     /**
@@ -86,7 +90,7 @@ class HMVCResolver extends Resolver
 
             foreach ($paramBlocks AS $param) {
                 $val = explode('=', $param);
-                $this->container->request->setQuery($val[0], $val[1]);
+                (new Injector)->get('request')->setQuery($val[0], $val[1]);
             }
         }
     }
@@ -103,7 +107,7 @@ class HMVCResolver extends Resolver
     protected function prepareExtensions(&$uriBlocks)
     {
         foreach ($uriBlocks as $i => $block) {
-            if (file_exists($this->container->kernel->getAppDir().$this->extensions.'/extensions/'.$block)) {
+            if (file_exists((new Injector)->get('kernel')->getAppDir() . $this->extensions . '/extensions/' . $block)) {
                 $this->extensions .= '/Extensions/'.ucfirst($block);
 
                 unset($uriBlocks[$i]);
@@ -128,7 +132,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir().($this->extensions ?: '');
+        $path = (new Injector)->get('kernel')->getAppDir() . ($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
             if ($block && file_exists($path.strtolower($this->modules).'/modules/'.$block)) {
@@ -154,7 +158,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = $this->container->kernel->getAppDir().($this->extensions ?: '').strtolower($this->modules ?: '');
+        $path = (new Injector)->get('kernel')->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
         if (file_exists(str_replace('\\', '/', $path.'/controllers/'.ucfirst($str).'Controller.php'))) {

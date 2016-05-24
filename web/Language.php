@@ -3,7 +3,6 @@
 namespace Micro\Web;
 
 use Micro\base\Exception;
-use Micro\base\IContainer;
 
 /**
  * Language getter language tags from *.ini files
@@ -19,9 +18,6 @@ use Micro\base\IContainer;
  */
 class Language extends \stdClass
 {
-    /** @var IContainer $container */
-    protected $container;
-
     /** @var array $language language array */
     private $language = [];
     /** @var string $defaultLang default language */
@@ -32,18 +28,15 @@ class Language extends \stdClass
      *
      * @access public
      *
-     * @param IContainer $container
      * @param string $viewNameFile path to view
      *
      * @result void
      */
-    public function __construct(IContainer $container, $viewNameFile)
+    public function __construct($viewNameFile)
     {
-        $this->container = $container;
-
         $viewName = substr($viewNameFile, 0, -3);
 
-        $lang = $this->container->lang;
+        $lang = (new Injector)->get('lang');
         $lang = $lang ?: $this->defaultLang;
 
         if (!file_exists($viewName.$lang.'.ini')) {

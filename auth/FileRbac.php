@@ -2,8 +2,6 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\IContainer;
-
 /**
  * File RBAC class file.
  *
@@ -28,14 +26,12 @@ class FileRbac extends Rbac
      * Redefine constructor for RBAC
      *
      * @access public
-     * 
-     * @param IContainer $container;
      *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        parent::__construct($container);
+        parent::__construct();
 
         if (!empty($params['roles'])) {
             $this->roles = $this->tree($params['roles']);
@@ -55,9 +51,9 @@ class FileRbac extends Rbac
     public function assign($userId, $name)
     {
         if ($this->searchRoleRecursive($this->roles, $name)) {
-            $exists = $this->container->db->exists('rbac_user', ['user' => $userId, 'role' => $name]);
+            $exists = (new Injector)->get('db')->exists('rbac_user', ['user' => $userId, 'role' => $name]);
             if (!$exists) {
-                return $this->container->db->insert('rbac_user', ['role' => $name, 'user' => $userId]);
+                return (new Injector)->get('db')->insert('rbac_user', ['role' => $name, 'user' => $userId]);
             }
         }
 

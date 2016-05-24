@@ -3,7 +3,6 @@
 namespace Micro\Queue;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 
 /**
  * Queue class file.
@@ -25,8 +24,6 @@ class Queue
     protected $routes = [];
     /** @var array $brokers Started servers */
     protected $brokers = [];
-    /** @var IContainer $container */
-    protected $container;
 
 
     /**
@@ -34,15 +31,13 @@ class Queue
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $servers
      * @param array $routes
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $servers = [], array $routes = [])
+    public function __construct(array $servers = [], array $routes = [])
     {
-        $this->container = $container;
         $this->servers = $servers;
         $this->routes = $routes;
     }

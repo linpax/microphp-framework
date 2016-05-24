@@ -35,7 +35,7 @@ class CaptchaValidator extends BaseValidator
     {
         parent::__construct($params);
 
-        $this->captcha = $this->container->user->getCaptcha();
+        $this->captcha = (new Injector)->get('user')->getCaptcha();
     }
 
     /**
@@ -50,7 +50,7 @@ class CaptchaValidator extends BaseValidator
                 return false;
             }
 
-            if ($this->container->user->checkCaptcha($this->captcha)) {
+            if ((new Injector)->get('user')->checkCaptcha($this->captcha)) {
                 return false;
             }
         }

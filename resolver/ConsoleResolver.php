@@ -27,7 +27,7 @@ class ConsoleResolver extends Resolver
      */
     public function getApplication()
     {
-        return new Console($this->container);
+        return new Console();
     }
 
     /**
@@ -39,6 +39,6 @@ class ConsoleResolver extends Resolver
      */
     public function getAction()
     {
-        return $this->container->request->getOption('a', 'action') ?: 'default';
+        return (new Injector)->get('request')->getOption('a', 'action') ?: 'default';
     }
 }

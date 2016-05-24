@@ -2,7 +2,6 @@
 
 namespace Micro\Resolver;
 
-use Micro\Base\IContainer;
 
 /**
  * Resolver class file.
@@ -19,21 +18,13 @@ use Micro\Base\IContainer;
  */
 abstract class Resolver implements IResolver
 {
-    /** @var IContainer $container Container is a container for components and options */
-    protected $container;
-
-
     /**
      * Constructor Resolver
      *
      * @access public
-     *
-     * @param IContainer $container Container is a container for components and options
-     *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 }

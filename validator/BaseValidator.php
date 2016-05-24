@@ -2,8 +2,6 @@
 
 namespace Micro\Validator;
 
-use Micro\Base\IContainer;
-
 /**
  * Class BaseValidator
  *
@@ -25,8 +23,6 @@ abstract class BaseValidator extends \stdClass implements IValidator
     public $elements = [];
     /** @var array $errors */
     public $errors = [];
-    /** @var IContainer $container */
-    protected $container;
 
     public function __construct(array $params = [])
     {

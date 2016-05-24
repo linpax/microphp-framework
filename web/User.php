@@ -2,7 +2,6 @@
 
 namespace Micro\Web;
 
-use Micro\Base\IContainer;
 
 /**
  * Micro user class file
@@ -18,18 +17,12 @@ use Micro\Base\IContainer;
  */
 class User implements IUser
 {
-    /** @var IContainer $container */
-    protected $container;
-
-
     /**
      * @access public
-     * @param IContainer $container
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
     }
 
     /**
@@ -38,7 +31,7 @@ class User implements IUser
     public function check($permission, array $data = [])
     {
         if (!$this->isGuest()) {
-            return $this->container->permission->check($this->getID(), $permission, $data);
+            return (new Injector)->get('permission')->check($this->getID(), $permission, $data);
         } else {
             return false;
         }
@@ -49,7 +42,7 @@ class User implements IUser
      */
     public function isGuest()
     {
-        return !$this->container->session || !$this->container->session->UserID;
+        return !(new Injector)->get('session') || !(new Injector)->get('session')->UserID;
     }
 
     /**
@@ -57,7 +50,7 @@ class User implements IUser
      */
     public function getID()
     {
-        return (!$this->isGuest()) ? $this->container->session->UserID : false;
+        return (!$this->isGuest()) ? (new Injector)->get('session')->UserID : false;
     }
 
     /**
@@ -73,7 +66,7 @@ class User implements IUser
      */
     public function setID($id)
     {
-        $this->container->session->UserID = $id;
+        (new Injector)->get('session')->UserID = $id;
     }
 
     /**
@@ -83,7 +76,7 @@ class User implements IUser
     {
         if (!$this->isGuest()) {
             $this->setID(null);
-            $this->container->session->destroy();
+            (new Injector)->get('session')->destroy();
         }
     }
 
@@ -92,7 +85,7 @@ class User implements IUser
      */
     public function getCaptcha()
     {
-        return $this->container->session->captchaCode;
+        return (new Injector)->get('session')->captchaCode;
     }
 
     /**
@@ -100,7 +93,7 @@ class User implements IUser
      */
     public function setCaptcha($code)
     {
-        $this->container->session->captchaCode = md5($code);
+        (new Injector)->get('session')->captchaCode = md5($code);
     }
 
     /**
@@ -108,10 +101,10 @@ class User implements IUser
      */
     public function checkCaptcha($code)
     {
-        if (!$this->container->session->captchaCode) {
+        if (!(new Injector)->get('session')->captchaCode) {
             return null;
         }
 
-        return $this->container->session->captchaCode === md5($code);
+        return (new Injector)->get('session')->captchaCode === md5($code);
     }
 }

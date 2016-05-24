@@ -65,9 +65,9 @@ class Asset
 
         $this->hash = md5($this->sourcePath);
 
-        $this->publishPath = '/'.(($dir = $view->container->assetsDirName) ? $dir : 'assets').'/'.$this->hash;
+        $this->publishPath = '/' . (($dir = (new Injector)->get('assetsDirName')) ? $dir : 'assets') . '/' . $this->hash;
 
-        $web = $this->view->container->kernel->getWebDir();
+        $web = (new Injector)->get('kernel')->getWebDir();
 
         if (!file_exists($this->sourcePath)) {
             throw new Exception('Asset dir not exists: '.$this->sourcePath);

@@ -2,8 +2,6 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\IContainer;
-
 /**
  * Abstract ACL class file.
  *
@@ -23,8 +21,6 @@ abstract class Acl implements IAuth
 {
     /** @var string $groupTable name of group table */
     protected $groupTable;
-    /** @var IContainer $container */
-    protected $container;
 
 
     /**
@@ -32,21 +28,18 @@ abstract class Acl implements IAuth
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        $this->container = $container;
-
         if (!empty($params['groupTable'])) {
             $this->groupTable = $params['groupTable'];
         }
 
-        if (!$this->container->db->tableExists('acl_user')) {
-            $this->container->db->createTable('acl_user', [
+        if (!(new Injector)->get('db')->tableExists('acl_user')) {
+            (new Injector)->get('db')->createTable('acl_user', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',
                 '`user` int(11) unsigned NOT NULL',
                 '`role` int(11) unsigned DEFAULT NULL',

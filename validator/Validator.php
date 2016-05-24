@@ -3,7 +3,6 @@
 namespace Micro\Validator;
 
 use Micro\Base\Exception;
-use Micro\Base\IContainer;
 use Micro\Form\IFormModel;
 
 /**
@@ -41,8 +40,6 @@ class Validator
     public $elements = [];
     /** @var array $params validation parameters */
     public $params = [];
-    /** @var IContainer $container Container */
-    protected $container;
     /** @var array $rule current rule */
     protected $rule = [];
 
@@ -58,7 +55,6 @@ class Validator
      */
     public function __construct(array $params)
     {
-        $this->container = $params['container'];
         $this->rule = $params['rule'];
     }
 
@@ -102,7 +98,7 @@ class Validator
         }
 
         /** @var IValidator $valid */
-        $valid = new $className(['container' => $this->container, 'params' => $this->rule]);
+        $valid = new $className(['params' => $this->rule]);
         $valid->elements = $elements;
 
         if ($client && method_exists($valid, 'client')) {
@@ -128,7 +124,7 @@ class Validator
             return '\\Micro\\Validator\\'.self::$validators[$name];
         } elseif (class_exists($name) && is_subclass_of($name, '\Micro\Validator\IValidator')) {
             return $name;
-        } elseif (file_exists($this->container->kernel->getAppDir().'/validator/'.$name.'.php')) {
+        } elseif (file_exists((new Injector)->get('kernel')->getAppDir() . '/validator/' . $name . '.php')) {
             return '\\App\\Validator\\'.$name;
         }
 

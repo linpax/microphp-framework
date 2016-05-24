@@ -2,7 +2,6 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -34,14 +33,13 @@ class FileAcl extends Acl
      *
      * @access public
      *
-     * @param IContainer $container
      * @param array $params configuration array
      *
      * @result void
      */
-    public function __construct(IContainer $container, array $params = [])
+    public function __construct(array $params = [])
     {
-        parent::__construct($container, $params);
+        parent::__construct($params);
 
         $roles = !empty($params['roles']) ? $params['roles'] : [];
         $this->roles = !empty($roles['roles']) ? $roles['roles'] : [];
@@ -93,7 +91,7 @@ class FileAcl extends Acl
      */
     public function assigned($userId)
     {
-        $query = new Query($this->container->db);
+        $query = new Query((new Injector)->get('db'));
         $query->select = '*';
         $query->table = 'acl_user';
         $query->addWhere('`user`='.$userId);

@@ -25,7 +25,7 @@ class FileValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                $files = $this->container->request->getFiles();
+                $files = (new Injector)->get('request')->getFiles();
                 if (!empty($this->params['maxFiles']) && (count($files->files) > $this->params['maxFiles'])) {
                     $this->errors[] = 'Too many files in parameter '.$element;
 

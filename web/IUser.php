@@ -21,7 +21,6 @@ interface IUser
      * Check access by current user
      *
      * @access public
-     * @global Container
      *
      * @param string $permission permission to check
      * @param array $data arguments
@@ -34,7 +33,7 @@ interface IUser
      * Get state user
      *
      * @access public
-     * @global Container
+     *
      * @return bool
      */
     public function isGuest();
@@ -43,7 +42,7 @@ interface IUser
      * Get user ID
      *
      * @access public
-     * @global Container
+     *
      * @return bool|integer
      */
     public function getID();
@@ -63,7 +62,6 @@ interface IUser
      * Set User ID
      *
      * @access public
-     * @global Container
      *
      * @param mixed $id user id
      *
@@ -84,7 +82,7 @@ interface IUser
      * Get captcha code
      *
      * @access public
-     * @global Container
+     *
      * @return string
      */
     public function getCaptcha();

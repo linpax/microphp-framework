@@ -98,7 +98,7 @@ class GridViewWidget extends Widget
             }
 
             if ($args['data']->having || $args['data']->group) {
-                $res = new Query($this->container->db);
+                $res = new Query((new Injector)->get('db'));
                 $res->select = 'COUNT(*)';
                 $res->table = '('.$args['data']->getQuery().') micro_count';
                 $res->single = true;
@@ -268,7 +268,7 @@ class GridViewWidget extends Widget
             return null;
         }
         /** @var array $filtersData */
-        $filtersData = $this->container->request->query($this->filterPrefix);
+        $filtersData = (new Injector)->get('request')->query($this->filterPrefix);
 
         $result = Html::beginForm(null, 'get', $this->attributesFilterForm);
         $result .= Html::openTag('tr', $this->attributesFilter);

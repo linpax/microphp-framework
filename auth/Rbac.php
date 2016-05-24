@@ -2,7 +2,6 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,25 +25,18 @@ abstract class Rbac
     /** @const integer TYPE_OPERATION */
     const TYPE_OPERATION = 2;
 
-    /** @var IContainer $container */
-    protected $container;
-
 
     /**
      * Based constructor for RBAC rules
      *
      * @access public
      *
-     * @param IContainer $container
-     *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        $this->container = $container;
-
-        if (!$this->container->db->tableExists('rbac_user')) {
-            $this->container->db->createTable('rbac_user', [
+        if (!(new Injector)->get('db')->tableExists('rbac_user')) {
+            (new Injector)->get('db')->createTable('rbac_user', [
                 '`role` varchar(127) NOT NULL',
                 '`user` int(10) unsigned NOT NULL',
                 'UNIQUE KEY `name` (`name`,`user`)'
@@ -149,7 +141,7 @@ abstract class Rbac
      */
     public function assigned($userId)
     {
-        $query = new Query($this->container->db);
+        $query = new Query((new Injector)->get('db'));
         $query->distinct = true;
         $query->select = '`role` AS `name`';
         $query->table = '`rbac_user`';
@@ -220,7 +212,7 @@ abstract class Rbac
      */
     public function revoke($userId, $name)
     {
-        return $this->container->db->delete('rbac_user', 'name=:name AND user=:user',
+        return (new Injector)->get('db')->delete('rbac_user', 'name=:name AND user=:user',
             ['name' => $name, 'user' => $userId]);
     }
 }

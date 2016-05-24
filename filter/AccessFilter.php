@@ -95,7 +95,6 @@ class AccessFilter extends Filter
      * Match user
      *
      * @access protected
-     * @global Container
      *
      * @param array $rule rule definition
      *
@@ -208,7 +207,6 @@ class AccessFilter extends Filter
      * Match verbose
      *
      * @access protected
-     * @global Container
      *
      * @param array $rule rule definition
      *

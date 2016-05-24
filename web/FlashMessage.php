@@ -80,7 +80,6 @@ class FlashMessage
      * Push a new flash
      *
      * @access public
-     * @global       Container
      *
      * @param int $type type id
      * @param string $title title flash
@@ -103,7 +102,6 @@ class FlashMessage
      * Has flashes by type
      *
      * @access public
-     * @global    Container
      *
      * @param int $type type of flash
      *
@@ -124,7 +122,6 @@ class FlashMessage
      * Get flash by type
      *
      * @access public
-     * @global    Container
      *
      * @param int $type type of flash
      *
@@ -148,7 +145,7 @@ class FlashMessage
      * Get all flashes
      *
      * @access public
-     * @global Container
+     *
      * @return mixed
      */
     public function getAll()

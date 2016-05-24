@@ -77,8 +77,6 @@ class PhpView extends View
      * Render raw data in layout
      *
      * @access public
-     * @global       Micro
-     * @global       Container
      *
      * @param string $data arguments array
      *

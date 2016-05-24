@@ -2,7 +2,6 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\IContainer;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,16 +25,14 @@ class DbRbac extends Rbac
      *
      * @public
      *
-     * @param IContainer $container
-     *
      * @result void
      */
-    public function __construct(IContainer $container)
+    public function __construct()
     {
-        parent::__construct($container);
+        parent::__construct();
 
-        if (!$this->container->db->tableExists('rbac_role')) {
-            $this->container->db->createTable('rbac_role', [
+        if (!(new Injector)->get('db')->tableExists('rbac_role')) {
+            (new Injector)->get('db')->createTable('rbac_role', [
                 '`name` varchar(127) NOT NULL',
                 '`type` int(11) NOT NULL DEFAULT \'0\'',
                 '`based` varchar(127)',
@@ -57,10 +54,11 @@ class DbRbac extends Rbac
      */
     public function assign($userId, $name)
     {
-        if ($this->container->db->exists('rbac_role', ['name' => $name]) && $this->container->db->exists('user',
+        if ((new Injector)->get('db')->exists('rbac_role',
+                ['name' => $name]) && (new Injector)->get('db')->exists('user',
                 ['id' => $userId])
         ) {
-            return $this->container->db->insert('rbac_user', ['role' => $name, 'user' => $userId]);
+            return (new Injector)->get('db')->insert('rbac_user', ['role' => $name, 'user' => $userId]);
         }
 
         return false;
@@ -80,7 +78,8 @@ class DbRbac extends Rbac
      */
     public function check($userId, $action, array $data = [])
     {
-        return $this->container->db->exists('rbac_role', ['name' => $action]) ? parent::check($userId, $action, $data) : false;
+        return (new Injector)->get('db')->exists('rbac_role', ['name' => $action]) ? parent::check($userId, $action,
+            $data) : false;
     }
 
     /**
@@ -97,11 +96,11 @@ class DbRbac extends Rbac
      */
     public function create($name, $type = self::TYPE_ROLE, $based = null, $data = null)
     {
-        if ($this->container->db->exists('rbac_role', ['name' => $name])) {
+        if ((new Injector)->get('db')->exists('rbac_role', ['name' => $name])) {
             return false;
         }
 
-        if (null !== $based && !$this->container->db->exists('rbac_role', ['name' => $based])) {
+        if (null !== $based && !(new Injector)->get('db')->exists('rbac_role', ['name' => $based])) {
             return false;
         }
 
@@ -115,7 +114,7 @@ class DbRbac extends Rbac
                 break;
         }
 
-        return $this->container->db->insert('rbac_role',
+        return (new Injector)->get('db')->insert('rbac_role',
             ['name' => $name, 'type' => $type, 'based' => $based, 'data' => $data]);
     }
 
@@ -149,7 +148,7 @@ class DbRbac extends Rbac
      */
     public function rawRoles($pdo = \PDO::FETCH_ASSOC)
     {
-        $query = new Query($this->container->db);
+        $query = new Query((new Injector)->get('db'));
         $query->table = 'rbac_role';
         $query->order = '`type` ASC';
         $query->single = false;
@@ -169,8 +168,8 @@ class DbRbac extends Rbac
     public function recursiveDelete(&$tree)
     {
         foreach ($tree AS $key => $element) {
-            $this->container->db->delete('rbac_user', 'role=:name', ['name' => $element['name']]);
-            $this->container->db->delete('rbac_role', 'name=:name', ['name' => $element['name']]);
+            (new Injector)->get('db')->delete('rbac_user', 'role=:name', ['name' => $element['name']]);
+            (new Injector)->get('db')->delete('rbac_role', 'name=:name', ['name' => $element['name']]);
 
             if (!empty($tree['childs'])) {
                 $this->recursiveDelete($element['childs']);
