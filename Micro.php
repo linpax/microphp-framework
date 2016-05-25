@@ -138,7 +138,7 @@ class Micro
         if (!$this->loaded) {
             $this->initialize();
 
-            $this->addListener('kernel.kill', function () {
+            $this->addListener('kernel.kill', function() {
                 /** @var IRequest $request */
                 $request = $this->injector->get('request');
 

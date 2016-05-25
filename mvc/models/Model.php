@@ -374,7 +374,7 @@ abstract class Model extends FormModel implements IModel
                 if (self::$primaryKey) {
                     $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
                 } else {
-                    throw new Exception('In table ' . static::$tableName . ' option `' . self::$primaryKey . '` not defined/not use.'
+                    throw new Exception('In table '.static::$tableName.' option `'.self::$primaryKey.'` not defined/not use.'
                     );
                 }
             }
@@ -418,7 +418,7 @@ abstract class Model extends FormModel implements IModel
         }
         if ($this->beforeDelete()) {
             if (!self::$primaryKey) {
-                throw new Exception('In table ' . static::$tableName . ' option `' . self::$primaryKey . '` not defined/not use.');
+                throw new Exception('In table '.static::$tableName.' option `'.self::$primaryKey.'` not defined/not use.');
             }
 
             if (
