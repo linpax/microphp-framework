@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\Injector;
 use Micro\Mvc\Models\Query;
 
 /**

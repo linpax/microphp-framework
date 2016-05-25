@@ -28,6 +28,6 @@ class HelloTest extends TestCase
 
     public function testHello()
     {
-        $this->assertEquals('200 Ok', '200 Ok');
+        static::assertEquals('200 Ok', '200 Ok');
     }
 }

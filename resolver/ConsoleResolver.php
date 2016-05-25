@@ -2,6 +2,7 @@
 
 namespace Micro\Resolver;
 
+use Micro\Base\Injector;
 use Micro\Cli\Console;
 
 /**

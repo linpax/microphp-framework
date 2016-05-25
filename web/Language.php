@@ -3,6 +3,7 @@
 namespace Micro\Web;
 
 use Micro\base\Exception;
+use Micro\Base\Injector;
 
 /**
  * Language getter language tags from *.ini files

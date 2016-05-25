@@ -2,6 +2,8 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\Injector;
+
 /**
  * File RBAC class file.
  *

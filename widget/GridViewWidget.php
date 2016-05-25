@@ -3,6 +3,7 @@
 namespace Micro\Widget;
 
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\File\Type;
 use Micro\Mvc\Models\IModel;
 use Micro\Mvc\Models\IQuery;

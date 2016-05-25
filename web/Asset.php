@@ -4,6 +4,7 @@ namespace Micro\Web;
 
 use Micro\Base\Autoload;
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\File\FileHelper;
 use Micro\Mvc\Views\IView;
 

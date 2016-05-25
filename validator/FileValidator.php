@@ -2,6 +2,7 @@
 
 namespace Micro\Validator;
 
+use Micro\Base\Injector;
 use Micro\Form\IFormModel;
 
 /**

@@ -2,6 +2,8 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\Injector;
+
 /**
  * Abstract ACL class file.
  *

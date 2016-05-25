@@ -3,6 +3,7 @@
 namespace Micro\Resolver;
 
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\Mvc\Controllers\IController;
 use Micro\Web\IRequest;
 

@@ -4,6 +4,7 @@ namespace Micro\Mvc\Views;
 
 use Micro\Base\Autoload;
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\Web\Language;
 
 /**

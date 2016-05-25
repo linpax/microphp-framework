@@ -111,7 +111,7 @@ final class Ftp
         // check for valid FTP stream
         if ($this->_stream) {
             // close FTP connection
-            ftp_close($this->_stream);
+            \ftp_close($this->_stream);
 
             // reset stream
             $this->_stream = false;
@@ -127,7 +127,7 @@ final class Ftp
      */
     public function cd($directory = null)
     {
-        if (ftp_chdir($this->_stream, $directory)) {
+        if (\ftp_chdir($this->_stream, $directory)) {
             return true;
         }
 
@@ -146,7 +146,7 @@ final class Ftp
      */
     public function chmod($permissions = 0, $remote_file = null)
     {
-        if (ftp_chmod($this->_stream, $permissions, $remote_file)) {
+        if (\ftp_chmod($this->_stream, $permissions, $remote_file)) {
             return true;
         }
 
@@ -171,10 +171,10 @@ final class Ftp
             return false;
         }
 
-        if (ftp_login($this->_stream, $this->_user, $this->_pwd)) {
-            ftp_pasv($this->_stream, (bool)$this->passive);
+        if (\ftp_login($this->_stream, $this->_user, $this->_pwd)) {
+            \ftp_pasv($this->_stream, (bool)$this->passive);
 
-            $this->system_type = ftp_systype($this->_stream);
+            $this->system_type = \ftp_systype($this->_stream);
 
             return true;
         }
@@ -193,7 +193,7 @@ final class Ftp
      */
     public function delete($remote_file = null)
     {
-        if (ftp_delete($this->_stream, $remote_file)) {
+        if (\ftp_delete($this->_stream, $remote_file)) {
             return true;
         }
 
@@ -213,7 +213,7 @@ final class Ftp
      */
     public function get($remote_file = null, $local_file = null, $mode = FTP_ASCII)
     {
-        if (ftp_get($this->_stream, $local_file, $remote_file, $mode)) {
+        if (\ftp_get($this->_stream, $local_file, $remote_file, $mode)) {
             return true;
         }
 
@@ -231,7 +231,7 @@ final class Ftp
      */
     public function ls($directory = null)
     {
-        if ($list = ftp_nlist($this->_stream, $directory)) {
+        if ($list = \ftp_nlist($this->_stream, $directory)) {
             return $list;
         }
 
@@ -249,7 +249,7 @@ final class Ftp
      */
     public function mkdir($directory = null)
     {
-        if (ftp_mkdir($this->_stream, $directory)) {
+        if (\ftp_mkdir($this->_stream, $directory)) {
             return true;
         }
 
@@ -269,7 +269,7 @@ final class Ftp
      */
     public function put($local_file = null, $remote_file = null, $mode = FTP_ASCII)
     {
-        if (ftp_put($this->_stream, $remote_file, $local_file, $mode)) {
+        if (\ftp_put($this->_stream, $remote_file, $local_file, $mode)) {
             return true;
         }
 
@@ -285,7 +285,7 @@ final class Ftp
      */
     public function pwd()
     {
-        return ftp_pwd($this->_stream);
+        return \ftp_pwd($this->_stream);
     }
 
     /**
@@ -298,7 +298,7 @@ final class Ftp
      */
     public function rename($old_name = null, $new_name = null)
     {
-        if (ftp_rename($this->_stream, $old_name, $new_name)) {
+        if (\ftp_rename($this->_stream, $old_name, $new_name)) {
             return true;
         }
 
@@ -316,7 +316,7 @@ final class Ftp
      */
     public function rmdir($directory = null)
     {
-        if (ftp_rmdir($this->_stream, $directory)) {
+        if (\ftp_rmdir($this->_stream, $directory)) {
             return true;
         }
 

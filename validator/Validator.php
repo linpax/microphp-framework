@@ -3,6 +3,7 @@
 namespace Micro\Validator;
 
 use Micro\Base\Exception;
+use Micro\Base\Injector;
 use Micro\Form\IFormModel;
 
 /**
