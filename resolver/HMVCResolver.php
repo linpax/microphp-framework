@@ -108,7 +108,7 @@ class HMVCResolver extends Resolver
     protected function prepareExtensions(&$uriBlocks)
     {
         foreach ($uriBlocks as $i => $block) {
-            if (file_exists((new Injector)->get('kernel')->getAppDir() . $this->extensions . '/extensions/' . $block)) {
+            if (file_exists((new Injector)->get('kernel')->getAppDir().$this->extensions.'/extensions/'.$block)) {
                 $this->extensions .= '/Extensions/'.ucfirst($block);
 
                 unset($uriBlocks[$i]);
@@ -133,7 +133,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = (new Injector)->get('kernel')->getAppDir() . ($this->extensions ?: '');
+        $path = (new Injector)->get('kernel')->getAppDir().($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
             if ($block && file_exists($path.strtolower($this->modules).'/modules/'.$block)) {
@@ -159,7 +159,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = (new Injector)->get('kernel')->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
+        $path = (new Injector)->get('kernel')->getAppDir().($this->extensions ?: '').strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
         if (file_exists(str_replace('\\', '/', $path.'/controllers/'.ucfirst($str).'Controller.php'))) {
