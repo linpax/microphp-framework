@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\Injector;
+use Micro\Db\IConnection;
 
 /**
  * Abstract ACL class file.
@@ -21,6 +21,8 @@ use Micro\Base\Injector;
  */
 abstract class Acl implements IAuth
 {
+    /** @var IConnection $db */
+    protected $db;
     /** @var string $groupTable name of group table */
     protected $groupTable;
 
@@ -30,18 +32,21 @@ abstract class Acl implements IAuth
      *
      * @access public
      *
+     * @param IConnection $db
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IConnection $db, array $params = [])
     {
+        $this->db = $db;
+
         if (!empty($params['groupTable'])) {
             $this->groupTable = $params['groupTable'];
         }
 
-        if (!(new Injector)->get('db')->tableExists('acl_user')) {
-            (new Injector)->get('db')->createTable('acl_user', [
+        if (!$this->db->tableExists('acl_user')) {
+            $this->db->createTable('acl_user', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',
                 '`user` int(11) unsigned NOT NULL',
                 '`role` int(11) unsigned DEFAULT NULL',

@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\Injector;
+use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,33 +26,34 @@ class DbAcl extends Acl
      *
      * @access public
      *
+     * @param IConnection $db
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(array $params = [])
+    public function __construct(IConnection $db, array $params = [])
     {
-        parent::__construct($params);
+        parent::__construct($db, $params);
 
         /** @var array $tables */
-        $tables = (new Injector)->get('db') > listTables();
+        $tables = $this->db->listTables();
 
         if (empty($tables['acl_role'])) {
-            (new Injector)->get('db')->createTable('acl_role', [
+            $this->db->createTable('acl_role', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',
                 '`name` varchar(255) NOT NULL',
                 'PRIMARY KEY (`id`)'
             ], 'ENGINE=MyISAM DEFAULT CHARSET=utf8');
         }
         if (empty($tables['acl_perm'])) {
-            (new Injector)->get('db')->createTable('acl_perm', [
+            $this->db->createTable('acl_perm', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',
                 '`name` varchar(255) NOT NULL',
                 'PRIMARY KEY (`id`)'
             ], 'ENGINE=MyISAM DEFAULT CHARSET=utf8');
         }
         if (empty($tables['acl_role_perm'])) {
-            (new Injector)->get('db')->createTable('acl_role_perm', [
+            $this->db->createTable('acl_role_perm', [
                 '`id` int(10) unsigned NOT NULL AUTO_INCREMENT',
                 '`role` int(11) unsigned DEFAULT NOT NULL',
                 '`perm` int(11) unsigned DEFAULT NOT NULL',
@@ -75,7 +76,7 @@ class DbAcl extends Acl
      */
     public function check($userId, $permission, array $data = [])
     {
-        $query = new Query((new Injector)->get('db'));
+        $query = new Query($this->db);
         $query->select = '*';
         $query->table = '`acl_user` AS `au`';
 
@@ -105,8 +106,8 @@ class DbAcl extends Acl
      */
     public function createRole($name)
     {
-        if (!(new Injector)->get('db')->exists('acl_role', ['name' => $name])) {
-            (new Injector)->get('db')->insert('acl_role', ['name' => $name]);
+        if (!$this->db->exists('acl_role', ['name' => $name])) {
+            $this->db->insert('acl_role', ['name' => $name]);
         }
     }
 
@@ -121,8 +122,8 @@ class DbAcl extends Acl
      */
     public function createPermission($name)
     {
-        if (!(new Injector)->get('db')->exists('acl_role', ['name' => $name])) {
-            (new Injector)->get('db')->insert('acl_role', ['name' => $name]);
+        if (!$this->db->exists('acl_role', ['name' => $name])) {
+            $this->db->insert('acl_role', ['name' => $name]);
         }
     }
 
@@ -137,7 +138,7 @@ class DbAcl extends Acl
      */
     public function deletePermission($name)
     {
-        (new Injector)->get('db')->delete('acl_perm', ['name' => $name]);
+        $this->db->delete('acl_perm', ['name' => $name]);
     }
 
     /**
@@ -153,10 +154,10 @@ class DbAcl extends Acl
     public function deleteRole($name)
     {
         foreach ($this->rolePerms($name) AS $perm) {
-            (new Injector)->get('db')->delete('acl_role_perm', ['id' => $perm['perm']]);
+            $this->db->delete('acl_role_perm', ['id' => $perm['perm']]);
         }
 
-        (new Injector)->get('db')->delete('acl_role', ['name' => $name]);
+        $this->db->delete('acl_role', ['name' => $name]);
     }
 
     /**
@@ -171,7 +172,7 @@ class DbAcl extends Acl
      */
     protected function rolePerms($role)
     {
-        $query = new Query((new Injector)->get('db'));
+        $query = new Query($this->db);
         $query->select = '*';
         $query->table = 'acl_role_perm';
         $query->addWhere('role='.$role);
@@ -192,7 +193,7 @@ class DbAcl extends Acl
      */
     public function assignRolePermission($role, $permission)
     {
-        (new Injector)->get('db')->insert('acl_role_perm', ['role' => $role, 'perm' => $permission]);
+        $this->db->insert('acl_role_perm', ['role' => $role, 'perm' => $permission]);
     }
 
     /**
@@ -207,7 +208,7 @@ class DbAcl extends Acl
      */
     public function revokeRolePermission($role, $permission)
     {
-        (new Injector)->get('db')->delete('acl_role_perm', ['role' => $role, 'perm' => $permission]);
+        $this->db->delete('acl_role_perm', ['role' => $role, 'perm' => $permission]);
     }
 
     /**
@@ -224,9 +225,9 @@ class DbAcl extends Acl
     public function grantPrivilege($userId, $privilege = null, $asRole = true)
     {
         if ($asRole) {
-            (new Injector)->get('db')->insert('acl_user', ['user' => $userId, 'role' => $privilege]);
+            $this->db->insert('acl_user', ['user' => $userId, 'role' => $privilege]);
         } else {
-            (new Injector)->get('db')->insert('acl_user', ['user' => $userId, 'perm' => $privilege]);
+            $this->db->insert('acl_user', ['user' => $userId, 'perm' => $privilege]);
         }
     }
 
@@ -242,9 +243,9 @@ class DbAcl extends Acl
     public function forbidPrivilege($userId, $privilege = null, $asRole = true)
     {
         if ($asRole) {
-            (new Injector)->get('db')->delete('acl_user', '`user`="' . $userId . '" AND `role`="' . $privilege . '"');
+            $this->db->delete('acl_user', '`user`="' . $userId . '" AND `role`="' . $privilege . '"');
         } else {
-            (new Injector)->get('db')->delete('acl_user', '`user`="' . $userId . '" AND `perm`="' . $privilege . '"');
+            $this->db->delete('acl_user', '`user`="' . $userId . '" AND `perm`="' . $privilege . '"');
         }
     }
 }
