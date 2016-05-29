@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Base\Injector;
+use Micro\Db\IConnection;
 
 /**
  * File RBAC class file.
@@ -29,11 +29,13 @@ class FileRbac extends Rbac
      *
      * @access public
      *
+     * @param IConnection $connection
+     *
      * @result void
      */
-    public function __construct()
+    public function __construct(IConnection $connection)
     {
-        parent::__construct();
+        parent::__construct($connection);
 
         if (!empty($params['roles'])) {
             $this->roles = $this->tree($params['roles']);
@@ -53,9 +55,9 @@ class FileRbac extends Rbac
     public function assign($userId, $name)
     {
         if ($this->searchRoleRecursive($this->roles, $name)) {
-            $exists = (new Injector)->get('db')->exists('rbac_user', ['user' => $userId, 'role' => $name]);
+            $exists = $this->db->exists('rbac_user', ['user' => $userId, 'role' => $name]);
             if (!$exists) {
-                return (new Injector)->get('db')->insert('rbac_user', ['role' => $name, 'user' => $userId]);
+                return $this->db->insert('rbac_user', ['role' => $name, 'user' => $userId]);
             }
         }
 
