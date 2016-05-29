@@ -66,7 +66,7 @@ class Asset
 
         $this->hash = md5($this->sourcePath);
 
-        $this->publishPath = '/' . (($dir = (new Injector)->get('assetsDirName')) ? $dir : 'assets') . '/' . $this->hash;
+        $this->publishPath = '/'.(($dir = (new Injector)->get('assetsDirName')) ? $dir : 'assets').'/'.$this->hash;
 
         $web = (new Injector)->get('kernel')->getWebDir();
 
