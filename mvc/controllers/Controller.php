@@ -84,6 +84,7 @@ abstract class Controller implements IController
 
             /** @var \Micro\Filter\IFilter $_filter */
             $_filter = new $filter['class']($action);
+            /** @var IResponse $response */
             $response = $isPre ? $_filter->pre($filter) : $_filter->post($filter + ['data' => $data]);
 
             if (!$response) {

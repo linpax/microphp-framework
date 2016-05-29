@@ -45,7 +45,9 @@ class CompareValidator extends BaseValidator
                 $this->errors[] = 'Parameter '.$element.' not equal '.$this->params['value'];
 
                 return false;
-            } elseif (!empty($this->params['attribute']) && ($model->{$this->params['attribute']} !== $elementValue)) {
+            } elseif (array_key_exists('attribute',
+                    $this->params) && ($model->{$this->params['attribute']} !== $elementValue)
+            ) {
                 $this->errors[] = 'Parameter '.$element.' not equal '.$model->{$this->params['attribute']};
 
                 return false;

@@ -2,6 +2,8 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Injector;
+
 /**
  * Identity class file.
  *

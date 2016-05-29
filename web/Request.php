@@ -202,7 +202,7 @@ class Request implements IRequest
      * @param string $name Key name
      * @param string $storage Storage name
      *
-     * @return bool
+     * @return mixed
      */
     public function getVar($name, $storage)
     {
@@ -216,7 +216,7 @@ class Request implements IRequest
      *
      * @param string $name Key name
      *
-     * @return bool
+     * @return mixed
      */
     public function post($name)
     {

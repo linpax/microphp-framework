@@ -49,7 +49,7 @@ class CsrfFilter extends Filter
         $csrf = $session->csrf;
 
         if (($key = in_array(md5($postCSRF), $session->csrf, true)) !== null) {
-            unset($session->csrf[$key]);
+            unset($session->csrf[md5($postCSRF)]);
 
             $session->csrf = $csrf;
 

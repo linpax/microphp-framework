@@ -17,7 +17,7 @@ use Micro\Form\IFormModel;
  * @since 1.0
  * @interface
  *
- * @static string $tableName
+ * @property string $tableName
  */
 interface IModel extends IFormModel
 {
