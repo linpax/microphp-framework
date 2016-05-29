@@ -61,7 +61,7 @@ class DbDriver extends CacheDriver
      */
     public function check()
     {
-        return ($this->driver instanceof IConnection) ?: false;
+        return ($this->driver instanceof IConnection) && $this->driver->tableExists($this->table) ?: false;
     }
 
     /**

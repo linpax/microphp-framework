@@ -61,7 +61,7 @@ class RedisDriver extends CacheDriver
      */
     public function check()
     {
-        return extension_loaded('redis');
+        return extension_loaded('redis') && $this->driver->ping();
     }
 
     /**

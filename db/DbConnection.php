@@ -38,10 +38,7 @@ class DbConnection extends Connection
         parent::__construct();
 
         try {
-                $this->conn = new \PDO(
-                    $config['connectionString'],
-                    $config['username'],
-                    $config['password'],
+            $this->conn = new \PDO($config['connectionString'], $config['username'], $config['password'],
                     $options
                 );
         } catch (\PDOException $e) {
@@ -144,7 +141,7 @@ class DbConnection extends Connection
     public function createTable($name, array $elements = [], $params = '')
     {
         return $this->conn->exec(
-            "CREATE TABLE IF NOT EXISTS `{$name}` (".implode(',', $elements).") {$params};"
+            sprintf('SELECT TABLE IF NOT EXISTS `%s` (%s) %s;', $name, implode(',', $elements), $params)
         );
     }
 
@@ -205,9 +202,7 @@ class DbConnection extends Connection
      */
     public function fieldInfo($field, $table)
     {
-        $sth = $this->conn->query("SELECT {$field} FROM {$table} LIMIT 1;");
-
-        return $sth->getColumnMeta(0);
+        return $this->conn->query("SELECT {$field} FROM {$table} LIMIT 1;")->getColumnMeta(0);
     }
 
     /**
@@ -235,16 +230,12 @@ class DbConnection extends Connection
         if ($multi) {
             $this->conn->beginTransaction();
             foreach ($line AS $l) {
-                $dbh = $this->conn->prepare(
-                    "INSERT INTO {$table} ({$fields}) VALUES ({$values});"
-                )->execute($l);
+                $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($l);
             }
             $id = $dbh ? $this->conn->lastInsertId() : false;
             $this->conn->commit();
         } else {
-            $dbh = $this->conn->prepare(
-                "INSERT INTO {$table} ({$fields}) VALUES ({$values});"
-            )->execute($line);
+            $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($line);
             $id = $dbh ? $this->conn->lastInsertId() : false;
         }
 
@@ -271,9 +262,7 @@ class DbConnection extends Connection
             $conditions = 'WHERE '.$conditions;
         }
 
-        return $this->conn->prepare(
-            "UPDATE {$table} SET {$valStr} {$conditions};"
-        )->execute($elements);
+        return $this->conn->prepare("UPDATE {$table} SET {$valStr} {$conditions};")->execute($elements);
     }
 
     /**
@@ -281,9 +270,7 @@ class DbConnection extends Connection
      */
     public function delete($table, $conditions, array $ph = [])
     {
-        return $this->conn->prepare(
-            "DELETE FROM {$table} WHERE {$conditions};"
-        )->execute($ph);
+        return $this->conn->prepare("DELETE FROM {$table} WHERE {$conditions};")->execute($ph);
     }
 
     /**
@@ -296,9 +283,7 @@ class DbConnection extends Connection
             $keys[] = '`'.$table.'`.`'.$key.'`="'.$val.'"';
         }
 
-        $sth = $this->conn->prepare(
-            'SELECT * FROM `'.$table.'` WHERE '.implode(' AND ', $keys).' LIMIT 1;'
-        );
+        $sth = $this->conn->prepare('SELECT * FROM `' . $table . '` WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
         $sth->execute();
 
         return (bool)$sth->rowCount();

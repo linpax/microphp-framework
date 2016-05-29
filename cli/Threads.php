@@ -62,6 +62,7 @@ abstract class Threads
         if (empty($_SERVER['argc'])) {
             throw new Exception('Threads are permitted only for CLI');
         }
+
         $this->name = $name;
         $this->guid = $guid;
         $this->puid = $puid;
@@ -98,7 +99,7 @@ abstract class Threads
             throw new Exception('Fatal exception creating SHM segment (ftok)');
         }
 
-        $this->internalIPCKey = @shmop_open($shm_key, 'c', 0644, 10240);
+        $this->internalIPCKey = shmop_open($shm_key, 'c', 0644, 10240);
         if (!$this->internalIPCKey) {
             return false;
         }
@@ -446,11 +447,11 @@ abstract class Threads
      */
     protected function cleanThreadContext()
     {
-        @shmop_delete($this->internalIPCKey);
-        @shmop_delete($this->internalSemaphoreKey);
+        shmop_delete($this->internalIPCKey);
+        shmop_delete($this->internalSemaphoreKey);
 
-        @shmop_close($this->internalIPCKey);
-        @shmop_close($this->internalSemaphoreKey);
+        shmop_close($this->internalIPCKey);
+        shmop_close($this->internalSemaphoreKey);
 
         unlink($this->fileIPC1);
         unlink($this->fileIPC2);
