@@ -283,7 +283,7 @@ class DbConnection extends Connection
             $keys[] = '`'.$table.'`.`'.$key.'`="'.$val.'"';
         }
 
-        $sth = $this->conn->prepare('SELECT * FROM `' . $table . '` WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
+        $sth = $this->conn->prepare('SELECT * FROM `'.$table.'` WHERE '.implode(' AND ', $keys).' LIMIT 1;');
         $sth->execute();
 
         return (bool)$sth->rowCount();
