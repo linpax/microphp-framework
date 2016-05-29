@@ -243,9 +243,9 @@ class DbAcl extends Acl
     public function forbidPrivilege($userId, $privilege = null, $asRole = true)
     {
         if ($asRole) {
-            $this->db->delete('acl_user', '`user`="' . $userId . '" AND `role`="' . $privilege . '"');
+            $this->db->delete('acl_user', '`user`="'.$userId.'" AND `role`="'.$privilege.'"');
         } else {
-            $this->db->delete('acl_user', '`user`="' . $userId . '" AND `perm`="' . $privilege . '"');
+            $this->db->delete('acl_user', '`user`="'.$userId.'" AND `perm`="'.$privilege.'"');
         }
     }
 }
