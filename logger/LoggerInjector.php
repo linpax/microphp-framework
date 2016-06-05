@@ -2,6 +2,7 @@
 
 namespace Micro\Logger;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,11 +21,18 @@ class LoggerInjector extends Injector
 {
     /**
      * @access public
-     * @return Logger|bool
+     * @return Logger
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('logger');
+        $logger = parent::get('logger');
+
+        if (!($logger instanceof Logger)) {
+            throw new Exception('Component `logger` not configured');
+        }
+
+        return $logger;
     }
 
 }

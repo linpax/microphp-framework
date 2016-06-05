@@ -20,10 +20,17 @@ class KernelInjector extends Injector
 {
     /**
      * @access public
-     * @return Micro|bool
+     * @return Micro
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('kernel');
+        $kernel = parent::get('kernel');
+
+        if (!($kernel instanceof Micro)) {
+            throw new Exception('Component `kernel` not configured');
+        }
+
+        return $kernel;
     }
 }

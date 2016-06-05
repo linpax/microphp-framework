@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class ResponseInjector extends Injector
 {
     /**
      * @access public
-     * @return IResponse|bool
+     * @return IResponse
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('response');
+        $response = parent::get('response');
+
+        if (!($response instanceof IResponse)) {
+            throw new Exception('Component `response` not configured');
+        }
+
+        return $response;
     }
 }

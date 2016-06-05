@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class RouterInjector extends Injector
 {
     /**
      * @access public
-     * @return IRouter|bool
+     * @return IRouter
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('router');
+        $router = parent::get('router');
+
+        if (!($router instanceof IRouter)) {
+            throw new Exception('Component `router` not configured');
+        }
+
+        return $router;
     }
 }

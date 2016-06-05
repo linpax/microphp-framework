@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class RequestInjector extends Injector
 {
     /**
      * @access public
-     * @return IRequest|bool
+     * @return IRequest
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('request');
+        $request = parent::get('request');
+
+        if (!($request instanceof IRequest)) {
+            throw new Exception('Component `request` not configured');
+        }
+
+        return $request;
     }
 }

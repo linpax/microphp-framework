@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class AuthInjector extends Injector
 {
     /**
      * @access public
-     * @return IAuth|bool
+     * @return IAuth
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('auth');
+        $auth = parent::get('auth');
+
+        if (!($auth instanceof IAuth)) {
+            throw new Exception('Component `auth` not configured');
+        }
+
+        return $auth;
     }
 }

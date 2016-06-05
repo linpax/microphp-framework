@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class SessionInjector extends Injector
 {
     /**
      * @access public
-     * @return ISession|bool
+     * @return ISession
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('session');
+        $session = parent::get('session');
+
+        if (!($session instanceof ISession)) {
+            throw new Exception('Component `session` not configured');
+        }
+
+        return $session;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Micro\Mail\Transport;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class TransportInjector extends Injector
 {
     /**
      * @access public
-     * @return ITransport|bool
+     * @return ITransport
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('transport');
+        $transport = parent::get('transport');
+
+        if (!($transport instanceof ITransport)) {
+            throw new Exception('Component `transport` not configured');
+        }
+
+        return $transport;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Micro\Db;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class ConnectionInjector extends Injector
 {
     /**
      * @access public
-     * @return IConnection|bool
+     * @return IConnection
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('connection');
+        $connection = parent::get('connection');
+
+        if (!($connection instanceof IConnection)) {
+            throw new Exception('Component `connection` not configured');
+        }
+
+        return $connection;
     }
 }

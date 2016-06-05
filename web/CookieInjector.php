@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class CookieInjector extends Injector
 {
     /**
      * @access public
-     * @return ICookie|bool
+     * @return ICookie
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('cookie');
+        $cookie = parent::get('cookie');
+
+        if (!($cookie instanceof ICookie)) {
+            throw new Exception('Component `cookie` not configured');
+        }
+
+        return $cookie;
     }
 }
