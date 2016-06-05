@@ -104,7 +104,7 @@ class GridViewWidget extends Widget
             if ($data->having || $data->group) {
                 $res = new Query((new ConnectionInjector)->get());
                 $res->select = 'COUNT(*)';
-                $res->table = '(' . $data->getQuery() . ') micro_count';
+                $res->table = '('.$data->getQuery().') micro_count';
                 $res->single = true;
             } else {
                 /** @var Query $res */
