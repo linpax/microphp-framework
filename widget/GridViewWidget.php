@@ -90,23 +90,25 @@ class GridViewWidget extends Widget
         $this->limit = ($this->limit < 10) ? 10 : $this->limit;
         $this->page = ($this->page < 0) ? 0 : $this->page;
 
-        if ($args['data'] instanceof IQuery) {
-            if ($args['data']->objectName) {
+        $data = $args['data'];
+
+        if ($data instanceof IQuery) {
+            if ($data->objectName) {
                 /** @var IModel $cls */
-                $cls = $args['data']->objectName;
-                $args['data']->table = $cls::$tableName;
+                $cls = $data->objectName;
+                $data->table = $cls::$tableName;
             } elseif (!$args['data']->table) {
                 throw new Exception('Data query not set table or objectName');
             }
 
-            if ($args['data']->having || $args['data']->group) {
+            if ($data->having || $data->group) {
                 $res = new Query((new ConnectionInjector)->get());
                 $res->select = 'COUNT(*)';
-                $res->table = '('.$args['data']->getQuery().') micro_count';
+                $res->table = '(' . $data->getQuery() . ') micro_count';
                 $res->single = true;
             } else {
                 /** @var Query $res */
-                $res = clone $args['data'];
+                $res = clone $data;
                 $res->objectName = null;
                 $res->select = 'COUNT(*)';
                 $res->single = true;
@@ -114,17 +116,17 @@ class GridViewWidget extends Widget
 
             /** @var array $a */
             $this->totalCount = ($a = $res->run()) ? $a[0] : 0;
-            $this->filterPrefix = $args['data']->table;
+            $this->filterPrefix = $data->table;
 
-            $args['data']->ofset = $this->page * $this->limit;
-            $args['data']->limit = $this->limit;
-            $args['data'] = $args['data']->run($args['data']->objectName ? \PDO::FETCH_CLASS : \PDO::FETCH_ASSOC);
+            $data->ofset = $this->page * $this->limit;
+            $data->limit = $this->limit;
+            $data = $data->run($data->objectName ? \PDO::FETCH_CLASS : \PDO::FETCH_ASSOC);
         } else { // array
-            $this->totalCount = count($args['data']);
-            $args['data'] = array_slice($args['data'], $this->page * $this->limit, $this->limit);
+            $this->totalCount = count($data);
+            $data = array_slice($data, $this->page * $this->limit, $this->limit);
         }
 
-        foreach ($args['data'] AS $model) {
+        foreach ($data AS $model) {
             $this->rows[] = is_subclass_of($model, 'Micro\Mvc\Models\Model') ? $model : (object)$model;
         }
     }

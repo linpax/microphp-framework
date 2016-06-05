@@ -14,7 +14,8 @@ namespace Micro\Web;
  * @version 1.0
  * @since 1.0
  * @interface
- * @property array $flash FlashMessages
+ *
+ * @property array $flash
  * @property array $csrf
  * @property integer $UserID
  * @property string $captchaCode
