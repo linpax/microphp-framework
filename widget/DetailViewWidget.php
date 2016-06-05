@@ -67,6 +67,7 @@ class DetailViewWidget extends Widget
                     if ($args['data']->objectName) {
                         /** @var IModel $cls */
                         $cls = $args['data']->objectName;
+                        /** @noinspection PhpUndefinedFieldInspection */
                         $args['data']->table = $cls::$tableName;
                     } elseif (!$args['data']->table) {
                         throw new Exception('Data query not set table or objectName');

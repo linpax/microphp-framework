@@ -26,13 +26,4 @@ interface IInjector
      * @return void
      */
     public function addRequirement($name, $component);
-
-    /**
-     * Check injector or config
-     *
-     * @access public
-     * @param string $name
-     * @return bool
-     */
-    public function check($name);
 }

@@ -96,6 +96,7 @@ class GridViewWidget extends Widget
             if ($data->objectName) {
                 /** @var IModel $cls */
                 $cls = $data->objectName;
+                /** @noinspection PhpUndefinedFieldInspection */
                 $data->table = $cls::$tableName;
             } elseif (!$args['data']->table) {
                 throw new Exception('Data query not set table or objectName');

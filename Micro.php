@@ -3,19 +3,23 @@
 namespace Micro;
 
 use Micro\Base\Dispatcher;
+use Micro\Base\DispatcherInjector;
 use Micro\Base\Exception;
 use Micro\Base\FatalError;
-use Micro\Base\IDispatcher;
 use Micro\Base\IInjector;
+use Micro\Base\Injector;
 use Micro\Cli\Console;
 use Micro\Cli\Consoles\DefaultConsoleCommand;
 use Micro\Mvc\Controllers\IController;
+use Micro\Resolver\ConsoleResolverInjector;
 use Micro\Resolver\IResolver;
+use Micro\Resolver\ResolverInjector;
 use Micro\Web\IOutput;
 use Micro\Web\IRequest;
 use Micro\Web\IResponse;
 use Micro\Web\RequestInjector;
 use Micro\Web\Response;
+use Micro\Web\ResponseInjector;
 
 /**
  * Micro class file.
@@ -35,8 +39,6 @@ class Micro
     /** @const string VERSION Version framework */
     const VERSION = '1.1';
 
-    /** @var IInjector $injector */
-    protected $injector;
     /** @var string $appDir */
     protected $appDir;
     /** @var string $webDir */
@@ -113,9 +115,7 @@ class Micro
             return $this->doRun($request);
         } catch (\Exception $e) {
             if ($this->debug) {
-                if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
-                    $dispatcher->signal('kernel.exception', ['exception' => $e]);
-                }
+                (new DispatcherInjector)->get()->signal('kernel.exception', ['exception' => $e]);
 
                 throw $e;
             }
@@ -155,7 +155,7 @@ class Micro
             });
         }
 
-        $this->injector->addRequirement('request', $request);
+        (new Injector)->addRequirement('request', $request);
 
         if (($output = $this->sendSignal('kernel.request', [])) instanceof IResponse) {
             return $output;
@@ -175,7 +175,7 @@ class Micro
 
         $output = $app->action((string)$resolver->getAction());
         if (!$output instanceof IOutput) {
-            $response = $this->injector->get('response') ?: new Response;
+            $response = (new ResponseInjector)->get();
             $response->setBody((string)$output);
             $output = $response;
         }
@@ -190,6 +190,7 @@ class Micro
      *
      * @access protected
      * @return void
+     * @throws Exception
      */
     protected function initialize()
     {
@@ -202,12 +203,13 @@ class Micro
         $inject = new $class($this->getConfig());
         $inject->addRequirement('kernel', $this);
 
-        if (!$inject->check('dispatcher') || !($inject->get('dispatcher') instanceof IDispatcher)) {
-            $inject->addRequirement('dispatcher', new Dispatcher);
+        $dispatcherInjector = new DispatcherInjector;
+        try {
+            $dispatcher = $dispatcherInjector->get();
+        } catch (Exception $e) {
+            $dispatcher = new Dispatcher;
+            $dispatcherInjector->addRequirement('dispatcher', $dispatcher);
         }
-
-        /** @var IDispatcher $dispatcher */
-        $dispatcher = $inject->get('dispatcher');
         $dispatcher->signal('kernel.boot', ['injector' => $inject]);
 
         $this->loaded = true;
@@ -256,18 +258,15 @@ class Micro
      * @param int|null $prior priority
      *
      * @return boolean|null
+     * @throws Exception
      */
     protected function addListener($listener, $event, $prior = null)
     {
-        if (!is_string($listener) || !$this->injector) {
+        if (!is_string($listener)) {
             return false;
         }
 
-        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
-            return $dispatcher->addListener($listener, $event, $prior);
-        }
-
-        return null;
+        return (new DispatcherInjector)->get()->addListener($listener, $event, $prior);
     }
 
     /**
@@ -300,14 +299,11 @@ class Micro
      * @param string $signal
      * @param $params
      * @return mixed
+     * @throws Exception
      */
     protected function sendSignal($signal, $params)
     {
-        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
-            return $dispatcher->signal($signal, $params);
-        }
-
-        return null;
+        return (new DispatcherInjector)->get()->signal($signal, $params);
     }
 
     /**
@@ -321,12 +317,12 @@ class Micro
     protected function getResolver()
     {
         /** @var IRequest $request */
-        $request = $this->injector->get('request');
+        $request = (new RequestInjector)->get();
 
         if ($request->isCli()) {
-            $resolver = $this->injector->get('consoleResolver') ?: '\Micro\Resolver\ConsoleResolver';
+            $resolver = (new ConsoleResolverInjector)->get();
         } else {
-            $resolver = $this->injector->get('resolver') ?: '\Micro\Resolver\HMVCResolver';
+            $resolver = (new ResolverInjector)->get();
         }
 
         if (is_string($resolver) && is_subclass_of($resolver, '\Micro\Resolver\IResolver')) {
@@ -353,7 +349,7 @@ class Micro
     private function doException(\Exception $e)
     {
         /** @var IRequest $request */
-        $request = $this->injector->get('request');
+        $request = (new RequestInjector)->get();
 
         $output = $request->isCli() ? new DefaultConsoleCommand([]) : new Response();
 
@@ -363,18 +359,24 @@ class Micro
 
             return $output;
         }
-        if (!$this->injector->get('errorController') || !$this->injector->get('errorAction')) {
+
+        $errorController = (new Injector)->param('errorController');
+        $errorAction = (new Injector)->param('errorAction');
+
+        if (!$errorController || !$errorAction) {
             $output->setBody('Option `errorController` or `errorAction` not configured');
 
             return $output;
         }
 
         $request->setPost('error', $e);
-        $controller = $this->injector->get('errorController');
+
+        $controller = $errorController;
 
         /** @var \Micro\Mvc\Controllers\IController $result */
         $result = new $controller(false);
-        $result = $result->action($this->injector->get('errorAction'));
+        $result = $result->action($errorAction);
+
         if ($result instanceof IOutput) {
             return $result;
         }
@@ -403,8 +405,10 @@ class Micro
      */
     public function terminate()
     {
-        if (($dispatcher = $this->injector->get('dispatcher')) && $dispatcher instanceof IDispatcher) {
-            $dispatcher->signal('kernel.kill', []);
+        try {
+            (new DispatcherInjector)->get()->signal('kernel.kill', []);
+        } catch (Exception $e) {
+            (new Dispatcher)->signal('kernel.kill', []);
         }
     }
 

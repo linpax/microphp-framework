@@ -37,7 +37,7 @@ class Language extends \stdClass
     {
         $viewName = substr($viewNameFile, 0, -3);
 
-        $lang = (new Injector)->get('lang');
+        $lang = (new Injector)->param('lang');
         $lang = $lang ?: $this->defaultLang;
 
         if (!file_exists($viewName.$lang.'.ini')) {

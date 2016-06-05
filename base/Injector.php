@@ -39,6 +39,15 @@ class Injector implements IInjector
     }
 
     /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function param($name)
+    {
+        return array_key_exists($name, self::$CONFIG) ? self::$CONFIG[$name] : null;
+    }
+
+    /**
      * Add requirement to injector
      *
      * @access public
@@ -53,18 +62,6 @@ class Injector implements IInjector
         } else {
             self::$CONFIG[$name] = $component;
         }
-    }
-
-    /**
-     * Check injector or config
-     *
-     * @access public
-     * @param string $name
-     * @return bool
-     */
-    public function check($name)
-    {
-        return (bool)$this->get($name);
     }
 
     /**
