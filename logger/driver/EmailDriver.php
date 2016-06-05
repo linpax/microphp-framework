@@ -2,9 +2,9 @@
 
 namespace Micro\Logger\Driver;
 
-use Micro\Base\Injector;
 use Micro\Mail\Message;
 use Micro\Mail\Transport\ITransport;
+use Micro\Mail\Transport\TransportInjector;
 
 /**
  * EmailDriver logger class file.
@@ -70,7 +70,7 @@ class EmailDriver extends LoggerDriver
         $mail->setText(ucfirst($level).': '.$message, $this->type);
 
         /** @var ITransport $transport */
-        $transport = (new Injector)->get('mail');
+        $transport = (new TransportInjector)->get();
         $transport->send($mail);
     }
 }

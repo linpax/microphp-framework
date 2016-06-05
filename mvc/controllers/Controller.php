@@ -3,10 +3,10 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
 use Micro\Mvc\Module;
 use Micro\Web\IResponse;
 use Micro\Web\Response;
+use Micro\Web\ResponseInjector;
 
 /**
  * Class Controller
@@ -49,7 +49,7 @@ abstract class Controller implements IController
             }
         }
 
-        if (!$this->response = (new Injector)->get('response')) {
+        if (!$this->response = (new ResponseInjector)->get()) {
             $this->response = new Response;
         }
     }
@@ -90,7 +90,7 @@ abstract class Controller implements IController
             if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
                     /** @var IResponse $redirect */
-                    $redirect = (new Injector)->get('response') ?: new Response;
+                    $redirect = (new ResponseInjector)->get() ?: new Response;
                     $redirect->addHeader('Location', $_filter->result['redirect']);
 
                     return $redirect;

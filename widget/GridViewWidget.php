@@ -3,13 +3,14 @@
 namespace Micro\Widget;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Db\ConnectionInjector;
 use Micro\File\Type;
 use Micro\Mvc\Models\IModel;
 use Micro\Mvc\Models\IQuery;
 use Micro\Mvc\Models\Query;
 use Micro\Mvc\Widget;
 use Micro\Web\Html\Html;
+use Micro\Web\RequestInjector;
 
 /**
  * GridViewWidget class file.
@@ -99,7 +100,7 @@ class GridViewWidget extends Widget
             }
 
             if ($args['data']->having || $args['data']->group) {
-                $res = new Query((new Injector)->get('db'));
+                $res = new Query((new ConnectionInjector)->get());
                 $res->select = 'COUNT(*)';
                 $res->table = '('.$args['data']->getQuery().') micro_count';
                 $res->single = true;
@@ -269,7 +270,7 @@ class GridViewWidget extends Widget
             return null;
         }
         /** @var array $filtersData */
-        $filtersData = (new Injector)->get('request')->query($this->filterPrefix);
+        $filtersData = (new RequestInjector)->get()->query($this->filterPrefix);
 
         $result = Html::beginForm(null, 'get', $this->attributesFilterForm);
         $result .= Html::openTag('tr', $this->attributesFilter);

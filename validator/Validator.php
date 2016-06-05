@@ -3,7 +3,7 @@
 namespace Micro\Validator;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\KernelInjector;
 use Micro\Form\IFormModel;
 
 /**
@@ -125,7 +125,7 @@ class Validator
             return '\\Micro\\Validator\\'.self::$validators[$name];
         } elseif (class_exists($name) && is_subclass_of($name, '\Micro\Validator\IValidator')) {
             return $name;
-        } elseif (file_exists((new Injector)->get('kernel')->getAppDir().'/validator/'.$name.'.php')) {
+        } elseif (file_exists((new KernelInjector)->get()->getAppDir() . '/validator/' . $name . '.php')) {
             return '\\App\\Validator\\'.$name;
         }
 

@@ -2,8 +2,8 @@
 
 namespace Micro\Mvc\Controllers;
 
-use Micro\Base\Injector;
 use Micro\Web\IRequest;
+use Micro\Web\RequestInjector;
 
 
 /**
@@ -42,7 +42,7 @@ abstract class RichController extends Controller
         parent::__construct($modules);
 
         /** @var IRequest $request */
-        $request = (new Injector)->get('request');
+        $request = (new RequestInjector)->get();
 
         $this->methodType = $request->getMethod() ?: 'GET';
     }

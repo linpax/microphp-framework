@@ -2,8 +2,8 @@
 
 namespace Micro\Validator;
 
-use Micro\Base\Injector;
 use Micro\Form\IFormModel;
+use Micro\Web\UserInjector;
 
 /**
  * CaptchaValidator class file.
@@ -36,7 +36,7 @@ class CaptchaValidator extends BaseValidator
     {
         parent::__construct($params);
 
-        $this->captcha = (new Injector)->get('user')->getCaptcha();
+        $this->captcha = (new UserInjector)->get()->getCaptcha();
     }
 
     /**
@@ -51,7 +51,7 @@ class CaptchaValidator extends BaseValidator
                 return false;
             }
 
-            if ((new Injector)->get('user')->checkCaptcha($this->captcha)) {
+            if ((new UserInjector)->get()->checkCaptcha($this->captcha)) {
                 return false;
             }
         }

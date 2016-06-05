@@ -2,9 +2,10 @@
 
 namespace Micro\Filter;
 
-use Micro\Base\Injector;
 use Micro\Web\IRequest;
 use Micro\Web\ISession;
+use Micro\Web\RequestInjector;
+use Micro\Web\SessionInjector;
 
 /**
  * Class CsrfFilter
@@ -26,9 +27,9 @@ class CsrfFilter extends Filter
     public function pre(array $params)
     {
         /** @var IRequest $request */
-        $request = (new Injector)->get('request');
+        $request = (new RequestInjector)->get();
         /** @var ISession $session */
-        $session = (new Injector)->get('session');
+        $session = (new SessionInjector)->get();
 
         if ($request->server('REQUEST_METHOD') !== 'POST') {
             return true;
@@ -89,7 +90,7 @@ class CsrfFilter extends Filter
     {
         $gen = md5(mt_rand());
         /** @var ISession $s */
-        $s = (new Injector)->get('session');
+        $s = (new SessionInjector)->get();
 
         $s->csrf = array_merge(is_array($s->csrf) ? $s->csrf : [], [md5($gen)]);
 

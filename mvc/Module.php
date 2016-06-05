@@ -3,6 +3,7 @@
 namespace Micro\Mvc;
 
 use Micro\Base\Injector;
+use Micro\Base\KernelInjector;
 use Micro\Micro;
 
 /**
@@ -27,7 +28,7 @@ abstract class Module
     public function __construct()
     {
         /** @var Micro $kernel */
-        $kernel = (new Injector)->get('kernel');
+        $kernel = (new KernelInjector)->get();
 
         $path = dirname(
                 str_replace(['\\', 'App'], ['/', $kernel->getAppDir()], get_called_class())

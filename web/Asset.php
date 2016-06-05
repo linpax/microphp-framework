@@ -5,6 +5,7 @@ namespace Micro\Web;
 use Micro\Base\Autoload;
 use Micro\Base\Exception;
 use Micro\Base\Injector;
+use Micro\Base\KernelInjector;
 use Micro\File\FileHelper;
 use Micro\Mvc\Views\IView;
 
@@ -68,7 +69,7 @@ class Asset
 
         $this->publishPath = '/'.(($dir = (new Injector)->get('assetsDirName')) ? $dir : 'assets').'/'.$this->hash;
 
-        $web = (new Injector)->get('kernel')->getWebDir();
+        $web = (new KernelInjector)->get()->getWebDir();
 
         if (!file_exists($this->sourcePath)) {
             throw new Exception('Asset dir not exists: '.$this->sourcePath);

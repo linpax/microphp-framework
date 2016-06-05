@@ -2,8 +2,6 @@
 
 namespace Micro\Web;
 
-use Micro\Base\Injector;
-
 /**
  * Identity class file.
  *
@@ -65,7 +63,7 @@ abstract class Identity
      */
     public function addSession($name, $value)
     {
-        return (new Injector)->get('session')->$name = $value;
+        return (new SessionInjector)->get()->$name = $value;
     }
 
     /**
@@ -92,6 +90,6 @@ abstract class Identity
         $secure = false,
         $httpOnly = true
     ) {
-        return (new Injector)->get('cookie')->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+        return (new CookieInjector)->get()->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
 }

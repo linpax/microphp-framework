@@ -2,7 +2,7 @@
 
 namespace Micro\Web;
 
-use Micro\Base\Injector;
+use Micro\Auth\AuthInjector;
 
 
 /**
@@ -33,7 +33,7 @@ class User implements IUser
     public function check($permission, array $data = [])
     {
         if (!$this->isGuest()) {
-            return (new Injector)->get('permission')->check($this->getID(), $permission, $data);
+            return (new AuthInjector)->get()->check($this->getID(), $permission, $data);
         } else {
             return false;
         }
@@ -44,7 +44,7 @@ class User implements IUser
      */
     public function isGuest()
     {
-        return !(new Injector)->get('session') || !(new Injector)->get('session')->UserID;
+        return !(new SessionInjector)->get() || !(new SessionInjector)->get()->UserID;
     }
 
     /**
@@ -52,7 +52,7 @@ class User implements IUser
      */
     public function getID()
     {
-        return (!$this->isGuest()) ? (new Injector)->get('session')->UserID : false;
+        return (!$this->isGuest()) ? (new SessionInjector)->get()->UserID : false;
     }
 
     /**
@@ -68,7 +68,7 @@ class User implements IUser
      */
     public function setID($id)
     {
-        (new Injector)->get('session')->UserID = $id;
+        (new SessionInjector)->get()->UserID = $id;
     }
 
     /**
@@ -78,7 +78,7 @@ class User implements IUser
     {
         if (!$this->isGuest()) {
             $this->setID(null);
-            (new Injector)->get('session')->destroy();
+            (new SessionInjector)->get()->destroy();
         }
     }
 
@@ -87,7 +87,7 @@ class User implements IUser
      */
     public function getCaptcha()
     {
-        return (new Injector)->get('session')->captchaCode;
+        return (new SessionInjector)->get()->captchaCode;
     }
 
     /**
@@ -95,7 +95,7 @@ class User implements IUser
      */
     public function setCaptcha($code)
     {
-        (new Injector)->get('session')->captchaCode = md5($code);
+        (new SessionInjector)->get()->captchaCode = md5($code);
     }
 
     /**
@@ -103,10 +103,10 @@ class User implements IUser
      */
     public function checkCaptcha($code)
     {
-        if (!(new Injector)->get('session')->captchaCode) {
+        if (!(new SessionInjector)->get()->captchaCode) {
             return null;
         }
 
-        return (new Injector)->get('session')->captchaCode === md5($code);
+        return (new SessionInjector)->get()->captchaCode === md5($code);
     }
 }

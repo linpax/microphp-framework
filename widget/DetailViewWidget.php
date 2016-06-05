@@ -146,7 +146,6 @@ class DetailViewWidget extends Widget
             /** @noinspection DegradedSwitchInspection */
             switch ($val['type']) {
                 case 'raw':
-                    /** @noinspection PhpUnusedLocalVariableInspection */
                     /** @noinspection OnlyWritesOnParameterInspection */
                     $data = $this->data; // for eval
                     $buffer .= eval('return '.$val['value']);

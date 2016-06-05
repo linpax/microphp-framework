@@ -2,8 +2,8 @@
 
 namespace Micro\Resolver;
 
-use Micro\Base\Injector;
 use Micro\Cli\Console;
+use Micro\Web\RequestInjector;
 
 /**
  * CLI Resolver class file.
@@ -40,6 +40,6 @@ class ConsoleResolver extends Resolver
      */
     public function getAction()
     {
-        return (new Injector)->get('request')->getOption('a', 'action') ?: 'default';
+        return (new RequestInjector)->get()->getOption('a', 'action') ?: 'default';
     }
 }

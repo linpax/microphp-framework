@@ -3,9 +3,9 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
 use Micro\Web\IResponse;
 use Micro\Web\Response;
+use Micro\Web\ResponseInjector;
 
 /**
  * Class Controller
@@ -71,7 +71,7 @@ abstract class ViewController extends Controller
             $view = $view->render();
         }
 
-        $response = (new Injector)->get('response') ?: new Response;
+        $response = (new ResponseInjector)->get() ?: new Response;
         $response->setBody($this->applyFilters($name, false, $filters, $view));
 
         return $response;

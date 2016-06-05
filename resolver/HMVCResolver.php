@@ -3,9 +3,11 @@
 namespace Micro\Resolver;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\KernelInjector;
 use Micro\Mvc\Controllers\IController;
 use Micro\Web\IRequest;
+use Micro\Web\RequestInjector;
+use Micro\Web\RouterInjector;
 
 /**
  * hMVC Resolver class file.
@@ -45,12 +47,12 @@ class HMVCResolver extends Resolver
     public function getApplication()
     {
         /** @var IRequest $request */
-        $request = (new Injector)->get('request');
+        $request = (new RequestInjector)->get();
 
         $query = $request->query('r') ?: '/default';
         $query = (substr($query, -1) === '/') ? substr($query, 0, -1) : $query;
 
-        $this->uri = (new Injector)->get('router')->parse($query, $request->getMethod());
+        $this->uri = (new RouterInjector)->get()->parse($query, $request->getMethod());
 
         $this->initialize();
 
@@ -91,7 +93,7 @@ class HMVCResolver extends Resolver
 
             foreach ($paramBlocks AS $param) {
                 $val = explode('=', $param);
-                (new Injector)->get('request')->setQuery($val[0], $val[1]);
+                (new RequestInjector)->get()->setQuery($val[0], $val[1]);
             }
         }
     }
@@ -108,7 +110,7 @@ class HMVCResolver extends Resolver
     protected function prepareExtensions(&$uriBlocks)
     {
         foreach ($uriBlocks as $i => $block) {
-            if (file_exists((new Injector)->get('kernel')->getAppDir().$this->extensions.'/extensions/'.$block)) {
+            if (file_exists((new KernelInjector)->get()->getAppDir() . $this->extensions . '/extensions/' . $block)) {
                 $this->extensions .= '/Extensions/'.ucfirst($block);
 
                 unset($uriBlocks[$i]);
@@ -133,7 +135,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = (new Injector)->get('kernel')->getAppDir().($this->extensions ?: '');
+        $path = (new KernelInjector)->get()->getAppDir() . ($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
             if ($block && file_exists($path.strtolower($this->modules).'/modules/'.$block)) {
@@ -159,7 +161,7 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = (new Injector)->get('kernel')->getAppDir().($this->extensions ?: '').strtolower($this->modules ?: '');
+        $path = (new KernelInjector)->get()->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
         if (file_exists(str_replace('\\', '/', $path.'/controllers/'.ucfirst($str).'Controller.php'))) {

@@ -3,7 +3,7 @@
 namespace Micro\Mvc\Models;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Db\ConnectionInjector;
 use Micro\File\Type;
 use Micro\Form\FormModel;
 
@@ -83,7 +83,7 @@ abstract class Model extends FormModel implements IModel
      */
     public static function findByAttributes(array $attributes = [], $single = false)
     {
-        $query = new Query((new Injector)->get('db'));
+        $query = new Query((new ConnectionInjector)->get());
         foreach ($attributes AS $key => $val) {
             $query->addWhere($key.' = :'.$key);
         }
@@ -106,7 +106,7 @@ abstract class Model extends FormModel implements IModel
      */
     public static function finder(IQuery $query = null, $single = false)
     {
-        $query = ($query instanceof Query) ? $query : new Query((new Injector)->get('db'));
+        $query = ($query instanceof Query) ? $query : new Query((new ConnectionInjector)->get());
         $query->table = static::$tableName.' `m`';
         $query->objectName = get_called_class();
         $query->single = $single;
@@ -139,7 +139,7 @@ abstract class Model extends FormModel implements IModel
     public function getAttributes()
     {
         $fields = [];
-        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $field) {
+        foreach ((new ConnectionInjector)->get()->listFields(static::$tableName) AS $field) {
             $fields[] = $field['field'];
         }
 
@@ -160,7 +160,7 @@ abstract class Model extends FormModel implements IModel
         /** @var array $relation */
         if ($relation = $this->relations()->get($name)) {
             if (empty($this->cacheRelations[$name])) {
-                $sql = new Query((new Injector)->get('db'));
+                $sql = new Query((new ConnectionInjector)->get());
 
                 $sql->addWhere('`m`.`'.$relation['On'][1].'`=:'.$relation['On'][0]);
 
@@ -249,7 +249,7 @@ abstract class Model extends FormModel implements IModel
             return false;
         }
         if ($this->beforeCreate() && $this->beforeSave()) {
-            $id = (new Injector)->get('db')->insert(static::$tableName, $this->mergeAttributesDb());
+            $id = (new ConnectionInjector)->get()->insert(static::$tableName, $this->mergeAttributesDb());
             if (!$id) {
                 return false;
             }
@@ -299,7 +299,7 @@ abstract class Model extends FormModel implements IModel
         $arr = Type::getVars($this);
 
         $buffer = [];
-        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->get()->listFields(static::$tableName) AS $row) {
             $buffer[] = $row['field'];
         }
 
@@ -330,7 +330,7 @@ abstract class Model extends FormModel implements IModel
         }
 
         $res = false;
-        foreach ((new Injector)->get('db')->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->get()->listFields(static::$tableName) AS $row) {
             if ($row['field'] === $name) {
                 $res = true;
                 break;
@@ -379,7 +379,7 @@ abstract class Model extends FormModel implements IModel
                 }
             }
 
-            if ((new Injector)->get('db')->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
+            if ((new ConnectionInjector)->get()->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
                 $this->afterUpdate();
 
                 return true;
@@ -422,7 +422,7 @@ abstract class Model extends FormModel implements IModel
             }
 
             if (
-            (new Injector)->get('db')->delete(
+            (new ConnectionInjector)->get()->delete(
                 static::$tableName,
                 self::$primaryKey.'=:'.self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
             )

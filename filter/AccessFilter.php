@@ -2,9 +2,10 @@
 
 namespace Micro\Filter;
 
-use Micro\Base\Injector;
 use Micro\Web\IRequest;
 use Micro\Web\IUser;
+use Micro\Web\RequestInjector;
+use Micro\Web\UserInjector;
 
 /**
  * Class AccessFilter
@@ -111,7 +112,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IUser $user */
-        $user = (new Injector)->get('user');
+        $user = (new UserInjector)->get();
 
         foreach ($rule['users'] AS $u) {
             switch ($u) {
@@ -160,7 +161,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IUser $user */
-        $user = (new Injector)->get('user');
+        $user = (new UserInjector)->get();
 
         foreach ($rule['roles'] AS $role) {
             if ($user->check($role)) {
@@ -191,7 +192,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IRequest $request */
-        $request = (new Injector)->get('request');
+        $request = (new RequestInjector)->get();
         $userIp = $request->getUserIP();
 
         foreach ($rule['ips'] AS $r) {
@@ -223,7 +224,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IRequest $request */
-        $request = (new Injector)->get('request');
+        $request = (new RequestInjector)->get();
         $verb = $request->getMethod();
 
         foreach ($rule['verb'] AS $v) {

@@ -4,7 +4,8 @@ namespace Micro\Mvc\Views;
 
 use Micro\Base\Autoload;
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\KernelInjector;
+use Micro\Logger\LoggerInjector;
 use Micro\Web\Language;
 
 /**
@@ -87,10 +88,10 @@ class PhpView extends View
     public function renderRawData($data = '')
     {
         $layoutPath = null;
-        if ($this->layout && (!$layoutPath = $this->getLayoutFile((new Injector)->get('kernel')->getAppDir(),
+        if ($this->layout && (!$layoutPath = $this->getLayoutFile((new KernelInjector)->get()->getAppDir(),
                 $this->module))
         ) {
-            (new Injector)->get('logger')->send('error', 'Layout `'.$this->layout.'` not found');
+            (new LoggerInjector)->get()->send('error', 'Layout `' . $this->layout . '` not found');
         }
 
         if ($layoutPath) {
@@ -178,7 +179,7 @@ class PhpView extends View
 
         // Calculate path to view
         if (0 === strpos($calledClass, 'App')) {
-            $path = (new Injector)->get('kernel')->getAppDir();
+            $path = (new KernelInjector)->get()->getAppDir();
         } else {
             $path = Autoload::getAlias('Micro');
         }

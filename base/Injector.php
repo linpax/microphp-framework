@@ -81,7 +81,7 @@ class Injector implements IInjector
      * @param string $name
      * @return bool
      */
-    public function get($name)
+    protected function get($name)
     {
         if (!empty(self::$CONFIG[$name])) {
             return self::$CONFIG[$name];

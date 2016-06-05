@@ -35,20 +35,4 @@ interface IInjector
      * @return bool
      */
     public function check($name);
-
-    /**
-     * Build object with injector
-     *
-     * class LogInject extends Injector {
-     *  public function build() {
-     *   return $this->get('logger');
-     *  }
-     * }
-     * $log = (new LogInject())->build();
-     *
-     * @access protected
-     * @param string $name
-     * @return bool
-     */
-    public function get($name);
 }

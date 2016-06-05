@@ -3,7 +3,7 @@
 namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Db\ConnectionInjector;
 use Micro\Db\IConnection;
 
 /**
@@ -43,7 +43,7 @@ class DbDriver extends LoggerDriver
         parent::__construct($params);
 
         $this->tableName = !empty($params['table']) ? $params['table'] : 'logs';
-        $this->db = (new Injector)->get('db');
+        $this->db = (new ConnectionInjector)->get();
 
         if (!$this->db->tableExists($this->tableName)) {
             $this->db->createTable(
