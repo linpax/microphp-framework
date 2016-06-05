@@ -2,6 +2,7 @@
 
 namespace Micro\Resolver;
 
+use Micro\Base\Exception;
 use Micro\Cli\Console;
 use Micro\Web\RequestInjector;
 
@@ -37,6 +38,7 @@ class ConsoleResolver extends Resolver
      * @access public
      *
      * @return string
+     * @throws Exception
      */
     public function getAction()
     {

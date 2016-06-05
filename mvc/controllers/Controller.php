@@ -37,6 +37,7 @@ abstract class Controller implements IController
      * @param string $modules
      *
      * @result void
+     * @throws Exception
      */
     public function __construct($modules = '')
     {

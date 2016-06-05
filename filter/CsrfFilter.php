@@ -2,6 +2,7 @@
 
 namespace Micro\Filter;
 
+use Micro\Base\Exception;
 use Micro\Web\IRequest;
 use Micro\Web\ISession;
 use Micro\Web\RequestInjector;
@@ -22,7 +23,9 @@ use Micro\Web\SessionInjector;
 class CsrfFilter extends Filter
 {
     /**
-     * @inheritdoc
+     * @param array $params
+     * @return bool
+     * @throws Exception
      */
     public function pre(array $params)
     {
@@ -85,6 +88,7 @@ class CsrfFilter extends Filter
      * @param array $matches Form
      *
      * @return string
+     * @throws Exception
      */
     public function insertProtect(array $matches = [])
     {

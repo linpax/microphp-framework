@@ -118,6 +118,7 @@ class Validator
     /**
      * @param $name
      * @return bool|string
+     * @throws Exception
      */
     protected function getValidatorClass($name)
     {

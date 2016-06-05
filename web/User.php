@@ -3,6 +3,7 @@
 namespace Micro\Web;
 
 use Micro\Auth\AuthInjector;
+use Micro\Base\Exception;
 
 
 /**
@@ -28,7 +29,10 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @param string $permission
+     * @param array $data
+     * @return bool
+     * @throws Exception
      */
     public function check($permission, array $data = [])
     {
@@ -40,7 +44,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @return bool
+     * @throws Exception
      */
     public function isGuest()
     {
@@ -48,7 +53,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @return bool|int
+     * @throws Exception
      */
     public function getID()
     {
@@ -64,7 +70,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @param mixed $id
+     * @throws Exception
      */
     public function setID($id)
     {
@@ -72,7 +79,7 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @throws Exception
      */
     public function logout()
     {
@@ -83,7 +90,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @return string
+     * @throws Exception
      */
     public function getCaptcha()
     {
@@ -91,7 +99,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @param string $code
+     * @throws Exception
      */
     public function setCaptcha($code)
     {
@@ -99,7 +108,9 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @param string $code
+     * @return bool|null
+     * @throws Exception
      */
     public function checkCaptcha($code)
     {

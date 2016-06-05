@@ -2,6 +2,7 @@
 
 namespace Micro\Filter;
 
+use Micro\Base\Exception;
 use Micro\Web\IRequest;
 use Micro\Web\IUser;
 use Micro\Web\RequestInjector;
@@ -100,6 +101,7 @@ class AccessFilter extends Filter
      * @param array $rule rule definition
      *
      * @return bool
+     * @throws Exception
      */
     protected function matchUser($rule)
     {
@@ -149,6 +151,7 @@ class AccessFilter extends Filter
      * @param array $rule rule definition
      *
      * @return bool
+     * @throws Exception
      */
     protected function matchRole($rule)
     {
@@ -180,6 +183,7 @@ class AccessFilter extends Filter
      * @param array $rule rule definition
      *
      * @return bool
+     * @throws Exception
      */
     protected function matchIP($rule)
     {
@@ -212,6 +216,7 @@ class AccessFilter extends Filter
      * @param array $rule rule definition
      *
      * @return bool
+     * @throws Exception
      */
     protected function matchVerb($rule)
     {

@@ -2,6 +2,7 @@
 
 namespace Micro\Mvc;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 use Micro\Base\KernelInjector;
 use Micro\Micro;
@@ -24,6 +25,7 @@ abstract class Module
     /**
      * @access public
      * @result void
+     * @throws Exception
      */
     public function __construct()
     {

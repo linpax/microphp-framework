@@ -72,6 +72,7 @@ class HMVCResolver extends Resolver
      * @access public
      *
      * @return void
+     * @throws Exception
      */
     protected function initialize()
     {
@@ -106,6 +107,7 @@ class HMVCResolver extends Resolver
      * @param array $uriBlocks uri blocks from URL
      *
      * @return void
+     * @throws Exception
      */
     protected function prepareExtensions(&$uriBlocks)
     {
@@ -132,6 +134,7 @@ class HMVCResolver extends Resolver
      * @param array $uriBlocks uri blocks from URL
      *
      * @return void
+     * @throws Exception
      */
     protected function prepareModules(&$uriBlocks)
     {
@@ -158,6 +161,7 @@ class HMVCResolver extends Resolver
      * @param array $uriBlocks uri blocks from URL
      *
      * @return void
+     * @throws Exception
      */
     protected function prepareController(&$uriBlocks)
     {

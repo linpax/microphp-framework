@@ -2,6 +2,7 @@
 
 namespace Micro\Mvc\Controllers;
 
+use Micro\Base\Exception;
 use Micro\Web\IRequest;
 use Micro\Web\RequestInjector;
 
@@ -36,6 +37,7 @@ abstract class RichController extends Controller
      * @param string $modules
      *
      * @result void
+     * @throws Exception
      */
     public function __construct($modules = '')
     {

@@ -135,6 +135,7 @@ abstract class Model extends FormModel implements IModel
      * @access public
      *
      * @return array
+     * @throws Exception
      */
     public function getAttributes()
     {
@@ -154,6 +155,7 @@ abstract class Model extends FormModel implements IModel
      * @param string $name
      *
      * @return mixed
+     * @throws Exception
      */
     public function __get($name)
     {
@@ -322,6 +324,7 @@ abstract class Model extends FormModel implements IModel
      * @param string $name Attribute name
      *
      * @return boolean
+     * @throws Exception
      */
     public function checkAttributeExists($name)
     {

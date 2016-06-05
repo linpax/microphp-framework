@@ -2,6 +2,7 @@
 
 namespace Micro\Validator;
 
+use Micro\Base\Exception;
 use Micro\Form\IFormModel;
 use Micro\Web\UserInjector;
 
@@ -31,6 +32,7 @@ class CaptchaValidator extends BaseValidator
      * @param array $params Configuration array
      *
      * @result void
+     * @throws Exception
      */
     public function __construct(array $params)
     {

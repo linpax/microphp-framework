@@ -2,6 +2,8 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
+
 /**
  * Identity class file.
  *
@@ -60,6 +62,7 @@ abstract class Identity
      * @param mixed $value session parameter value
      *
      * @return mixed
+     * @throws Exception
      */
     public function addSession($name, $value)
     {
@@ -80,6 +83,7 @@ abstract class Identity
      * @param bool $httpOnly disable on JS?
      *
      * @return mixed
+     * @throws Exception
      */
     public function addCookie(
         $name,

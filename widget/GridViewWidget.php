@@ -265,6 +265,7 @@ class GridViewWidget extends Widget
      * @access protected
      *
      * @return null|string
+     * @throws Exception
      */
     protected function renderFilters()
     {
