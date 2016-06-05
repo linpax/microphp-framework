@@ -14,6 +14,7 @@ use Micro\Resolver\IResolver;
 use Micro\Web\IOutput;
 use Micro\Web\IRequest;
 use Micro\Web\IResponse;
+use Micro\Web\RequestInjector;
 use Micro\Web\Response;
 
 /**
@@ -140,7 +141,7 @@ class Micro
 
             $this->addListener('kernel.kill', function() {
                 /** @var IRequest $request */
-                $request = $this->injector->get('request');
+                $request = (new RequestInjector)->get();
 
                 if ($this->isDebug() && !$request->isCli() && !$request->isAjax()) {
                     echo '<div class="debug_timer">', (microtime(true) - $this->getStartTime()), '</div>';

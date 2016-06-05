@@ -84,34 +84,36 @@ class ListViewWidget extends Widget
             $this->page = 0;
         }
 
-        if ($args['data'] instanceof IQuery) {
-            /** @var |Query $args ['data'] */
-            if ($args['data']->objectName) {
+        $data = $args['data'];
+
+        if ($data instanceof IQuery) {
+            /** @var IQuery $data */
+            if ($data->objectName) {
                 /** @var IModel $cls */
-                $cls = $args['data']->objectName;
-                $args['data']->table = $cls::$tableName;
-            } elseif (!$args['data']->table) {
+                $cls = $data->objectName;
+                $data->table = $cls::$tableName;
+            } elseif (!$data->table) {
                 throw new Exception('Data query not set table or objectName');
             }
 
-            $select = $args['data']->select;
+            $select = $data->select;
 
-            $args['data']->select = 'COUNT(id)';
-            $args['data']->single = true;
-            $this->totalCount = $args['data']->run(\PDO::FETCH_BOTH)[0];
+            $data->select = 'COUNT(id)';
+            $data->single = true;
+            $this->totalCount = $data->run(\PDO::FETCH_BOTH)[0];
 
-            $args['data']->select = $select;
-            $args['data']->ofset = $this->page * $this->limit;
-            $args['data']->limit = $this->limit;
-            $args['data']->single = false;
-            $args['data'] = $args['data']->run();
+            $data->select = $select;
+            $data->offset = $this->page * $this->limit;
+            $data->limit = $this->limit;
+            $data->single = false;
+            $data = $data->run();
         } else {
-            $this->totalCount = count($args['data']);
+            $this->totalCount = count($data);
             $this->page = $this->page === 0 ? 1 : $this->page;
-            $args['data'] = array_slice($args['data'], $this->page * $this->limit, $this->limit);
+            $data = array_slice($data, $this->page * $this->limit, $this->limit);
         }
 
-        foreach ($args['data'] AS $model) {
+        foreach ($data AS $model) {
             $this->rows[] = is_subclass_of($model, 'Micro\\Mvc\\Models\\IModel') ? $model : (object)$model;
         }
     }

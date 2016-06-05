@@ -14,6 +14,20 @@ namespace Micro\Mvc\Models;
  * @version 1.0
  * @since 1.0
  * @interface
+ *
+ * @property string $select
+ * @property bool $distinct
+ * @property string $where
+ * @property string $join
+ * @property string $order
+ * @property string $group
+ * @property string $having
+ * @property integer $limit
+ * @property integer $offset
+ * @property array $params
+ * @property string $table
+ * @property string $objectName
+ * @property bool $single
  */
 interface IQuery
 {
