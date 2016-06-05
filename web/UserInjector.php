@@ -2,6 +2,7 @@
 
 namespace Micro\Web;
 
+use Micro\Base\Exception;
 use Micro\Base\Injector;
 
 /**
@@ -20,10 +21,17 @@ class UserInjector extends Injector
 {
     /**
      * @access public
-     * @return IUser|bool
+     * @return IUser
+     * @throws Exception
      */
     public function get()
     {
-        return parent::get('user');
+        $user = parent::get('user');
+
+        if (!($user instanceof IUser)) {
+            throw new Exception('Component `user` not configured');
+        }
+
+        return $user;
     }
 }
