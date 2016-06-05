@@ -254,7 +254,7 @@ class Micro
      * @param \Closure $event ['Object', 'method'] or callable
      * @param int|null $prior priority
      *
-     * @return bool
+     * @return boolean|null
      */
     protected function addListener($listener, $event, $prior = null)
     {
