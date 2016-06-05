@@ -33,7 +33,7 @@ class Autoload
      */
     public static function setAlias($alias, $realPath)
     {
-        static::$aliases[strtolower($alias)] = $realPath;
+        self::$aliases[strtolower($alias)] = $realPath;
     }
 
     /**
@@ -48,7 +48,7 @@ class Autoload
      */
     public static function loader($className)
     {
-        if ($path = static::getClassPath(ltrim($className, '\\'))) {
+        if ($path = self::getClassPath(ltrim($className, '\\'))) {
             /** @noinspection PhpIncludeInspection */
             require_once $path;
 
@@ -71,7 +71,7 @@ class Autoload
      */
     public static function getClassPath($className, $extension = '.php')
     {
-        $prefix = $className = static::CamelCaseToLowerNamespace(str_replace('_', '\\', $className));
+        $prefix = $className = self::CamelCaseToLowerNamespace(str_replace('_', '\\', $className));
 
         while (false !== $position = strrpos($prefix, '\\')) {
             $prefix = substr($prefix, 0, $position);
@@ -125,6 +125,6 @@ class Autoload
     {
         $alias = strtolower($alias);
 
-        return array_key_exists($alias, static::$aliases) ? static::$aliases[$alias] : false;
+        return array_key_exists($alias, self::$aliases) ? self::$aliases[$alias] : false;
     }
 }
