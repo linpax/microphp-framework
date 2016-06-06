@@ -114,7 +114,7 @@ final class Ftp
             \ftp_close($this->_stream);
 
             // reset stream
-            $this->_stream = false;
+            $this->_stream = null;
         }
     }
 

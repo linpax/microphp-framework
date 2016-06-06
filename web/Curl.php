@@ -165,7 +165,7 @@ class Curl
             $this->response_headers = preg_split('/\r\n/', $response_header, null, PREG_SPLIT_NO_EMPTY);
         }
 
-        $this->http_error_message = '';
+        $this->http_error_message = null;
         if ($this->error) {
             $this->http_error_message = !empty($this->response_headers[0]) ? $this->response_headers[0] : '';
         }
