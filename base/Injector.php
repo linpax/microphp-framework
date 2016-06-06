@@ -76,7 +76,7 @@ class Injector implements IInjector
      *
      * @access protected
      * @param string $name
-     * @return bool
+     * @return false|mixed
      */
     protected function get($name)
     {
