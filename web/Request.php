@@ -220,6 +220,23 @@ class Request implements IRequest
     }
 
     /**
+     * Unset value by key from session storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return void
+     */
+    public function unsetSession($name)
+    {
+        if (array_key_exists($name, $_SESSION)) {
+            unset($_SESSION[$name]);
+        }
+    }
+
+
+    /**
      * Get value by key from server storage
      *
      * @access public

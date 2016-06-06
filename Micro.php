@@ -369,7 +369,7 @@ class Micro
             return $output;
         }
 
-        $request->setPost('error', $e);
+        $_POST['error'] = $e;
 
         $controller = $errorController;
 

@@ -133,6 +133,17 @@ interface IRequest
     public function session($name);
 
     /**
+     * Unset value by key from session storage
+     *
+     * @access public
+     *
+     * @param string $name Key name
+     *
+     * @return void
+     */
+    public function unsetSession($name);
+
+    /**
      * Get value by key from server storage
      *
      * @access public

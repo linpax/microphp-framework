@@ -49,17 +49,6 @@ class Cookie implements ICookie
     }
 
     /**
-     * Get all cookies
-     *
-     * @access public
-     * @return mixed
-     */
-    public function getAll()
-    {
-        return $this->request->getStorage('_COOKIE');
-    }
-
-    /**
      * Delete cookie
      *
      * @access public
