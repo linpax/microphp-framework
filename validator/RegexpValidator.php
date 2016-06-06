@@ -45,7 +45,7 @@ class RegexpValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        return 'if (!this.value.match(' . $this->params['pattern'] . ')) {' .
+        return 'if (!this.value.match('.$this->params['pattern'].')) {'.
             ' e.preventDefault(); this.focus(); alert(\'Value not valid with regular expression\'); }';
     }
 }

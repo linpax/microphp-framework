@@ -59,11 +59,11 @@ class StringValidator extends BaseValidator
         $javaScript = '';
 
         if (!empty($this->params['min'])) {
-            $javaScript .= ' if (this.value.length < ' . $this->params['min'] . ') { e.preventDefault(); this.focus();' .
+            $javaScript .= ' if (this.value.length < '.$this->params['min'].') { e.preventDefault(); this.focus();'.
                 ' alert(\'Value lowest, minimum '.$this->params['min'].' symbols\'); }';
         }
         if (!empty($this->params['max'])) {
-            $javaScript .= ' if (this.value.length > ' . $this->params['max'] . ') { e.preventDefault(); this.focus();' .
+            $javaScript .= ' if (this.value.length > '.$this->params['max'].') { e.preventDefault(); this.focus();'.
                 ' alert(\'Value highest, maximum '.$this->params['max'].' symbols\'); }';
         }
 
