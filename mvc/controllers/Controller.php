@@ -65,7 +65,7 @@ abstract class Controller implements IController
      * @param array $filters defined filters
      * @param string $data data to parse
      *
-     * @return mixed
+     * @return null|string
      * @throws Exception
      */
     public function applyFilters($action, $isPre = true, array $filters = [], $data = null)

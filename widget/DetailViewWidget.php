@@ -147,7 +147,7 @@ class DetailViewWidget extends Widget
             /** @noinspection DegradedSwitchInspection */
             switch ($val['type']) {
                 case 'raw':
-                    $buffer .= eval('$data = $this->data; return ' . $val['value']);
+                    $buffer .= eval('$data = $this->data; return '.$val['value']);
                     break;
 
                 default:
