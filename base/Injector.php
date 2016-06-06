@@ -39,8 +39,8 @@ class Injector implements IInjector
     }
 
     /**
-     * @param $name
-     * @return mixed|null
+     * @param string $name
+     * @return string
      */
     public function param($name)
     {
