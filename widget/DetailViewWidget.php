@@ -147,8 +147,7 @@ class DetailViewWidget extends Widget
             /** @noinspection DegradedSwitchInspection */
             switch ($val['type']) {
                 case 'raw':
-                    extract(['data' => $this->data], EXTR_PREFIX_SAME || EXTR_REFS, 'data');
-                    $buffer .= eval('return '.$val['value']);
+                    $buffer .= eval('$data = $this->data; return ' . $val['value']);
                     break;
 
                 default:
