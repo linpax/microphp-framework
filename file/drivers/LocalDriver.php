@@ -19,7 +19,7 @@ class LocalDriver extends File
     /**
      * @inheritdoc
      */
-    public function __construct(array $params = [])
+    public function __construct()
     {
         $this->createStream();
     }

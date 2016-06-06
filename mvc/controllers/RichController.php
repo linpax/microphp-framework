@@ -77,7 +77,6 @@ abstract class RichController extends Controller
 
         $this->applyFilters($name, true, $filters, null);
 
-        $view = null;
         if ($actionClass) {
             /** @var \Micro\Mvc\Action $cl */
             $cl = new $actionClass();

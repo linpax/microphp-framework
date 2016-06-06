@@ -38,7 +38,6 @@ abstract class ViewController extends Controller
             $GLOBALS['widgetStack'] = [];
         }
 
-        $view = null;
         $actionClass = false;
 
         if (!method_exists($this, 'action'.ucfirst($name))) {

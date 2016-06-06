@@ -32,11 +32,9 @@ class Type
         switch ($type) {
             case 'object':
                 return get_class($var);
-                break;
 
             case 'double':
                 return is_float($var) ? 'float' : 'double';
-                break;
 
             default:
                 return strtolower($type);
