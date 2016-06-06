@@ -172,6 +172,21 @@ class Request implements IRequest
     }
 
     /**
+     * Set query by key
+     *
+     * @access public
+     *
+     * @param string $name
+     * @param string|integer $value
+     *
+     * @return void
+     */
+    public function setQuery($name, $value)
+    {
+        $_GET[$name] = $value;
+    }
+
+    /**
      * Get value by key from post storage
      *
      * @access public

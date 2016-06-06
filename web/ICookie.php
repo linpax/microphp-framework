@@ -30,14 +30,6 @@ interface ICookie
     public function get($name);
 
     /**
-     * Get all cookies
-     *
-     * @access public
-     * @return mixed
-     */
-    public function getAll();
-
-    /**
      * Delete cookie
      *
      * @access public

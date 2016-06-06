@@ -100,6 +100,16 @@ interface IRequest
     public function query($name);
 
     /**
+     * Set query by key
+     *
+     * @access public
+     * @param string $name
+     * @param string|integer $value
+     * @return void
+     */
+    public function setQuery($name, $value);
+
+    /**
      * Get value by key from post storage
      *
      * @access public
