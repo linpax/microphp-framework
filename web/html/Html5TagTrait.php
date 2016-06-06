@@ -41,14 +41,14 @@ trait Html5TagTrait
      * @access public
      *
      * @param array $sources format type=>src
-     * @param array $tracks format array(kind, src, srclang, label)
+     * @param array $videos format array(kind, src, srclang, label)
      * @param array $attributes attributes tag
      * @param string $noCodec text
      *
      * @return string
      * @static
      */
-    public static function video(array $sources = [], array $tracks = [], array $attributes = [], $noCodec = '')
+    public static function video(array $sources = [], array $videos = [], array $attributes = [], $noCodec = '')
     {
         $srcs = '';
 
@@ -56,12 +56,12 @@ trait Html5TagTrait
             $srcs .= static::tag('source', ['type' => $name, 'src' => $value]);
         }
 
-        foreach ($tracks AS $track) {
+        foreach ($videos AS $video) {
             $srcs .= static::tag('track', [
-                'kind' => $track['kind'],
-                'src' => $track['src'],
-                'srclang' => $track['srclang'],
-                'label' => $track['label']
+                'kind' => $video['kind'],
+                'src' => $video['src'],
+                'srclang' => $video['srclang'],
+                'label' => $video['label']
             ]);
         }
 
