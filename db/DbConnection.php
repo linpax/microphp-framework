@@ -224,20 +224,19 @@ class DbConnection extends Connection
     {
         $fields = '`'.implode('`, `', array_keys($multi ? $line[0] : $line)).'`';
         $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
+        $rows = $multi ? $line : [$line];
+        $id = null;
 
-        $dbh = null;
-        if ($multi) {
+        if ($rows) {
             $this->conn->beginTransaction();
 
-            foreach ($line AS $l) {
-                $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($l);
+            $dbh = null;
+            foreach ($rows AS $row) {
+                $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($row);
             }
 
             $id = $dbh ? $this->conn->lastInsertId() : false;
             $this->conn->commit();
-        } else {
-            $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($line);
-            $id = $dbh ? $this->conn->lastInsertId() : false;
         }
 
         return $id ?: false;
