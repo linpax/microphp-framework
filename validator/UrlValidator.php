@@ -44,9 +44,9 @@ class UrlValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        $jsString = 'if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.value'.
+        $javaScript = 'if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.value' .
             ') != true) { e.preventDefault(); this.focus(); alert(\'Value is not a URL\'); }';
 
-        return $jsString;
+        return $javaScript;
     }
 }

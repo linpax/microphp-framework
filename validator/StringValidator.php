@@ -56,16 +56,17 @@ class StringValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        $action = '';
+        $javaScript = '';
+
         if (!empty($this->params['min'])) {
-            $action .= ' if (this.value.length < '.$this->params['min'].') { e.preventDefault(); this.focus();'.
+            $javaScript .= ' if (this.value.length < ' . $this->params['min'] . ') { e.preventDefault(); this.focus();' .
                 ' alert(\'Value lowest, minimum '.$this->params['min'].' symbols\'); }';
         }
         if (!empty($this->params['max'])) {
-            $action .= ' if (this.value.length > '.$this->params['max'].') { e.preventDefault(); this.focus();'.
+            $javaScript .= ' if (this.value.length > ' . $this->params['max'] . ') { e.preventDefault(); this.focus();' .
                 ' alert(\'Value highest, maximum '.$this->params['max'].' symbols\'); }';
         }
 
-        return $action;
+        return $javaScript;
     }
 }

@@ -71,7 +71,7 @@ class Autoload
      */
     public static function getClassPath($className, $extension = '.php')
     {
-        $prefix = $className = self::CamelCaseToLowerNamespace(str_replace('_', '\\', $className));
+        $prefix = $className = self::camelCaseToLowerNamespace(str_replace('_', '\\', $className));
 
         while (false !== $position = strrpos($prefix, '\\')) {
             $prefix = substr($prefix, 0, $position);
@@ -102,7 +102,7 @@ class Autoload
      * @return string
      * @static
      */
-    private static function CamelCaseToLowerNamespace($path)
+    private static function camelCaseToLowerNamespace($path)
     {
         $classNameArr = array_map(function($val) {
             return lcfirst($val);

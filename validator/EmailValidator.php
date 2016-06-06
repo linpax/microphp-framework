@@ -44,9 +44,7 @@ class EmailValidator extends BaseValidator
      */
     public function client(IFormModel $model)
     {
-        $js = 'if (/^[\w.-]{1,}@[\w.-]{1,}$/.test(this.value) != true) {'.
+        return 'if (/^[\w.-]{1,}@[\w.-]{1,}$/.test(this.value) != true) {' .
             ' e.preventDefault(); this.focus(); alert(\'Value is not a valid e-mail\'); }';
-
-        return $js;
     }
 }

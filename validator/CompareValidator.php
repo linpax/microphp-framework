@@ -68,8 +68,8 @@ class CompareValidator extends BaseValidator
             $value = $model->$attribute;
         }
 
-        $js = 'if (this.value!="'.$value.'") { e.preventDefault(); this.focus(); alert(\'Value is not compatible\'); }';
+        $javaScript = 'if (this.value!="' . $value . '") { e.preventDefault(); this.focus(); alert(\'Value is not compatible\'); }';
 
-        return $js;
+        return $javaScript;
     }
 }
