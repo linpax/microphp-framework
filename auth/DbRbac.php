@@ -113,7 +113,6 @@ class DbRbac extends Rbac
                 break;
             default:
                 return false;
-                break;
         }
 
         return $this->db->insert('rbac_role', ['name' => $name, 'type' => $type, 'based' => $based, 'data' => $data]);

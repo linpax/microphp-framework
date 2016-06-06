@@ -332,7 +332,6 @@ abstract class Threads
                 shmop_write($this->internalSemaphoreKey, 0, 1);
 
                 return $this->internalIPCArray['_call_output'];
-                break;
         }
 
         return false;
@@ -475,7 +474,6 @@ abstract class Threads
         switch ($sigNo) {
             case SIGTERM:
                 exit;
-                break;
 
             case SIGHUP:
                 break;

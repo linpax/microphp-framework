@@ -112,11 +112,9 @@ class MemcachedDriver extends CacheDriver
         switch (get_class($this->driver)) {
             case 'Memcached':
                 return $this->driver->set($name, $value, $duration);
-                break;
 
             case 'Memcache':
                 return $this->driver->set($name, $value, 0, $duration);
-                break;
 
             default:
                 return false;
