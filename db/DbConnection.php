@@ -285,6 +285,7 @@ class DbConnection extends Connection
         }
 
         $sth = $this->conn->prepare('SELECT * FROM `'.$table.'` WHERE '.implode(' AND ', $keys).' LIMIT 1;');
+        /** @noinspection PdoApiUsageInspection */
         $sth->execute();
 
         return (bool)$sth->rowCount();

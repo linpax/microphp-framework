@@ -23,7 +23,9 @@ use Micro\Web\UserInjector;
 class AccessFilter extends Filter
 {
     /**
-     * @inheritdoc
+     * @param array $params
+     * @return bool
+     * @throws Exception
      */
     public function pre(array $params)
     {
@@ -55,6 +57,7 @@ class AccessFilter extends Filter
      * @param array $rule rule definition
      *
      * @return bool|null
+     * @throws Exception
      */
     protected function checkRule(array $rule)
     {

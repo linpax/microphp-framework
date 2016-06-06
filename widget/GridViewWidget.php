@@ -166,6 +166,7 @@ class GridViewWidget extends Widget
      * @access public
      *
      * @return string
+     * @throws Exception
      */
     public function run()
     {
@@ -221,6 +222,7 @@ class GridViewWidget extends Widget
      * @access protected
      *
      * @return string
+     * @throws Exception
      */
     protected function getTable()
     {

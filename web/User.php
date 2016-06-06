@@ -62,7 +62,8 @@ class User implements IUser
     }
 
     /**
-     * @inheritdoc
+     * @param int|string $userId
+     * @throws Exception
      */
     public function login($userId)
     {
