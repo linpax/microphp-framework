@@ -88,45 +88,6 @@ interface IRequest
      */
     public function getFiles($className = '\Micro\Web\Uploader');
 
-    // Storage's
-
-    /**
-     * Get all data from storage
-     *
-     * @access public
-     *
-     * @param string $name Storage name
-     *
-     * @return mixed
-     */
-    public function getStorage($name);
-
-    /**
-     * Set all data into storage
-     *
-     * @access public
-     *
-     * @param string $name Storage name
-     * @param array $data Any data
-     *
-     * @return void
-     */
-    public function setStorage($name, array $data = []);
-
-    // Getters
-
-    /**
-     * Get any var from Request storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $storage Storage name
-     *
-     * @return mixed
-     */
-    public function getVar($name, $storage);
-
     /**
      * Get value by key from query storage
      *
@@ -182,57 +143,6 @@ interface IRequest
      */
     public function server($name);
 
-    // Setters
-
-    /**
-     * Set value into storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     * @param string $storage Storage name
-     *
-     * @return void
-     */
-    public function setVar($name, $value, $storage);
-
-    /**
-     * Set value into query storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
-     */
-    public function setQuery($name, $value);
-
-    /**
-     * Set value into post storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
-     */
-    public function setPost($name, $value);
-
-    /**
-     * Set value into cookie storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
-     */
-    public function setCookie($name, $value);
-
     /**
      * Set value into session storage
      *
@@ -245,57 +155,10 @@ interface IRequest
      */
     public function setSession($name, $value);
 
-    // Unset's
-
-    /**
-     * Unset var into storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $storage Storage name
-     *
-     * @return void
-     */
-    public function unsetVar($name, $storage);
-
-    /**
-     * Unset var into query storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetQuery($name);
-
-    /**
-     * Unset var into post storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetPost($name);
-
-    /**
-     * Unset var into session storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetSession($name);
-
     /**
      * Get RequestPayload (RAW DATA)
      *
      * @return string|bool
      */
-    public function getRequestPayload();
+    public function requestPayload();
 }

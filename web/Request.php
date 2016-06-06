@@ -18,8 +18,8 @@ class Request implements IRequest
 {
     /** @var bool $cli Is running as CLI */
     protected $cli;
-    /** @var array $data Data from request */
-    protected $data;
+    /** @var array $files $_FILES from request */
+    protected $files;
 
 
     /**
@@ -27,11 +27,15 @@ class Request implements IRequest
      *
      * @access public
      *
+     * @param array $files
+     *
      * @result void
      */
-    public function __construct()
+    public function __construct(array $files = [])
     {
         $this->cli = PHP_SAPI === 'cli';
+
+        $this->files = $files;
     }
 
     /**
@@ -148,36 +152,7 @@ class Request implements IRequest
      */
     public function getFiles($className = '\Micro\Web\Uploader')
     {
-        return is_array($_FILES) ? new $className($_FILES) : false;
-    }
-
-    /**
-     * Get all data from storage
-     *
-     * @access public
-     *
-     * @param string $name Storage name
-     *
-     * @return mixed
-     */
-    public function getStorage($name)
-    {
-        return $GLOBALS[$name];
-    }
-
-    /**
-     * Set all data into storage
-     *
-     * @access public
-     *
-     * @param string $name Storage name
-     * @param array $data Any data
-     *
-     * @return void
-     */
-    public function setStorage($name, array $data = [])
-    {
-        $GLOBALS[$name] = $data;
+        return $this->files ? new $className($this->files) : false;
     }
 
     /**
@@ -186,27 +161,14 @@ class Request implements IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function query($name)
+    public function query($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return $this->getVar($name, '_GET');
-    }
-
-    /**
-     * Get any var from Request storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $storage Storage name
-     *
-     * @return mixed
-     */
-    public function getVar($name, $storage)
-    {
-        return array_key_exists($name, $GLOBALS[$storage]) ? $GLOBALS[$storage][$name] : null;
+        return filter_input(INPUT_GET, $name, $filter, $options);
     }
 
     /**
@@ -215,12 +177,14 @@ class Request implements IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return mixed
      */
-    public function post($name)
+    public function post($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return $this->getVar($name, '_POST');
+        return filter_input(INPUT_POST, $name, $filter, $options);
     }
 
     /**
@@ -229,12 +193,14 @@ class Request implements IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function cookie($name)
+    public function cookie($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return $this->getVar($name, '_COOKIE');
+        return filter_input(INPUT_COOKIE, $name, $filter, $options);
     }
 
     /**
@@ -243,12 +209,14 @@ class Request implements IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function session($name)
+    public function session($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return $this->getVar($name, '_SESSION');
+        return filter_input(INPUT_SESSION, $name, $filter, $options);
     }
 
     /**
@@ -257,73 +225,24 @@ class Request implements IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function server($name)
+    public function server($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return $this->getVar($name, '_SERVER');
+        return filter_input(INPUT_SERVER, $name, $filter, $options);
     }
 
     /**
-     * Set value into query storage
+     * Get RequestPayload (RAW DATA)
      *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
+     * @return string|bool
      */
-    public function setQuery($name, $value)
+    public function requestPayload()
     {
-        $this->setVar($name, $value, '_GET');
-    }
-
-    /**
-     * Set value into storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     * @param string $storage Storage name
-     *
-     * @return void
-     */
-    public function setVar($name, $value, $storage)
-    {
-        $GLOBALS[$storage][$name] = $value;
-    }
-
-    /**
-     * Set value into post storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
-     */
-    public function setPost($name, $value)
-    {
-        $this->setVar($name, $value, '_POST');
-    }
-
-    /**
-     * Set value into cookie storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $value Key value
-     *
-     * @return void
-     */
-    public function setCookie($name, $value)
-    {
-        $this->setVar($name, $value, '_COOKIE');
+        return file_get_contents('php://input');
     }
 
     /**
@@ -338,73 +257,6 @@ class Request implements IRequest
      */
     public function setSession($name, $value)
     {
-        $this->setVar($name, $value, '_SESSION');
-    }
-
-    /**
-     * Unset var into query storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetQuery($name)
-    {
-        $this->unsetVar($name, '_GET');
-    }
-
-    /**
-     * Unset var into storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     * @param string $storage Storage name
-     *
-     * @return void
-     */
-    public function unsetVar($name, $storage)
-    {
-        unset($GLOBALS[$storage][$name]);
-    }
-
-    /**
-     * Unset var into post storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetPost($name)
-    {
-        $this->unsetVar($name, '_POST');
-    }
-
-    /**
-     * Unset var into session storage
-     *
-     * @access public
-     *
-     * @param string $name Key name
-     *
-     * @return void
-     */
-    public function unsetSession($name)
-    {
-        $this->unsetVar($name, '_SESSION');
-    }
-
-    /**
-     * Get RequestPayload (RAW DATA)
-     *
-     * @return string|bool
-     */
-    public function getRequestPayload()
-    {
-        return file_get_contents('php://input');
+        $_SESSION[$name] = $value;
     }
 }
