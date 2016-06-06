@@ -65,7 +65,7 @@ abstract class Controller implements IController
      * @param array $filters defined filters
      * @param string $data data to parse
      *
-     * @return null|string
+     * @return mixed
      * @throws Exception
      */
     public function applyFilters($action, $isPre = true, array $filters = [], $data = null)
@@ -91,7 +91,7 @@ abstract class Controller implements IController
             if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
                     /** @var IResponse $redirect */
-                    $redirect = (new ResponseInjector)->get() ?: new Response;
+                    $redirect = (new ResponseInjector)->get();
                     $redirect->addHeader('Location', $_filter->result['redirect']);
 
                     return $redirect;
