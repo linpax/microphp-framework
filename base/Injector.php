@@ -121,9 +121,9 @@ class Injector implements IInjector
 
         $className = $options['class'];
 
-        $options['arguments'] = !empty($options['arguments']) ? $this->buildParams($options['arguments']) : null;
-        $options['property'] = !empty($options['property']) ? $this->buildParams($options['property']) : null;
-        $options['calls'] = !empty($options['calls']) ? $this->buildCalls($options['calls']) : null;
+        $options['arguments'] = !empty($options['arguments']) ? $this->buildParams($options['arguments']) : [];
+        $options['property'] = !empty($options['property']) ? $this->buildParams($options['property']) : [];
+        $options['calls'] = !empty($options['calls']) ? $this->buildCalls($options['calls']) : [];
 
         /** Depends via construction */
         self::$INJECTS[$name] = $this->makeObject($className, $options['arguments']);
