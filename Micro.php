@@ -136,8 +136,9 @@ class Micro
      */
     private function doRun(IRequest $request)
     {
+
         if (!$this->loaded) {
-            $this->initialize();
+            $this->initialize($request);
 
             $this->addListener('kernel.kill', function() {
                 /** @var IRequest $request */
@@ -154,8 +155,6 @@ class Micro
                 $this->loaded = false;
             });
         }
-
-        (new Injector)->addRequirement('request', $request);
 
         if (($output = $this->sendSignal('kernel.request', [])) instanceof IResponse) {
             return $output;
@@ -189,10 +188,11 @@ class Micro
      * Initialization
      *
      * @access protected
+     * @param IRequest $request
      * @return void
      * @throws Exception
      */
-    protected function initialize()
+    protected function initialize(IRequest $request)
     {
         $class = $this->getInjectorClass();
         if (!$class || !class_exists($class)) {
@@ -202,6 +202,7 @@ class Micro
         /** @var IInjector $inject */
         $inject = new $class($this->getConfig());
         $inject->addRequirement('kernel', $this);
+        $inject->addRequirement('request', $request);
 
         $dispatcherInjector = new DispatcherInjector;
         try {
