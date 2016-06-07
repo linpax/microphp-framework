@@ -126,7 +126,7 @@ class Validator
             return '\\Micro\\Validator\\'.self::$validators[$name];
         } elseif (class_exists($name) && is_subclass_of($name, '\Micro\Validator\IValidator')) {
             return $name;
-        } elseif (file_exists((new KernelInjector)->build()->getAppDir() . '/validator/' . $name . '.php')) {
+        } elseif (file_exists((new KernelInjector)->build()->getAppDir().'/validator/'.$name.'.php')) {
             return '\\App\\Validator\\'.$name;
         }
 
