@@ -42,6 +42,6 @@ class ConsoleResolver extends Resolver
      */
     public function getAction()
     {
-        return (new RequestInjector)->get()->getOption('a', 'action') ?: 'default';
+        return (new RequestInjector)->build()->getOption('a', 'action') ?: 'default';
     }
 }

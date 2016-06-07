@@ -44,7 +44,7 @@ abstract class RichController extends Controller
         parent::__construct($modules);
 
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
 
         $this->methodType = $request->getMethod() ?: 'GET';
     }

@@ -24,7 +24,7 @@ class SessionInjector extends Injector
      * @return ISession
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $session = parent::get('session');
 

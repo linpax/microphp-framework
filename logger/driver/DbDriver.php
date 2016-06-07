@@ -43,7 +43,7 @@ class DbDriver extends LoggerDriver
         parent::__construct($params);
 
         $this->tableName = !empty($params['table']) ? $params['table'] : 'logs';
-        $this->db = (new ConnectionInjector)->get();
+        $this->db = (new ConnectionInjector)->build();
 
         if (!$this->db->tableExists($this->tableName)) {
             $this->db->createTable(

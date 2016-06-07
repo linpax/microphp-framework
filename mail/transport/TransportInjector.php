@@ -24,7 +24,7 @@ class TransportInjector extends Injector
      * @return ITransport
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $transport = parent::get('transport');
 

@@ -70,7 +70,7 @@ class EmailDriver extends LoggerDriver
         $mail->setText(ucfirst($level).': '.$message, $this->type);
 
         /** @var ITransport $transport */
-        $transport = (new TransportInjector)->get();
+        $transport = (new TransportInjector)->build();
         $transport->send($mail);
     }
 }

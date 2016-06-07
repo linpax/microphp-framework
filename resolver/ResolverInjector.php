@@ -23,7 +23,7 @@ class ResolverInjector extends Injector
      * @return bool
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $resolver = parent::get('resolver');
 

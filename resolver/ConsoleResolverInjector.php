@@ -23,7 +23,7 @@ class ConsoleResolverInjector extends Injector
      * @return bool
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $consoleResolver = parent::get('consoleResolver');
 

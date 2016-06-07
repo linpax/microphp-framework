@@ -66,7 +66,7 @@ abstract class Identity
      */
     public function addSession($name, $value)
     {
-        return (new SessionInjector)->get()->$name = $value;
+        return (new SessionInjector)->build()->$name = $value;
     }
 
     /**
@@ -94,6 +94,6 @@ abstract class Identity
         $secure = false,
         $httpOnly = true
     ) {
-        return (new CookieInjector)->get()->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+        return (new CookieInjector)->build()->set($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
 }

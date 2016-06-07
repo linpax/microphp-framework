@@ -37,7 +37,7 @@ class User implements IUser
     public function check($permission, array $data = [])
     {
         if (!$this->isGuest()) {
-            return (new AuthInjector)->get()->check($this->getID(), $permission, $data);
+            return (new AuthInjector)->build()->check($this->getID(), $permission, $data);
         } else {
             return false;
         }
@@ -49,7 +49,7 @@ class User implements IUser
      */
     public function isGuest()
     {
-        return !(new SessionInjector)->get() || !(new SessionInjector)->get()->UserID;
+        return !(new SessionInjector)->build() || !(new SessionInjector)->build()->UserID;
     }
 
     /**
@@ -58,7 +58,7 @@ class User implements IUser
      */
     public function getID()
     {
-        return (!$this->isGuest()) ? (new SessionInjector)->get()->UserID : false;
+        return (!$this->isGuest()) ? (new SessionInjector)->build()->UserID : false;
     }
 
     /**
@@ -76,7 +76,7 @@ class User implements IUser
      */
     public function setID($id)
     {
-        (new SessionInjector)->get()->UserID = $id;
+        (new SessionInjector)->build()->UserID = $id;
     }
 
     /**
@@ -86,7 +86,7 @@ class User implements IUser
     {
         if (!$this->isGuest()) {
             $this->setID(null);
-            (new SessionInjector)->get()->destroy();
+            (new SessionInjector)->build()->destroy();
         }
     }
 
@@ -96,7 +96,7 @@ class User implements IUser
      */
     public function getCaptcha()
     {
-        return (new SessionInjector)->get()->captchaCode;
+        return (new SessionInjector)->build()->captchaCode;
     }
 
     /**
@@ -105,7 +105,7 @@ class User implements IUser
      */
     public function setCaptcha($code)
     {
-        (new SessionInjector)->get()->captchaCode = md5($code);
+        (new SessionInjector)->build()->captchaCode = md5($code);
     }
 
     /**
@@ -115,10 +115,10 @@ class User implements IUser
      */
     public function checkCaptcha($code)
     {
-        if (!(new SessionInjector)->get()->captchaCode) {
+        if (!(new SessionInjector)->build()->captchaCode) {
             return null;
         }
 
-        return (new SessionInjector)->get()->captchaCode === md5($code);
+        return (new SessionInjector)->build()->captchaCode === md5($code);
     }
 }

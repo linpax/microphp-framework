@@ -33,7 +33,7 @@ class UniqueValidator extends BaseValidator
             }
             $elementValue = $model->$element;
 
-            $query = new Query((new ConnectionInjector)->get());
+            $query = new Query((new ConnectionInjector)->build());
             $query->select = $this->params['attribute'];
             $query->table = $this->params['table'];
             $query->addWhere($this->params['attribute'].'="'.$elementValue.'"');

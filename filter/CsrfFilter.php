@@ -30,9 +30,9 @@ class CsrfFilter extends Filter
     public function pre(array $params)
     {
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
         /** @var ISession $session */
-        $session = (new SessionInjector)->get();
+        $session = (new SessionInjector)->build();
 
         if ($request->server('REQUEST_METHOD') !== 'POST') {
             return true;
@@ -94,7 +94,7 @@ class CsrfFilter extends Filter
     {
         $gen = md5(mt_rand());
         /** @var ISession $s */
-        $s = (new SessionInjector)->get();
+        $s = (new SessionInjector)->build();
 
         $s->csrf = array_merge(is_array($s->csrf) ? $s->csrf : [], [md5($gen)]);
 

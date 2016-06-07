@@ -24,7 +24,7 @@ class UserInjector extends Injector
      * @return IUser
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $user = parent::get('user');
 

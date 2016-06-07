@@ -24,7 +24,7 @@ class RouterInjector extends Injector
      * @return IRouter
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $router = parent::get('router');
 

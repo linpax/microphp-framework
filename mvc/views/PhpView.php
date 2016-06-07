@@ -91,7 +91,7 @@ class PhpView extends View
         if ($this->layout && (!$layoutPath = $this->getLayoutFile((new KernelInjector)->get()->getAppDir(),
                 $this->module))
         ) {
-            (new LoggerInjector)->get()->send('error', 'Layout `'.$this->layout.'` not found');
+            (new LoggerInjector)->build()->send('error', 'Layout `' . $this->layout . '` not found');
         }
 
         if ($layoutPath) {

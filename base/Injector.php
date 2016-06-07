@@ -22,7 +22,6 @@ class Injector implements IInjector
     /** @var array $INJECTS Configured injects */
     private static $INJECTS = [];
 
-
     /**
      * Injector constructor.
      *
@@ -36,6 +35,14 @@ class Injector implements IInjector
             /** @noinspection PhpIncludeInspection */
             self::$CONFIG = array_merge_recursive(self::$CONFIG, require $configPath);
         }
+    }
+
+    /**
+     * @return null
+     */
+    public function build()
+    {
+        return null; // Replace this in your code
     }
 
     /**

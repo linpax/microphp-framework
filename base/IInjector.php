@@ -26,4 +26,13 @@ interface IInjector
      * @return void
      */
     public function addRequirement($name, $component);
+
+    /**
+     * Build injector
+     *
+     * @access public
+     * @return IDispatcher
+     * @throws Exception
+     */
+    public function build();
 }

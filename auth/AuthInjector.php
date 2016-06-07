@@ -24,7 +24,7 @@ class AuthInjector extends Injector
      * @return IAuth
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $auth = parent::get('auth');
 

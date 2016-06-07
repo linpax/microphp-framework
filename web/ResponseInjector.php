@@ -24,7 +24,7 @@ class ResponseInjector extends Injector
      * @return IResponse
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $response = parent::get('response');
 

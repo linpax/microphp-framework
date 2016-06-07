@@ -24,7 +24,7 @@ class RequestInjector extends Injector
      * @return IRequest
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $request = parent::get('request');
 

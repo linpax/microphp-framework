@@ -70,7 +70,7 @@ abstract class ViewController extends Controller
             $view = $view->render();
         }
 
-        $response = (new ResponseInjector)->get() ?: new Response;
+        $response = (new ResponseInjector)->build() ?: new Response;
         $response->setBody($this->applyFilters($name, false, $filters, $view));
 
         return $response;

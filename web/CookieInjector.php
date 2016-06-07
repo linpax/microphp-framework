@@ -24,7 +24,7 @@ class CookieInjector extends Injector
      * @return ICookie
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $cookie = parent::get('cookie');
 

@@ -24,7 +24,7 @@ class LoggerInjector extends Injector
      * @return Logger
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $logger = parent::get('logger');
 

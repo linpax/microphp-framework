@@ -20,7 +20,7 @@ class DispatcherInjector extends Injector
      * @return IDispatcher
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $dispatcher = parent::get('dispatcher');
 

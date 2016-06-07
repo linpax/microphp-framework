@@ -24,7 +24,7 @@ class ConnectionInjector extends Injector
      * @return IConnection
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $connection = parent::get('connection');
 

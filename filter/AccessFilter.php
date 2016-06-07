@@ -117,7 +117,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IUser $user */
-        $user = (new UserInjector)->get();
+        $user = (new UserInjector)->build();
 
         foreach ($rule['users'] AS $u) {
             switch ($u) {
@@ -167,7 +167,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IUser $user */
-        $user = (new UserInjector)->get();
+        $user = (new UserInjector)->build();
 
         foreach ($rule['roles'] AS $role) {
             if ($user->check($role)) {
@@ -199,7 +199,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
         $userIp = $request->getUserIP();
 
         foreach ($rule['ips'] AS $r) {
@@ -232,7 +232,7 @@ class AccessFilter extends Filter
         }
 
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
         $verb = $request->getMethod();
 
         foreach ($rule['verb'] AS $v) {

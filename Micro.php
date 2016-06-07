@@ -115,7 +115,7 @@ class Micro
             return $this->doRun($request);
         } catch (\Exception $e) {
             if ($this->debug) {
-                (new DispatcherInjector)->get()->signal('kernel.exception', ['exception' => $e]);
+                (new DispatcherInjector)->build()->signal('kernel.exception', ['exception' => $e]);
 
                 throw $e;
             }
@@ -141,7 +141,7 @@ class Micro
 
             $this->addListener('kernel.kill', function() {
                 /** @var IRequest $request */
-                $request = (new RequestInjector)->get();
+                $request = (new RequestInjector)->build();
 
                 if ($this->isDebug() && !$request->isCli() && !$request->isAjax()) {
                     echo '<div class="debug_timer">', (microtime(true) - $this->getStartTime()), '</div>';
@@ -175,7 +175,7 @@ class Micro
 
         $output = $app->action((string)$resolver->getAction());
         if (!$output instanceof IOutput) {
-            $response = (new ResponseInjector)->get();
+            $response = (new ResponseInjector)->build();
             $response->setBody((string)$output);
             $output = $response;
         }
@@ -205,7 +205,7 @@ class Micro
 
         $dispatcherInjector = new DispatcherInjector;
         try {
-            $dispatcher = $dispatcherInjector->get();
+            $dispatcher = $dispatcherInjector->build();
         } catch (Exception $e) {
             $dispatcher = new Dispatcher;
             $dispatcherInjector->addRequirement('dispatcher', $dispatcher);
@@ -266,7 +266,7 @@ class Micro
             return false;
         }
 
-        return (new DispatcherInjector)->get()->addListener($listener, $event, $prior);
+        return (new DispatcherInjector)->build()->addListener($listener, $event, $prior);
     }
 
     /**
@@ -303,7 +303,7 @@ class Micro
      */
     protected function sendSignal($signal, $params)
     {
-        return (new DispatcherInjector)->get()->signal($signal, $params);
+        return (new DispatcherInjector)->build()->signal($signal, $params);
     }
 
     /**
@@ -317,12 +317,12 @@ class Micro
     protected function getResolver()
     {
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
 
         if ($request->isCli()) {
-            $resolver = (new ConsoleResolverInjector)->get();
+            $resolver = (new ConsoleResolverInjector)->build();
         } else {
-            $resolver = (new ResolverInjector)->get();
+            $resolver = (new ResolverInjector)->build();
         }
 
         if (is_string($resolver) && is_subclass_of($resolver, '\Micro\Resolver\IResolver')) {
@@ -349,7 +349,7 @@ class Micro
     private function doException(\Exception $e)
     {
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
 
         $output = $request->isCli() ? new DefaultConsoleCommand([]) : new Response();
 
@@ -406,7 +406,7 @@ class Micro
     public function terminate()
     {
         try {
-            (new DispatcherInjector)->get()->signal('kernel.kill', []);
+            (new DispatcherInjector)->build()->signal('kernel.kill', []);
         } catch (Exception $e) {
             (new Dispatcher)->signal('kernel.kill', []);
         }

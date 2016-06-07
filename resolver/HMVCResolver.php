@@ -47,12 +47,12 @@ class HMVCResolver extends Resolver
     public function getApplication()
     {
         /** @var IRequest $request */
-        $request = (new RequestInjector)->get();
+        $request = (new RequestInjector)->build();
 
         $query = $request->query('r') ?: '/default';
         $query = (substr($query, -1) === '/') ? substr($query, 0, -1) : $query;
 
-        $this->uri = (new RouterInjector)->get()->parse($query, $request->getMethod());
+        $this->uri = (new RouterInjector)->build()->parse($query, $request->getMethod());
 
         $this->initialize();
 
@@ -94,7 +94,7 @@ class HMVCResolver extends Resolver
 
             foreach ($paramBlocks AS $param) {
                 $val = explode('=', $param);
-                (new RequestInjector)->get()->setQuery($val[0], $val[1]);
+                (new RequestInjector)->build()->setQuery($val[0], $val[1]);
             }
         }
     }

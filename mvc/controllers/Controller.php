@@ -50,7 +50,7 @@ abstract class Controller implements IController
             }
         }
 
-        if (!$this->response = (new ResponseInjector)->get()) {
+        if (!$this->response = (new ResponseInjector)->build()) {
             $this->response = new Response;
         }
     }
@@ -91,7 +91,7 @@ abstract class Controller implements IController
             if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
                     /** @var IResponse $redirect */
-                    $redirect = (new ResponseInjector)->get();
+                    $redirect = (new ResponseInjector)->build();
                     $redirect->addHeader('Location', $_filter->result['redirect']);
 
                     return $redirect;
