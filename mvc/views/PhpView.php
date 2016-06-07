@@ -88,7 +88,7 @@ class PhpView extends View
     public function renderRawData($data = '')
     {
         $layoutPath = null;
-        if ($this->layout && (!$layoutPath = $this->getLayoutFile((new KernelInjector)->get()->getAppDir(),
+        if ($this->layout && (!$layoutPath = $this->getLayoutFile((new KernelInjector)->build()->getAppDir(),
                 $this->module))
         ) {
             (new LoggerInjector)->build()->send('error', 'Layout `' . $this->layout . '` not found');
@@ -179,7 +179,7 @@ class PhpView extends View
 
         // Calculate path to view
         if (0 === strpos($calledClass, 'App')) {
-            $path = (new KernelInjector)->get()->getAppDir();
+            $path = (new KernelInjector)->build()->getAppDir();
         } else {
             $path = Autoload::getAlias('Micro');
         }

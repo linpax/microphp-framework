@@ -30,7 +30,7 @@ abstract class Module
     public function __construct()
     {
         /** @var Micro $kernel */
-        $kernel = (new KernelInjector)->get();
+        $kernel = (new KernelInjector)->build();
 
         $path = dirname(
                 str_replace(['\\', 'App'], ['/', $kernel->getAppDir()], get_called_class())

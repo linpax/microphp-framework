@@ -23,7 +23,7 @@ class KernelInjector extends Injector
      * @return Micro
      * @throws Exception
      */
-    public function get()
+    public function build()
     {
         $kernel = $this->get('kernel');
 

@@ -69,7 +69,7 @@ class Asset
 
         $this->publishPath = '/'.(($dir = (new Injector)->param('assetsDirName')) ? $dir : 'assets').'/'.$this->hash;
 
-        $web = (new KernelInjector)->get()->getWebDir();
+        $web = (new KernelInjector)->build()->getWebDir();
 
         if (!file_exists($this->sourcePath)) {
             throw new Exception('Asset dir not exists: '.$this->sourcePath);
