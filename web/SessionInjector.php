@@ -26,7 +26,7 @@ class SessionInjector extends Injector
      */
     public function build()
     {
-        $session = parent::get('session');
+        $session = $this->get('session');
 
         if (!($session instanceof ISession)) {
             throw new Exception('Component `session` not configured');

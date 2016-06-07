@@ -26,7 +26,7 @@ class RouterInjector extends Injector
      */
     public function build()
     {
-        $router = parent::get('router');
+        $router = $this->get('router');
 
         if (!($router instanceof IRouter)) {
             throw new Exception('Component `router` not configured');

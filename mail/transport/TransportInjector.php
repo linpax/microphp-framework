@@ -26,7 +26,7 @@ class TransportInjector extends Injector
      */
     public function build()
     {
-        $transport = parent::get('transport');
+        $transport = $this->get('transport');
 
         if (!($transport instanceof ITransport)) {
             throw new Exception('Component `transport` not configured');

@@ -22,7 +22,7 @@ class DispatcherInjector extends Injector
      */
     public function build()
     {
-        $dispatcher = parent::get('dispatcher');
+        $dispatcher = $this->get('dispatcher');
 
         if (!($dispatcher instanceof IDispatcher)) {
             throw new Exception('Component `dispatcher` not configured');

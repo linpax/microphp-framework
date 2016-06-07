@@ -26,7 +26,7 @@ class RequestInjector extends Injector
      */
     public function build()
     {
-        $request = parent::get('request');
+        $request = $this->get('request');
 
         if (!($request instanceof IRequest)) {
             throw new Exception('Component `request` not configured');

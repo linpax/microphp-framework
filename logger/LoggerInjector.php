@@ -26,7 +26,7 @@ class LoggerInjector extends Injector
      */
     public function build()
     {
-        $logger = parent::get('logger');
+        $logger = $this->get('logger');
 
         if (!($logger instanceof Logger)) {
             throw new Exception('Component `logger` not configured');

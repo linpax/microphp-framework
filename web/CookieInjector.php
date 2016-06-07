@@ -26,7 +26,7 @@ class CookieInjector extends Injector
      */
     public function build()
     {
-        $cookie = parent::get('cookie');
+        $cookie = $this->get('cookie');
 
         if (!($cookie instanceof ICookie)) {
             throw new Exception('Component `cookie` not configured');

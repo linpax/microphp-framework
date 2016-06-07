@@ -26,7 +26,7 @@ class ResponseInjector extends Injector
      */
     public function build()
     {
-        $response = parent::get('response');
+        $response = $this->get('response');
 
         if (!($response instanceof IResponse)) {
             throw new Exception('Component `response` not configured');

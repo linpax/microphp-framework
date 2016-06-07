@@ -25,7 +25,7 @@ class ConsoleResolverInjector extends Injector
      */
     public function build()
     {
-        $consoleResolver = parent::get('consoleResolver');
+        $consoleResolver = $this->get('consoleResolver');
 
         if (!($consoleResolver instanceof IResolver)) {
             throw new Exception('Component `resolver` not configured');

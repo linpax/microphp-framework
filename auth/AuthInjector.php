@@ -26,7 +26,7 @@ class AuthInjector extends Injector
      */
     public function build()
     {
-        $auth = parent::get('auth');
+        $auth = $this->get('auth');
 
         if (!($auth instanceof IAuth)) {
             throw new Exception('Component `auth` not configured');

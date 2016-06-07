@@ -26,7 +26,7 @@ class UserInjector extends Injector
      */
     public function build()
     {
-        $user = parent::get('user');
+        $user = $this->get('user');
 
         if (!($user instanceof IUser)) {
             throw new Exception('Component `user` not configured');

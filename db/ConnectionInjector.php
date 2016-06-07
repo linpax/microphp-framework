@@ -26,7 +26,7 @@ class ConnectionInjector extends Injector
      */
     public function build()
     {
-        $connection = parent::get('connection');
+        $connection = $this->get('connection');
 
         if (!($connection instanceof IConnection)) {
             throw new Exception('Component `connection` not configured');

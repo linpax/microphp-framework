@@ -25,7 +25,7 @@ class KernelInjector extends Injector
      */
     public function get()
     {
-        $kernel = parent::get('kernel');
+        $kernel = $this->get('kernel');
 
         if (!($kernel instanceof Micro)) {
             throw new Exception('Component `kernel` not configured');

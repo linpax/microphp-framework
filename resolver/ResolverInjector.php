@@ -25,7 +25,7 @@ class ResolverInjector extends Injector
      */
     public function build()
     {
-        $resolver = parent::get('resolver');
+        $resolver = $this->get('resolver');
 
         if (!($resolver instanceof IResolver)) {
             throw new Exception('Component `resolver` not configured');
