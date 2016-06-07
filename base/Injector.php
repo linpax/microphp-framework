@@ -91,6 +91,10 @@ class Injector implements IInjector
             return self::$CONFIG[$name];
         }
 
+        if (!empty(self::$INJECTS[$name])) {
+            return self::$INJECTS[$name];
+        }
+
         if (!empty(self::$CONFIG['components'][$name])) {
             return $this->loadInjection($name);
         }
