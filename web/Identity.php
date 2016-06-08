@@ -61,12 +61,13 @@ abstract class Identity
      * @param string $name session parameter name
      * @param mixed $value session parameter value
      *
-     * @return mixed
+     * @return void
      * @throws Exception
      */
     public function addSession($name, $value)
     {
-        return (new SessionInjector)->build()->$name = $value;
+        $session = (new SessionInjector)->build();
+        $session->$name = $value;
     }
 
     /**
