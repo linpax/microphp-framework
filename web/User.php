@@ -20,12 +20,16 @@ use Micro\Base\Exception;
  */
 class User implements IUser
 {
+    protected $session;
+
     /**
      * @access public
+     * @param ISession $session
      * @result void
      */
-    public function __construct()
+    public function __construct(ISession $session)
     {
+        $this->session = $session;
     }
 
     /**
@@ -49,7 +53,7 @@ class User implements IUser
      */
     public function isGuest()
     {
-        return !(new SessionInjector)->build() || !(new SessionInjector)->build()->UserID;
+        return !$this->session->UserID;
     }
 
     /**
@@ -58,7 +62,7 @@ class User implements IUser
      */
     public function getID()
     {
-        return (!$this->isGuest()) ? (new SessionInjector)->build()->UserID : false;
+        return (!$this->isGuest()) ? $this->session->UserID : false;
     }
 
     /**
@@ -76,7 +80,7 @@ class User implements IUser
      */
     public function setID($id)
     {
-        (new SessionInjector)->build()->UserID = $id;
+        $this->session->UserID = $id;
     }
 
     /**
@@ -86,7 +90,7 @@ class User implements IUser
     {
         if (!$this->isGuest()) {
             $this->setID(null);
-            (new SessionInjector)->build()->destroy();
+            $this->session->destroy();
         }
     }
 
@@ -96,7 +100,7 @@ class User implements IUser
      */
     public function getCaptcha()
     {
-        return (new SessionInjector)->build()->captchaCode;
+        return $this->session->captchaCode;
     }
 
     /**
@@ -105,7 +109,7 @@ class User implements IUser
      */
     public function setCaptcha($code)
     {
-        (new SessionInjector)->build()->captchaCode = md5($code);
+        $this->session->captchaCode = md5($code);
     }
 
     /**
@@ -115,10 +119,10 @@ class User implements IUser
      */
     public function checkCaptcha($code)
     {
-        if (!(new SessionInjector)->build()->captchaCode) {
+        if (!$this->session->captchaCode) {
             return null;
         }
 
-        return (new SessionInjector)->build()->captchaCode === md5($code);
+        return $this->session->captchaCode === md5($code);
     }
 }
