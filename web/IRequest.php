@@ -137,10 +137,12 @@ interface IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
-     * @return bool
+     * @return mixed
      */
-    public function session($name);
+    public function session($name, $filter = FILTER_DEFAULT, $options = null);
 
     /**
      * Unset value by key from session storage

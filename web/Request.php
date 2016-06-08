@@ -227,11 +227,15 @@ class Request implements IRequest
      * @param integer $filter
      * @param mixed $options
      *
-     * @return bool
+     * @return mixed
      */
     public function session($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return filter_input(INPUT_SESSION, $name, $filter, $options);
+        if (array_key_exists($name, $_SESSION)) {
+            return filter_var($_SESSION[$name], $filter, $options);
+        }
+
+        return null;
     }
 
     /**
