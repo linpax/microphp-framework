@@ -93,6 +93,7 @@ class Asset
         foreach ($this->required AS $require) {
             if (!in_array($require, $this->published, true) && class_exists($require)) {
                 $this->published[] = $require;
+
                 /** @var Asset $require */
                 $require = new $require($this->view);
                 $require->publish();
@@ -103,14 +104,17 @@ class Asset
             if (is_string($this->js)) {
                 $this->js = [$this->js];
             }
+
             foreach ($this->js AS $script) {
                 $this->view->registerScriptFile($this->publishPath.$script, $this->isHead);
             }
         }
+
         if ($this->css) {
             if (is_string($this->css)) {
                 $this->css = [$this->css];
             }
+
             foreach ($this->css AS $style) {
                 $this->view->registerCssFile($this->publishPath.$style, $this->isHead);
             }

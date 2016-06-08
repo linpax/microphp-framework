@@ -320,10 +320,15 @@ class Micro
         /** @var IRequest $request */
         $request = (new RequestInjector)->build();
 
-        if ($request->isCli()) {
-            $resolver = (new ConsoleResolverInjector)->build();
-        } else {
-            $resolver = (new ResolverInjector)->build();
+        try {
+            if ($request->isCli()) {
+                $resolver = (new ConsoleResolverInjector)->build();
+            } else {
+                $resolver = (new ResolverInjector)->build();
+            }
+        } catch (Exception $e) {
+            $class = $request->isCli() ? '\Micro\Resolver\ConsoleResolver' : '\Micro\Resolver\HMVCResolver';
+            $resolver = new $class;
         }
 
         if (is_string($resolver) && is_subclass_of($resolver, '\Micro\Resolver\IResolver')) {
