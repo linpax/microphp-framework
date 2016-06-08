@@ -18,8 +18,15 @@ class Request implements IRequest
 {
     /** @var bool $cli Is running as CLI */
     protected $cli;
+
+    /** @var array $get $_GET from request */
+    protected $get;
+    /** @var array $data $_POST from request */
+    protected $data;
     /** @var array $files $_FILES from request */
     protected $files;
+    /** @var array $options $_SERVER from request */
+    protected $options;
 
 
     /**
@@ -27,15 +34,21 @@ class Request implements IRequest
      *
      * @access public
      *
+     * @param array $get
+     * @param array $post
      * @param array $files
+     * @param array $server
      *
      * @result void
      */
-    public function __construct(array $files = [])
+    public function __construct(array $get = [], array $post = [], array $files = [], array $server = [])
     {
         $this->cli = PHP_SAPI === 'cli';
 
-        $this->files = $files;
+        $this->get = $get ?: $_GET;
+        $this->data = $post ?: $_POST;
+        $this->files = $files ?: $_FILES;
+        $this->options = $server ?: $_SERVER;
     }
 
     /**
@@ -168,7 +181,11 @@ class Request implements IRequest
      */
     public function query($name, $filter = FILTER_DEFAULT, $options = null)
     {
-        return filter_input(INPUT_GET, $name, $filter, $options);
+        if (array_key_exists($name, $this->get)) {
+            return filter_var($this->get[$name], $filter, $options);
+        }
+
+        return null;
     }
 
     /**
@@ -183,7 +200,7 @@ class Request implements IRequest
      */
     public function setQuery($name, $value)
     {
-        $_GET[$name] = $value;
+        $this->get[$name] = $value;
     }
 
     /**
