@@ -22,6 +22,11 @@ use Micro\Web\UserInjector;
  */
 class AccessFilter extends Filter
 {
+    /** @var IUser $user */
+    protected $user;
+    /** @var IRequest $request */
+    protected $request;
+
     /**
      * @param array $params
      * @return bool
@@ -29,6 +34,9 @@ class AccessFilter extends Filter
      */
     public function pre(array $params)
     {
+        $this->user = (new UserInjector)->build();
+        $this->request = (new RequestInjector)->build();
+
         foreach ($params['rules'] AS $rule) {
             $res = $this->checkRule($rule);
 
@@ -116,28 +124,25 @@ class AccessFilter extends Filter
             $rule['users'][] = $rule['users'];
         }
 
-        /** @var IUser $user */
-        $user = (new UserInjector)->build();
-
         foreach ($rule['users'] AS $u) {
             switch ($u) {
                 case '*':
                     return true;
 
                 case '?':
-                    if ($user->isGuest()) {
+                    if ($this->user->isGuest()) {
                         return true;
                     }
                     break;
 
                 case '@':
-                    if (!$user->isGuest()) {
+                    if (!$this->user->isGuest()) {
                         return true;
                     }
                     break;
 
                 default:
-                    if ($user->getID() === $u) {
+                    if ($this->user->getID() === $u) {
                         return true;
                     }
             }
@@ -166,11 +171,8 @@ class AccessFilter extends Filter
             $rule['roles'][] = $rule['roles'];
         }
 
-        /** @var IUser $user */
-        $user = (new UserInjector)->build();
-
         foreach ($rule['roles'] AS $role) {
-            if ($user->check($role)) {
+            if ($this->user->check($role)) {
                 return true;
             }
         }
@@ -198,9 +200,7 @@ class AccessFilter extends Filter
             $rule['ips'][] = $rule['ips'];
         }
 
-        /** @var IRequest $request */
-        $request = (new RequestInjector)->build();
-        $userIp = $request->getUserIP();
+        $userIp = $this->request->getUserIP();
 
         foreach ($rule['ips'] AS $r) {
             if ($r === '*' || $r === $userIp || (($pos = strpos($r, '*')) !== false && 0 === strpos($userIp, $r))) {
@@ -231,9 +231,7 @@ class AccessFilter extends Filter
             $rule['verb'][] = $rule['verb'];
         }
 
-        /** @var IRequest $request */
-        $request = (new RequestInjector)->build();
-        $verb = $request->getMethod();
+        $verb = $this->request->getMethod();
 
         foreach ($rule['verb'] AS $v) {
             if ($v === $verb) {
