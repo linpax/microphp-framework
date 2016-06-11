@@ -16,4 +16,4 @@ matrix:
 before_script:
   - cd tests
 
-script: phpunit --colors --no-globals-backup
+script: phpunit --colors --no-globals-backup .
