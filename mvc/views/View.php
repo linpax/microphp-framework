@@ -42,7 +42,14 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Add parameter into view
+     *
+     * @access public
+     *
+     * @param string $name parameter name
+     * @param mixed $value parameter value
+     *
+     * @return void
      */
     public function addParameter($name, $value)
     {
@@ -50,7 +57,16 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Widget
+     *
+     * @access public
+     *
+     * @param string $name widget name
+     * @param array $options options array
+     * @param bool $capture capture output
+     *
+     * @return string
+     * @throws Exception
      */
     public function widget($name, array $options = [], $capture = false)
     {
@@ -89,16 +105,24 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Begin widget
+     *
+     * @access public
+     *
+     * @param string $name widget name
+     * @param array $options options array
+     *
+     * @return mixed
+     * @throws Exception
      */
     public function beginWidget($name, array $options = [])
     {
         if (!class_exists($name)) {
-            throw new Exception('Widget '.$name.' not found.');
+            throw new Exception('Widget `' . $name . '` not found.');
         }
 
         if (!empty($GLOBALS['widgetStack'][$name])) {
-            throw new Exception('This widget ('.$name.') already started!');
+            throw new Exception('This widget `' . $name . '` already started!');
         }
 
         $GLOBALS['widgetStack'][$name] = new $name($options);
@@ -109,7 +133,13 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Ending widget
+     *
+     * @access public
+     *
+     * @param string $name widget name
+     *
+     * @throws Exception
      */
     public function endWidget($name = '')
     {
@@ -130,7 +160,7 @@ abstract class View implements IView
         }
 
         if (empty($GLOBALS['widgetStack'][$name]) && !class_exists($name)) {
-            throw new Exception('Widget '.$name.' not started.');
+            throw new Exception('Widget `' . $name . '` not started.');
         }
 
         /** @var \Micro\mvc\Widget $widget widget */
@@ -151,7 +181,14 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Register JS script
+     *
+     * @access public
+     *
+     * @param string $source file name
+     * @param bool $isHead is head block
+     *
+     * @return void
      */
     public function registerScript($source, $isHead = true)
     {
@@ -162,7 +199,14 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Register JS file
+     *
+     * @access public
+     *
+     * @param string $source file name
+     * @param bool $isHead is head block
+     *
+     * @return void
      */
     public function registerScriptFile($source, $isHead = true)
     {
@@ -173,7 +217,14 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Register CSS code
+     *
+     * @access public
+     *
+     * @param string $source file name
+     * @param bool $isHead is head block
+     *
+     * @return void
      */
     public function registerCss($source, $isHead = true)
     {
@@ -184,7 +235,14 @@ abstract class View implements IView
     }
 
     /**
-     * @inheritdoc
+     * Register CSS file
+     *
+     * @access public
+     *
+     * @param string $source file name
+     * @param bool $isHead is head block
+     *
+     * @return void
      */
     public function registerCssFile($source, $isHead = true)
     {

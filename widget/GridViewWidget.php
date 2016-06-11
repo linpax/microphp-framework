@@ -119,7 +119,7 @@ class GridViewWidget extends Widget
             $this->totalCount = ($a = $res->run()) ? $a[0] : 0;
             $this->filterPrefix = $data->table;
 
-            $data->ofset = $this->page * $this->limit;
+            $data->offset = $this->page * $this->limit;
             $data->limit = $this->limit;
             $data = $data->run($data->objectName ? \PDO::FETCH_CLASS : \PDO::FETCH_ASSOC);
         } else { // array
