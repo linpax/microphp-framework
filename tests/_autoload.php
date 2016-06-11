@@ -1,5 +1,7 @@
 <?php
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = include __DIR__ . '/../vendor/autoload.php';
-$loader->add('Micro\\', __DIR__ . '/..');
+require __DIR__ . '/../base/Autoload.php';
+
+spl_autoload_register(['\Micro\Base\Autoload', 'loader'], true, false);
+
+\Micro\Base\Autoload::setAlias('Micro', __DIR__ . '/..');
