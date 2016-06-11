@@ -42,6 +42,7 @@
   "require-dev": {
     "phpunit/phpunit-selenium": "2.x-dev",
     "phpunit/phpunit": "4.8.x-dev",
-    "codeclimate/php-test-reporter": "0.3.*"
+    "codeclimate/php-test-reporter": "0.3.*",
+    "scrutinizer/ocular": "~1.1"
   }
 }
