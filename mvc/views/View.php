@@ -118,11 +118,11 @@ abstract class View implements IView
     public function beginWidget($name, array $options = [])
     {
         if (!class_exists($name)) {
-            throw new Exception('Widget `' . $name . '` not found.');
+            throw new Exception('Widget `'.$name.'` not found.');
         }
 
         if (!empty($GLOBALS['widgetStack'][$name])) {
-            throw new Exception('This widget `' . $name . '` already started!');
+            throw new Exception('This widget `'.$name.'` already started!');
         }
 
         $GLOBALS['widgetStack'][$name] = new $name($options);
@@ -160,7 +160,7 @@ abstract class View implements IView
         }
 
         if (empty($GLOBALS['widgetStack'][$name]) && !class_exists($name)) {
-            throw new Exception('Widget `' . $name . '` not started.');
+            throw new Exception('Widget `'.$name.'` not started.');
         }
 
         /** @var \Micro\mvc\Widget $widget widget */
