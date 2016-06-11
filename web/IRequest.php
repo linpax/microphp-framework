@@ -94,10 +94,12 @@ interface IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function query($name);
+    public function query($name, $filter = FILTER_DEFAULT, $options = null);
 
     /**
      * Set query by key
@@ -115,10 +117,12 @@ interface IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return mixed
      */
-    public function post($name);
+    public function post($name, $filter = FILTER_DEFAULT, $options = null);
 
     /**
      * Get value by key from cookie storage
@@ -126,10 +130,12 @@ interface IRequest
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function cookie($name);
+    public function cookie($name, $filter = FILTER_DEFAULT, $options = null);
 
     /**
      * Get value by key from session storage
@@ -155,16 +161,19 @@ interface IRequest
      */
     public function unsetSession($name);
 
+
     /**
      * Get value by key from server storage
      *
      * @access public
      *
      * @param string $name Key name
+     * @param integer $filter
+     * @param mixed $options
      *
      * @return bool
      */
-    public function server($name);
+    public function server($name, $filter = FILTER_DEFAULT, $options = null);
 
     /**
      * Set value into session storage
