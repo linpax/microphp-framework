@@ -6,6 +6,12 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/linpax/microphp-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/linpax/microphp-framework/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/linpax/microphp-framework/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/linpax/microphp-framework/?branch=master)
 [![Build Status](https://travis-ci.org/linpax/microphp-framework.svg?branch=master)](https://travis-ci.org/linpax/microphp-framework)
+[![HHVM Status](http://hhvm.h4cc.de/badge/linpax/microphp-framework.svg)](http://hhvm.h4cc.de/package/linpax/microphp-framework)
+[![Latest Stable Version](https://poser.pugx.org/linpax/microphp-framework/v/stable)](https://packagist.org/packages/linpax/microphp-framework)
+[![Total Downloads](https://poser.pugx.org/linpax/microphp-framework/downloads)](https://packagist.org/packages/linpax/microphp-framework)
+[![Latest Unstable Version](https://poser.pugx.org/linpax/microphp-framework/v/unstable)](https://packagist.org/packages/linpax/microphp-framework)
+[![License](https://poser.pugx.org/linpax/microphp-framework/license)](https://packagist.org/packages/linpax/microphp-framework)
+[![composer.lock](https://poser.pugx.org/linpax/microphp-framework/composerlock)](https://packagist.org/packages/linpax/microphp-framework)
 
 Micro — молодой H-MVC [фреймворк](http://wiki.micro.linpax.org/Фреймворк) со свободным исходным кодом, написанный на языке программирования [PHP](http://wiki.micro.linpax.org/PHP), для разработки полноценных веб-сервисов и приложений.
 Micro реализует [паттерн](http://wiki.micro.linpax.org/Шаблон проектирования) «иерархический [модель](http://wiki.micro.linpax.org/Модель)-[представление](http://wiki.micro.linpax.org/Представление)-[контроллер](http://wiki.micro.linpax.org/Контроллер)» (HMVC).
