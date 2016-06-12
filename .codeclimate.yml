@@ -1,0 +1,27 @@
+engines:
+# to turn on an engine, add it here and set enabled to `true`
+# to turn off an engine, set enabled to `false` or remove it
+  csslint:
+    enabled: true
+  fixme:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+
+ratings:
+  paths:
+  - "**.css"
+  - "**.php"
+  - "**.module"
+  - "**.inc"
+
+languages:
+   PHP: true
+   JavaScript: true
+
+exclude_paths:
+- "vendor/**/*"
+- "tests/**/*"
+- "tests/*"
