@@ -8,8 +8,8 @@ namespace Micro\Mvc\Models;
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
- * @copyright Copyright &copy; 2013 Oleg Lunegov
- * @license /LICENSE
+ * @copyright Copyright (c) 2013 Oleg Lunegov
+ * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
  * @subpackage Mvc\Models
  * @version 1.0

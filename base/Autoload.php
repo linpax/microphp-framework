@@ -7,8 +7,8 @@ namespace Micro\Base;
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
- * @copyright Copyright &copy; 2013 Oleg Lunegov
- * @license /LICENSE
+ * @copyright Copyright (c) 2013 Oleg Lunegov
+ * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
  * @subpackage Base
  * @version 1.0
@@ -33,7 +33,9 @@ class Autoload
      */
     public static function setAlias($alias, $realPath)
     {
-        self::$aliases[strtolower($alias)] = $realPath;
+        if (is_string($alias) && is_string($realPath)) {
+            self::$aliases[strtolower($alias)] = $realPath;
+        }
     }
 
     /**

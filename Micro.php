@@ -28,9 +28,9 @@ use Micro\Web\ResponseInjector;
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/lugnsk/micro
- * @copyright Copyright &copy; 2013 Oleg Lunegov
- * @license /LICENSE
- * @package micro
+ * @copyright Copyright (c) 2013 Oleg Lunegov
+ * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
+ * @package Micro
  * @version 1.0
  * @since 1.0
  */

@@ -10,7 +10,7 @@ use Micro\Base\Exception;
  * @author Hassan Amouhzi <http://anezi.net>
  * @link https://github.com/php-mod/curl
  * @copyright Copyright &copy; 2013 php-mod
- * @license https://github.com/php-mod/curl/blob/master/LICENSE
+ * @license https://github.com/php-mod/curl/blob/masterhttps://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
  * @subpackage Web
  * @version 1.1.5
