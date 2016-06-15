@@ -173,7 +173,7 @@ class Micro
         }
 
         $output = $app->action((string)$resolver->getAction());
-        if (!$output instanceof IOutput) {
+        if (!($output instanceof IOutput)) {
             $response = (new ResponseInjector)->build();
             $response->setBody((string)$output);
             $output = $response;
@@ -335,7 +335,7 @@ class Micro
             $resolver = new $resolver();
         }
 
-        if (!$resolver instanceof IResolver) {
+        if (!($resolver instanceof IResolver)) {
             throw new Exception('Resolver is not implement an IResolver');
         }
 
