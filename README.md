@@ -9,6 +9,7 @@
 [![HHVM Status](http://hhvm.h4cc.de/badge/linpax/microphp-framework.svg)](http://hhvm.h4cc.de/package/linpax/microphp-framework)
 [![Latest Stable Version](https://poser.pugx.org/linpax/microphp-framework/v/stable)](https://packagist.org/packages/linpax/microphp-framework)
 [![Total Downloads](https://poser.pugx.org/linpax/microphp-framework/downloads)](https://packagist.org/packages/linpax/microphp-framework)
+[![Reference Status](https://www.versioneye.com/php/linpax:microphp-framework/reference_badge.svg?style=flat)](https://www.versioneye.com/php/linpax:microphp-framework/references)
 [![Latest Unstable Version](https://poser.pugx.org/linpax/microphp-framework/v/unstable)](https://packagist.org/packages/linpax/microphp-framework)
 [![License](https://poser.pugx.org/linpax/microphp-framework/license)](https://packagist.org/packages/linpax/microphp-framework)
 [![composer.lock](https://poser.pugx.org/linpax/microphp-framework/composerlock)](https://packagist.org/packages/linpax/microphp-framework)
