@@ -83,7 +83,7 @@ class GridViewWidget extends Widget
     {
         parent::__construct($args);
 
-        if (empty($args['data'])) {
+        if (!array_key_exists('data', $args)) {
             throw new Exception('Argument "data" not initialized into GridViewWidget');
         }
 
