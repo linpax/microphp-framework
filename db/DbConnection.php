@@ -20,6 +20,8 @@ class DbConnection extends Connection
 {
     /** @var \PDO|null $conn Connection to DB */
     protected $conn;
+    /** @var string $tableSchema */
+    protected $tableSchema = 'public';
 
 
     /**
@@ -37,10 +39,14 @@ class DbConnection extends Connection
     {
         parent::__construct();
 
+        if (!empty($config['schema'])) {
+            $this->tableSchema = $config['schema'];
+        }
+
         try {
             $this->conn = new \PDO($config['connectionString'], $config['username'], $config['password'],
-                    $options
-                );
+                $options
+            );
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
                 throw new Exception('Connect to DB failed: '.$e->getMessage());
@@ -68,7 +74,7 @@ class DbConnection extends Connection
 
         if ($fetchType === \PDO::FETCH_CLASS) {
             /** @noinspection PhpMethodParametersCountMismatchInspection */
-            $sth->setFetchMode($fetchType, $fetchClass, ['new' => false]);
+            $sth->setFetchMode($fetchType, ucfirst($fetchClass), ['new' => false]);
         } else {
             $sth->setFetchMode($fetchType);
         }
@@ -132,7 +138,18 @@ class DbConnection extends Connection
      */
     public function listTables()
     {
-        return $this->conn->query('SHOW TABLES;')->fetchAll(\PDO::FETCH_COLUMN, 0);
+        $sql = 'SHOW TABLES;';
+
+        if ($this->getDriverType() == 'pgsql') {
+            $sql = 'SELECT table_name FROM information_schema.tables WHERE table_schema = \'' . $this->tableSchema . '\'';
+        }
+
+        return $this->conn->query($sql)->fetchAll(\PDO::FETCH_COLUMN, 0);
+    }
+
+    public function getDriverType()
+    {
+        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
     }
 
     /**
@@ -280,10 +297,10 @@ class DbConnection extends Connection
     {
         $keys = [];
         foreach ($params AS $key => $val) {
-            $keys[] = '`'.$table.'`.`'.$key.'`="'.$val.'"';
+            $keys[] = $table . '.' . $key . '=\'' . $val . '\'';
         }
 
-        $sth = $this->conn->prepare('SELECT * FROM `'.$table.'` WHERE '.implode(' AND ', $keys).' LIMIT 1;');
+        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
         /** @noinspection PdoApiUsageInspection */
         $sth->execute();
 

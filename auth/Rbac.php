@@ -126,9 +126,11 @@ abstract class Rbac implements IAuth
         foreach ($elements AS $key => $element) {
             if ($element['based'] === (string)$parentId) {
                 $children = $this->tree($elements, $element['name']);
+
                 if ($children) {
                     $element['childs'] = $children;
                 }
+
                 $branch[$element['name']] = $element;
                 unset($elements[$key]);
             }
@@ -151,9 +153,9 @@ abstract class Rbac implements IAuth
     {
         $query = new Query($this->db);
         $query->distinct = true;
-        $query->select = '`role` AS `name`';
-        $query->table = '`rbac_user`';
-        $query->addWhere('`user`='.$userId);
+        $query->select = $this->db->getDriverType() == 'pgsql' ? '"role" AS "name"' : '`role` AS `name`';
+        $query->table = $this->db->getDriverType() == 'pgsql' ? '"rbac_user"' : '`rbac_user`';
+        $query->addWhere(($this->db->getDriverType() == 'pgsql' ? '"user"=' : '`user`=') . $userId);
         $query->single = false;
 
         return $query->run(\PDO::FETCH_ASSOC);

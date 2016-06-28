@@ -203,6 +203,14 @@ interface IConnection
     public function exists($table, array $params = []);
 
     /**
+     * Get driver type of current connection
+     *
+     * @access public
+     * @return string
+     */
+    public function getDriverType();
+
+    /**
      * Count element in sub-query
      *
      * @access public
