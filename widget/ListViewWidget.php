@@ -98,12 +98,15 @@ class ListViewWidget extends Widget
             }
 
             $select = $data->select;
+            $orderBy = $data->order;
 
-            $data->select = 'COUNT(id)';
+            $data->select = 'COUNT(*)';
+            $data->order = '';
             $data->single = true;
             $this->totalCount = $data->run(\PDO::FETCH_BOTH)[0];
 
             $data->select = $select;
+            $data->order = $orderBy;
             $data->offset = $this->page * $this->limit;
             $data->limit = $this->limit;
             $data->single = false;
