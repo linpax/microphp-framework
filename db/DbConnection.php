@@ -68,7 +68,7 @@ class DbConnection extends Connection
 
         if ($fetchType === \PDO::FETCH_CLASS) {
             /** @noinspection PhpMethodParametersCountMismatchInspection */
-            $sth->setFetchMode($fetchType, ucfirst($fetchClass), ['new' => false]);
+            $sth->setFetchMode($fetchType, $fetchClass, ['new' => false]);
         } else {
             $sth->setFetchMode($fetchType);
         }
