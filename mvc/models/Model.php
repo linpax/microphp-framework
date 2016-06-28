@@ -107,7 +107,7 @@ abstract class Model extends FormModel implements IModel
     public static function finder(IQuery $query = null, $single = false)
     {
         $query = ($query instanceof Query) ? $query : new Query((new ConnectionInjector)->build());
-        $query->table = static::$tableName.' `m`';
+        $query->table = static::$tableName . ' m';
         $query->objectName = get_called_class();
         $query->single = $single;
 
