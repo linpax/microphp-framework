@@ -151,7 +151,8 @@ class Form
     protected function getBlock($name, array &$options)
     {
         $block = [];
-        if (!empty($options[$name])) {
+
+        if (array_key_exists($name, $options)) {
             $block = $options[$name];
             unset($options[$name]);
         }

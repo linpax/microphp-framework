@@ -193,6 +193,7 @@ class Html
 
         $attributes['name'] = $name;
         $opts = '';
+
         foreach ($options AS $option) {
             if (!empty($option['label'])) {
                 $opts .= static::optGroup($option['label'], $option['options'], $option['attributes']);

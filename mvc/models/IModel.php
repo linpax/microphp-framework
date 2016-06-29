@@ -92,4 +92,12 @@ interface IModel extends IFormModel
      * @return void
      */
     public function afterDelete();
+
+    /**
+     * Is a new record?
+     *
+     * @access public
+     * @return boolean
+     */
+    public function isNewRecord();
 }
