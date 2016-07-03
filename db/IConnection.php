@@ -1,8 +1,9 @@
-<?php
+<?php /** MicroInterfaceConnection */
 
 namespace Micro\Db;
 
 use Micro\Base\Exception;
+use Micro\Db\Drivers\IDriver;
 
 /**
  * Interface for a connections to data bases
@@ -16,7 +17,7 @@ use Micro\Base\Exception;
  * @version 1.0
  * @since 1.0
  */
-interface IConnection
+interface IConnection extends IDriver
 {
     /**
      * Send RAW query to DB

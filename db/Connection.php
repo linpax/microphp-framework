@@ -1,4 +1,4 @@
-<?php
+<?php /** ConnectionMicro */
 
 namespace Micro\Db;
 
@@ -16,14 +16,52 @@ namespace Micro\Db;
  */
 abstract class Connection implements IConnection
 {
+    private $driver;
+
+
     /**
-     * Construct for this class
+     * Make connection to database with PDO driver
      *
      * @access public
-     * @result void
-     * @throws \Micro\Base\Exception
+     * @param string $dsn DSN connection string
+     * @param array $config
+     * @param array $options
      */
-    public function __construct()
+    public function __construct($dsn, $config = [], array $options = [])
     {
+    }
+
+    /**
+     * @param $dsn
+     * @param array $config
+     * @param array $options
+     */
+    public function setDriver($dsn, $config = [], array $options = [])
+    {
+        unset($this->driver);
+
+        $class = '\Micro\Db\Drivers\\' . ucfirst(substr($dsn, 0, strpos($dsn, ':'))) . 'Connection';
+
+        $this->driver = new $class($dsn, $config, $options);
+    }
+
+    /**
+     * is triggered when invoking inaccessible methods in an object context.
+     *
+     * @access public
+     *
+     * @param $name string
+     * @param $arguments array
+     *
+     * @return mixed
+     * @throws \BadMethodCallException
+     */
+    public function __call($name, $arguments)
+    {
+        if (!method_exists($this->driver, $name)) {
+            throw new \BadMethodCallException('Method `` not found in connection driver ``');
+        }
+
+        return call_user_func_array([$this->driver, $name], $arguments);
     }
 }

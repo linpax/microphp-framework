@@ -1,26 +1,26 @@
-<?php /** MicroDataBaseConnection */
+<?php /** MysqlDriverMicro */
 
-namespace Micro\Db;
+namespace Micro\Db\Drivers;
 
 use Micro\Base\Exception;
 
 /**
- * Connection class file.
+ * MySQL Driver class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Db
+ * @subpackage Db\Drivers
  * @version 1.0
  * @since 1.0
  */
-class DbConnection extends Connection
+class MysqlDriver extends Driver
 {
     /** @var \PDO|null $conn Connection to DB */
     protected $conn;
-    /** @var string $tableSchema */
+    /** @var string $tableSchema Table schema for postgres */
     protected $tableSchema = 'public';
 
 
@@ -44,9 +44,9 @@ class DbConnection extends Connection
         }
 
         try {
-            $this->conn = new \PDO($config['connectionString'], $config['username'], $config['password'],
-                $options
-            );
+            $this->conn = new \PDO($config['dsn'], $config['username'], $config['password'], $options);
+            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
                 throw new Exception('Connect to DB failed: '.$e->getMessage());
@@ -66,7 +66,17 @@ class DbConnection extends Connection
     }
 
     /**
-     * @inheritdoc
+     * Send RAW query to DB
+     *
+     * @access public
+     *
+     * @param string $query raw query to db
+     * @param array $params params for query
+     * @param int $fetchType fetching type
+     * @param string $fetchClass fetching class
+     *
+     * @return \PDOStatement|array
+     * @throws Exception
      */
     public function rawQuery($query = '', array $params = [], $fetchType = \PDO::FETCH_ASSOC, $fetchClass = 'Model')
     {
@@ -74,7 +84,7 @@ class DbConnection extends Connection
 
         if ($fetchType === \PDO::FETCH_CLASS) {
             /** @noinspection PhpMethodParametersCountMismatchInspection */
-            $sth->setFetchMode($fetchType, ucfirst($fetchClass), ['new' => false]);
+            $sth->setFetchMode($fetchType, $fetchClass, ['new' => false]);
         } else {
             $sth->setFetchMode($fetchType);
         }
@@ -89,13 +99,22 @@ class DbConnection extends Connection
     }
 
     /**
-     * @inheritdoc
+     * List database names on this connection
+     *
+     * @access public
+     * @return array|boolean
      */
     public function listDatabases()
     {
-        $sth = $this->conn->query('SHOW DATABASES;');
+        $sql = 'SHOW DATABASES;';
 
+        if ($this->getDriverType() === 'pgsql') {
+            $sql = 'SELECT datname FROM pg_database;';
+        }
+
+        $sth = $this->conn->query($sql);
         $result = [];
+
         foreach ($sth->fetchAll() AS $row) {
             $result[] = $row[0];
         }
@@ -103,8 +122,17 @@ class DbConnection extends Connection
         return $result;
     }
 
+    public function getDriverType()
+    {
+        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+    }
+
     /**
-     * @inheritdoc
+     * Info of database
+     *
+     * @access public
+     * @param string $dbName Database name
+     * @return array
      */
     public function infoDatabase($dbName)
     {
@@ -145,11 +173,6 @@ class DbConnection extends Connection
         }
 
         return $this->conn->query($sql)->fetchAll(\PDO::FETCH_COLUMN, 0);
-    }
-
-    public function getDriverType()
-    {
-        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
     }
 
     /**
@@ -197,6 +220,22 @@ class DbConnection extends Connection
      */
     public function listFields($table)
     {
+        if ($this->getDriverType() === 'pgsql') {
+            $sth = $this->conn->query('SELECT * FROM information_schema.columns WHERE table_name =\'categories\'');
+
+            $result = [];
+            foreach ($sth->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+                $result[] = [
+                    'field' => $row['column_name'],
+                    'type' => $row['data_type'] . (($max = $row['character_maximum_length']) ? '(' . $max . ')' : ''),
+                    'null' => $row['is_nullable'],
+                    'default' => $row['column_default']
+                ];
+            }
+
+            return $result;
+        }
+
         $sth = $this->conn->query("SHOW COLUMNS FROM {$table};");
 
         $result = [];
@@ -239,7 +278,12 @@ class DbConnection extends Connection
      */
     public function insert($table, array $line = [], $multi = false)
     {
-        $fields = '`'.implode('`, `', array_keys($multi ? $line[0] : $line)).'`';
+        $fields = '`' . implode('`, `', array_keys($multi ? $line[0] : $line)) . '`';
+
+        if ($this->getDriverType() === 'pgsql') {
+            $fields = '"' . implode('", "', array_keys($multi ? $line[0] : $line)) . '"';
+        }
+
         $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
         $rows = $multi ? $line : [$line];
         $id = null;

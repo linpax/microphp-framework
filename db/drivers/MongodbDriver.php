@@ -1,22 +1,22 @@
-<?php /** MongoDbConnectionMicro */
+<?php /** MongodbDriverMicro */
 
-namespace Micro\Db;
+namespace Micro\Db\Drivers;
 
 use Micro\Base\Exception;
 
 /**
- * MongoDB Connection class file.
+ * MongoDB Driver class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Db
+ * @subpackage Db\Drivers
  * @version 1.0
  * @since 1.0
  */
-class MongoConnection extends Connection
+class MongodbDriver extends Driver
 {
     /** @var \MongoClient $conn Connection to MongoDB */
     public $conn;
