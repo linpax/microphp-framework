@@ -2,8 +2,6 @@
 
 namespace Micro\Db\Drivers;
 
-use Micro\Base\Exception;
-
 /**
  * MySQL Driver class file.
  *
@@ -18,113 +16,18 @@ use Micro\Base\Exception;
  */
 class MysqlDriver extends Driver
 {
-    /** @var \PDO|null $conn Connection to DB */
-    protected $conn;
-    /** @var string $tableSchema Table schema for postgres */
-    protected $tableSchema = 'public';
-
-
     /**
-     * Construct for this class
+     * Set current database
      *
      * @access public
      *
-     * @param array $config
-     * @param array $options
+     * @param string $dbName Database name
      *
-     * @result void
-     * @throws Exception
+     * @return boolean
      */
-    public function __construct(array $config = [], array $options = [])
+    public function switchDatabase($dbName)
     {
-        parent::__construct();
-
-        if (!empty($config['schema'])) {
-            $this->tableSchema = $config['schema'];
-        }
-
-        try {
-            $this->conn = new \PDO($config['dsn'], $config['username'], $config['password'], $options);
-            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-        } catch (\PDOException $e) {
-            if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
-                throw new Exception('Connect to DB failed: '.$e->getMessage());
-            }
-        }
-    }
-
-    /**
-     * Destructor for this class
-     *
-     * @access public
-     * @return void
-     */
-    public function __destruct()
-    {
-        $this->conn = null;
-    }
-
-    /**
-     * Send RAW query to DB
-     *
-     * @access public
-     *
-     * @param string $query raw query to db
-     * @param array $params params for query
-     * @param int $fetchType fetching type
-     * @param string $fetchClass fetching class
-     *
-     * @return \PDOStatement|array
-     * @throws Exception
-     */
-    public function rawQuery($query = '', array $params = [], $fetchType = \PDO::FETCH_ASSOC, $fetchClass = 'Model')
-    {
-        $sth = $this->conn->prepare($query);
-
-        if ($fetchType === \PDO::FETCH_CLASS) {
-            /** @noinspection PhpMethodParametersCountMismatchInspection */
-            $sth->setFetchMode($fetchType, $fetchClass, ['new' => false]);
-        } else {
-            $sth->setFetchMode($fetchType);
-        }
-
-        foreach ($params AS $name => $value) {
-            $sth->bindValue($name, $value);
-        }
-
-        $sth->execute();
-
-        return $sth->fetchAll();
-    }
-
-    /**
-     * List database names on this connection
-     *
-     * @access public
-     * @return array|boolean
-     */
-    public function listDatabases()
-    {
-        $sql = 'SHOW DATABASES;';
-
-        if ($this->getDriverType() === 'pgsql') {
-            $sql = 'SELECT datname FROM pg_database;';
-        }
-
-        $sth = $this->conn->query($sql);
-        $result = [];
-
-        foreach ($sth->fetchAll() AS $row) {
-            $result[] = $row[0];
-        }
-
-        return $result;
-    }
-
-    public function getDriverType()
-    {
-        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        return $this->conn->exec("USE {$dbName};") !== false;
     }
 
     /**
@@ -154,47 +57,69 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * @inheritdoc
+     * List database names on this connection
+     *
+     * @access public
+     * @return array
      */
-    public function tableExists($table)
+    public function listDatabases()
     {
-        return in_array($table, $this->listTables(), false);
+        $sql = 'SHOW DATABASES;';
+
+        if ($this->getDriverType() === 'pgsql') {
+            $sql = 'SELECT datname FROM pg_database;';
+        }
+
+        $sth = $this->conn->query($sql);
+        $result = [];
+
+        foreach ($sth->fetchAll() AS $row) {
+            $result[] = $row[0];
+        }
+
+        return $result;
+    }
+
+    public function getDriverType()
+    {
+        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
     }
 
     /**
-     * @inheritdoc
+     * List tables in db
+     *
+     * @access public
+     * @return array
      */
     public function listTables()
     {
-        $sql = 'SHOW TABLES;';
-
-        if ($this->getDriverType() == 'pgsql') {
-            $sql = 'SELECT table_name FROM information_schema.tables WHERE table_schema = \'' . $this->tableSchema . '\'';
-        }
-
-        return $this->conn->query($sql)->fetchAll(\PDO::FETCH_COLUMN, 0);
+        return $this->conn->query('SHOW TABLES;')->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
 
     /**
-     * @inheritdoc
+     * Create a new table
+     *
+     * @param string $name Table name
+     * @param array $elements Table elements
+     * @param string $params Table params
+     *
+     * @return int
      */
     public function createTable($name, array $elements = [], $params = '')
     {
         return $this->conn->exec(
-            sprintf('SELECT TABLE IF NOT EXISTS `%s` (%s) %s;', $name, implode(',', $elements), $params)
+            sprintf('SELECT TABLE IF NOT EXISTS `%s` (%s) %s;', $name, implode(', ', $elements), $params)
         );
     }
 
     /**
-     * @inheritdoc
-     */
-    public function clearTable($name)
-    {
-        return $this->conn->exec("TRUNCATE {$name};");
-    }
-
-    /**
-     * @inheritdoc
+     * Remove table from database
+     *
+     * @access public
+     *
+     * @param string $name Table name
+     *
+     * @return mixed
      */
     public function removeTable($name)
     {
@@ -202,40 +127,30 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * @inheritdoc
+     * Clear all data from table
+     *
+     * @access public
+     *
+     * @param string $name Table name
+     *
+     * @return int
      */
-    public function fieldExists($field, $table)
+    public function clearTable($name)
     {
-        foreach ($this->listFields($table) AS $tbl) {
-            if ($tbl['field'] === $field) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->conn->exec("TRUNCATE {$name};");
     }
 
     /**
-     * @inheritdoc
+     * Get array fields into table
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     *
+     * @return array
      */
     public function listFields($table)
     {
-        if ($this->getDriverType() === 'pgsql') {
-            $sth = $this->conn->query('SELECT * FROM information_schema.columns WHERE table_name =\'categories\'');
-
-            $result = [];
-            foreach ($sth->fetchAll(\PDO::FETCH_ASSOC) as $row) {
-                $result[] = [
-                    'field' => $row['column_name'],
-                    'type' => $row['data_type'] . (($max = $row['character_maximum_length']) ? '(' . $max . ')' : ''),
-                    'null' => $row['is_nullable'],
-                    'default' => $row['column_default']
-                ];
-            }
-
-            return $result;
-        }
-
         $sth = $this->conn->query("SHOW COLUMNS FROM {$table};");
 
         $result = [];
@@ -254,35 +169,38 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * @inheritdoc
+     * Get info of a field
+     *
+     * @access public
+     *
+     * @param string $field Field name
+     * @param string $table Table name
+     *
+     * @return array|boolean
      */
     public function fieldInfo($field, $table)
     {
-        return $this->conn->query("SELECT {$field} FROM {$table} LIMIT 1;")->getColumnMeta(0);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function switchDatabase($dbName)
-    {
-        if ($this->conn->exec("USE {$dbName};") !== false) {
-            return true;
-        } else {
-            return false;
+        if ($this->fieldExists($field, $table)) {
+            return $this->conn->query("SELECT {$field} FROM {$table} LIMIT 1;")->getColumnMeta(0);
         }
+
+        return false;
     }
 
     /**
-     * @inheritdoc
+     * Insert row into table
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     * @param array $line Line or lines to added
+     * @param bool $multi Is multi rows
+     *
+     * @return bool
      */
     public function insert($table, array $line = [], $multi = false)
     {
         $fields = '`' . implode('`, `', array_keys($multi ? $line[0] : $line)) . '`';
-
-        if ($this->getDriverType() === 'pgsql') {
-            $fields = '"' . implode('", "', array_keys($multi ? $line[0] : $line)) . '"';
-        }
 
         $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
         $rows = $multi ? $line : [$line];
@@ -304,7 +222,15 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * @inheritdoc
+     * Update row in table
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     * @param array $elements Elements to update
+     * @param string $conditions Conditions for search
+     *
+     * @return bool
      */
     public function update($table, array $elements = [], $conditions = '')
     {
@@ -327,37 +253,35 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * @inheritdoc
+     * Delete row from table
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     * @param string $conditions Conditions to search
+     * @param array $params Params array
+     *
+     * @return bool
      */
-    public function delete($table, $conditions, array $ph = [])
+    public function delete($table, $conditions, array $params = [])
     {
-        return $this->conn->prepare("DELETE FROM {$table} WHERE {$conditions};")->execute($ph);
+        return $this->conn->prepare("DELETE FROM {$table} WHERE {$conditions};")->execute($params);
     }
 
     /**
-     * @inheritdoc
+     * Count element in sub-query
+     *
+     * @access public
+     *
+     * @param string $query Query
+     * @param string $table Table name
+     *
+     * @return integer|boolean
      */
-    public function exists($table, array $params = [])
+    public function count($query = '', $table = '')
     {
-        $keys = [];
-        foreach ($params AS $key => $val) {
-            $keys[] = $table . '.' . $key . '=\'' . $val . '\'';
-        }
-
-        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
-        /** @noinspection PdoApiUsageInspection */
-        $sth->execute();
-
-        return (bool)$sth->rowCount();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function count($subQuery = '', $table = '')
-    {
-        if ($subQuery) {
-            $sth = $this->conn->prepare("SELECT COUNT(*) FROM ({$subQuery}) AS m;");
+        if ($query) {
+            $sth = $this->conn->prepare("SELECT COUNT(*) FROM ({$query}) AS m;");
         } elseif ($table) {
             $sth = $this->conn->prepare("SELECT COUNT(*) FROM {$table} AS m;");
         } else {
@@ -368,5 +292,30 @@ class MysqlDriver extends Driver
         }
 
         return false;
+    }
+
+    /**
+     * Exists element in the table by params
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     * @param array $params Params array
+     *
+     * @return bool
+     */
+    public function exists($table, array $params = [])
+    {
+        $keys = [];
+
+        foreach ($params AS $key => $val) {
+            $keys[] = $table . '.' . $key . '=\'' . $val . '\'';
+        }
+
+        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
+        /** @noinspection PdoApiUsageInspection */
+        $sth->execute();
+
+        return (bool)$sth->rowCount();
     }
 }
