@@ -48,6 +48,17 @@ abstract class Driver implements IDriver
     }
 
     /**
+     * Get driver type of current connection
+     *
+     * @access public
+     * @return string
+     */
+    public function getDriverType()
+    {
+        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
+    }
+
+    /**
      * Destructor for this class
      *
      * @access public

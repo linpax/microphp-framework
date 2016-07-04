@@ -80,11 +80,6 @@ class MysqlDriver extends Driver
         return $result;
     }
 
-    public function getDriverType()
-    {
-        return $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME);
-    }
-
     /**
      * List tables in db
      *
