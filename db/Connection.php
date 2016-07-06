@@ -2,6 +2,7 @@
 
 namespace Micro\Db;
 
+use Micro\Base\Exception;
 use Micro\Db\Drivers\IDriver;
 
 /**
@@ -48,12 +49,17 @@ class Connection implements IConnection
      * @param array $options Other options
      *
      * @return void
+     * @throws Exception
      */
     public function setDriver($dsn, array $config = [], array $options = [])
     {
-        unset($this->driver);
+        $class = '\Micro\Db\Drivers\\' . ucfirst(substr($dsn, 0, strpos($dsn, ':'))) . 'Driver';
 
-        $class = '\Micro\Db\Drivers\\' . ucfirst(substr($dsn, 0, strpos($dsn, ':'))) . 'Connection';
+        if (!class_exists($class)) {
+            throw new Exception('DB driver `' . $class . '` not supported');
+        }
+
+        unset($this->driver);
 
         $this->driver = new $class($dsn, $config, $options);
     }
