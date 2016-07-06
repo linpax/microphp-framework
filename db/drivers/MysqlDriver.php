@@ -290,7 +290,7 @@ class MysqlDriver extends Driver
         $keys = [];
 
         foreach ($params AS $key => $val) {
-            $keys[] = $table . '.' . $key . '=\'' . $val . '\'';
+            $keys[] = '`' . $key . '`="' . $val . '""';
         }
 
         $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');

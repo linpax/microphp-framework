@@ -192,6 +192,7 @@ class PgsqlDriver extends Driver
             foreach ($rows AS $row) {
                 $res = $this->conn->prepare('INSERT INTO ' . $table . ' (' . $fields . ') VALUES (' . $values . ');');
                 $dbh = $res->execute($row);
+                die(var_dump($res->errorCode() . ': ' . print_r($res->errorInfo(), true)));
             }
 
             $id = $dbh ? $this->conn->lastInsertId() : false;
@@ -260,6 +261,16 @@ class PgsqlDriver extends Driver
      */
     public function exists($table, array $params = [])
     {
-        // TODO: Implement exists() method.
+        $keys = [];
+
+        foreach ($params AS $key => $val) {
+            $keys[] = '"' . $key . '"=\'' . $val . '\'';
+        }
+
+        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
+        /** @noinspection PdoApiUsageInspection */
+        $sth->execute();
+
+        return (bool)$sth->rowCount();
     }
 }
