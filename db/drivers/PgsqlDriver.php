@@ -81,7 +81,7 @@ class PgsqlDriver extends Driver
     public function listTables()
     {
         return $this->conn->query(
-            'SELECT table_name FROM information_schema.tables WHERE table_schema = \'' . $this->tableSchema . '\''
+            'SELECT table_name FROM information_schema.tables WHERE table_schema = \'' . $this->tableSchema . '\';'
         )->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
 
@@ -93,7 +93,9 @@ class PgsqlDriver extends Driver
      */
     public function listDatabases()
     {
-        // TODO: Implement listDatabases() method.
+        return $this->conn->query(
+            'SELECT datname FROM pg_database WHERE datistemplate = false and datname != \'postgres\';'
+        )->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
 
     /**
@@ -122,20 +124,6 @@ class PgsqlDriver extends Driver
     public function removeTable($name)
     {
         // TODO: Implement removeTable() method.
-    }
-
-    /**
-     * Clear all data from table
-     *
-     * @access public
-     *
-     * @param string $name Table name
-     *
-     * @return int
-     */
-    public function clearTable($name)
-    {
-        // TODO: Implement clearTable() method.
     }
 
     /**
@@ -202,7 +190,8 @@ class PgsqlDriver extends Driver
 
             $dbh = null;
             foreach ($rows AS $row) {
-                $dbh = $this->conn->prepare("INSERT INTO {$table} ({$fields}) VALUES ({$values});")->execute($row);
+                $res = $this->conn->prepare('INSERT INTO ' . $table . ' (' . $fields . ') VALUES (' . $values . ');');
+                $dbh = $res->execute($row);
             }
 
             $id = $dbh ? $this->conn->lastInsertId() : false;
