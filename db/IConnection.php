@@ -2,8 +2,6 @@
 
 namespace Micro\Db;
 
-use Micro\Db\Drivers\IDriver;
-
 /**
  * Interface for a connections to data bases
  *
@@ -16,7 +14,7 @@ use Micro\Db\Drivers\IDriver;
  * @version 1.0
  * @since 1.0
  */
-interface IConnection extends IDriver
+interface IConnection
 {
     /**
      * Set active connection driver
@@ -30,4 +28,17 @@ interface IConnection extends IDriver
      * @return void
      */
     public function setDriver($dsn, array $config = [], array $options = []);
+
+    /**
+     * Send sql commands to driver
+     *
+     * @access public
+     *
+     * @param string $name Driver method name
+     * @param array $arguments Method arguments
+     *
+     * @return mixed
+     * @throws \BadMethodCallException
+     */
+    public function __call($name, array $arguments = []);
 }

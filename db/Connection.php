@@ -16,7 +16,7 @@ use Micro\Db\Drivers\IDriver;
  * @version 1.0
  * @since 1.0
  */
-abstract class Connection implements IConnection
+class Connection implements IConnection
 {
     /** @var IDriver $driver */
     private $driver;

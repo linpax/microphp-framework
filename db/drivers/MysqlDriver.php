@@ -122,20 +122,6 @@ class MysqlDriver extends Driver
     }
 
     /**
-     * Clear all data from table
-     *
-     * @access public
-     *
-     * @param string $name Table name
-     *
-     * @return int
-     */
-    public function clearTable($name)
-    {
-        return $this->conn->exec("TRUNCATE {$name};");
-    }
-
-    /**
      * Get array fields into table
      *
      * @access public

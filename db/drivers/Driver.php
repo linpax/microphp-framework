@@ -84,6 +84,20 @@ abstract class Driver implements IDriver
     }
 
     /**
+     * Clear all data from table
+     *
+     * @access public
+     *
+     * @param string $name Table name
+     *
+     * @return int
+     */
+    public function clearTable($name)
+    {
+        return $this->conn->exec("TRUNCATE {$name};");
+    }
+
+    /**
      * Field exists in table
      *
      * @access public
