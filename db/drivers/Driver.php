@@ -84,6 +84,20 @@ abstract class Driver implements IDriver
     }
 
     /**
+     * Remove table from database
+     *
+     * @access public
+     *
+     * @param string $name Table name
+     *
+     * @return mixed
+     */
+    public function removeTable($name)
+    {
+        return $this->conn->exec("DROP TABLE {$name};");
+    }
+
+    /**
      * Clear all data from table
      *
      * @access public
@@ -95,6 +109,25 @@ abstract class Driver implements IDriver
     public function clearTable($name)
     {
         return $this->conn->exec("TRUNCATE {$name};");
+    }
+
+    /**
+     * Get info of a field
+     *
+     * @access public
+     *
+     * @param string $field Field name
+     * @param string $table Table name
+     *
+     * @return array|boolean
+     */
+    public function fieldInfo($field, $table)
+    {
+        if ($this->fieldExists($field, $table)) {
+            return $this->conn->query("SELECT {$field} FROM {$table} LIMIT 1;")->getColumnMeta(0);
+        }
+
+        return false;
     }
 
     /**
@@ -113,6 +146,48 @@ abstract class Driver implements IDriver
             if ($tbl['field'] === $field) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete row from table
+     *
+     * @access public
+     *
+     * @param string $table Table name
+     * @param string $conditions Conditions to search
+     * @param array $params Params array
+     *
+     * @return bool
+     */
+    public function delete($table, $conditions, array $params = [])
+    {
+        return $this->conn->prepare("DELETE FROM {$table} WHERE {$conditions};")->execute($params);
+    }
+
+    /**
+     * Count element in sub-query
+     *
+     * @access public
+     *
+     * @param string $query Query
+     * @param string $table Table name
+     *
+     * @return integer|boolean
+     */
+    public function count($query = '', $table = '')
+    {
+        if ($query) {
+            $sth = $this->conn->prepare("SELECT COUNT(*) FROM ({$query}) AS m;");
+        } elseif ($table) {
+            $sth = $this->conn->prepare("SELECT COUNT(*) FROM {$table} AS m;");
+        } else {
+            return false;
+        }
+        if ($sth->execute()) {
+            return $sth->fetchColumn();
         }
 
         return false;

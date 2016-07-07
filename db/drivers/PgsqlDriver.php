@@ -109,21 +109,9 @@ class PgsqlDriver extends Driver
      */
     public function createTable($name, array $elements = [], $params = '')
     {
-        // TODO: Implement createTable() method.
-    }
-
-    /**
-     * Remove table from database
-     *
-     * @access public
-     *
-     * @param string $name Table name
-     *
-     * @return mixed
-     */
-    public function removeTable($name)
-    {
-        // TODO: Implement removeTable() method.
+        return $this->conn->exec(
+            sprintf('SELECT TABLE IF NOT EXISTS `%s` (%s) %s;', $name, implode(', ', $elements), $params)
+        );
     }
 
     /**
@@ -150,21 +138,6 @@ class PgsqlDriver extends Driver
         }
 
         return $result;
-    }
-
-    /**
-     * Get info of a field
-     *
-     * @access public
-     *
-     * @param string $field Field name
-     * @param string $table Table name
-     *
-     * @return array|boolean
-     */
-    public function fieldInfo($field, $table)
-    {
-        // TODO: Implement fieldInfo() method.
     }
 
     /**
@@ -215,38 +188,25 @@ class PgsqlDriver extends Driver
      */
     public function update($table, array $elements = [], $conditions = '')
     {
-        // TODO: Implement update() method.
-    }
+        $keys = array_keys($elements);
 
-    /**
-     * Delete row from table
-     *
-     * @access public
-     *
-     * @param string $table Table name
-     * @param string $conditions Conditions to search
-     * @param array $params Params array
-     *
-     * @return bool
-     */
-    public function delete($table, $conditions, array $params = [])
-    {
-        // TODO: Implement delete() method.
-    }
+        if (0 === count($keys)) {
+            return false;
+        }
 
-    /**
-     * Count element in sub-query
-     *
-     * @access public
-     *
-     * @param string $query Query
-     * @param string $table Table name
-     *
-     * @return integer|boolean
-     */
-    public function count($query = '', $table = '')
-    {
-        // TODO: Implement count() method.
+        $valStr = [];
+
+        foreach ($keys as $key) {
+            $valStr[] = '"' . $key . '" = :' . $key;
+        }
+
+        $valStr = implode(',', $valStr);
+
+        if ($conditions) {
+            $conditions = 'WHERE ' . $conditions;
+        }
+
+        return $this->conn->prepare("UPDATE {$table} SET {$valStr} {$conditions};")->execute($elements);
     }
 
     /**
