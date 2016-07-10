@@ -165,7 +165,6 @@ class PgsqlDriver extends Driver
             foreach ($rows AS $row) {
                 $res = $this->conn->prepare('INSERT INTO ' . $table . ' (' . $fields . ') VALUES (' . $values . ');');
                 $dbh = $res->execute($row);
-                die(var_dump($res->errorCode() . ': ' . print_r($res->errorInfo(), true)));
             }
 
             $id = $dbh ? $this->conn->lastInsertId() : false;

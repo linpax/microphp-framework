@@ -116,7 +116,7 @@ class GridViewWidget extends Widget
             }
 
             /** @var array $a */
-            $this->totalCount = ($a = $res->run()) ? $a[0] : 0;
+            $this->totalCount = ($a = $res->run(\PDO::FETCH_NUM)) ? $a[0] : 0;
             $this->filterPrefix = $data->table;
 
             $data->offset = $this->page * $this->limit;
