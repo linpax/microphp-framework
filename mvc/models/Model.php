@@ -164,7 +164,11 @@ abstract class Model extends FormModel implements IModel
             if (empty($this->cacheRelations[$name])) {
                 $sql = new Query((new ConnectionInjector)->build());
 
-                $sql->addWhere('`m`.`'.$relation['On'][1].'`=:'.$relation['On'][0]);
+                if ((new ConnectionInjector)->build()->getDriverType() === 'pgsql') {
+                    $sql->addWhere('"m"."' . $relation['On'][1] . '"=:' . $relation['On'][0]);
+                } else {
+                    $sql->addWhere('`m`.`' . $relation['On'][1] . '`=:' . $relation['On'][0]);
+                }
 
                 if ($relation['Where']) {
                     $sql->addWhere($relation['Where']);
