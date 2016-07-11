@@ -375,7 +375,12 @@ abstract class Model extends FormModel implements IModel
         if ($this->beforeUpdate()) {
             if (!$where) {
                 if (self::$primaryKey) {
-                    $where .= '`'.self::$primaryKey.'` = :'.self::$primaryKey;
+                    if ((new ConnectionInjector)->build()->getDriverType() === 'pgsql') {
+                        $where .= '"' . self::$primaryKey . '" = :' . self::$primaryKey;
+                    } else {
+                        $where .= '`' . self::$primaryKey . '` = :' . self::$primaryKey;
+                    }
+
                 } else {
                     throw new Exception('In table '.static::$tableName.' option `'.self::$primaryKey.'` not defined/not use.'
                     );
