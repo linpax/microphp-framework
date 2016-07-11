@@ -83,7 +83,7 @@ class Injector implements IInjector
      *
      * @access protected
      * @param string $name
-     * @return false|object
+     * @return boolean|mixed
      */
     protected function get($name)
     {
@@ -109,7 +109,7 @@ class Injector implements IInjector
      *
      * @param string $name Name injection
      *
-     * @return false|object
+     * @return boolean|mixed
      */
     private function loadInjection($name)
     {
