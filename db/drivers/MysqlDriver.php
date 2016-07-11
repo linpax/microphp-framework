@@ -148,7 +148,7 @@ class MysqlDriver extends Driver
      */
     public function insert($table, array $line = [], $multi = false)
     {
-        $fields = '`' . implode('`, `', array_keys($multi ? $line[0] : $line)) . '`';
+        $fields = '`'.implode('`, `', array_keys($multi ? $line[0] : $line)).'`';
 
         $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
         $rows = $multi ? $line : [$line];
@@ -218,10 +218,10 @@ class MysqlDriver extends Driver
         $keys = [];
 
         foreach ($params AS $key => $val) {
-            $keys[] = '`' . $key . '`="' . $val . '""';
+            $keys[] = '`'.$key.'`="'.$val.'""';
         }
 
-        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
+        $sth = $this->conn->prepare('SELECT * FROM '.$table.' WHERE '.implode(' AND ', $keys).' LIMIT 1;');
         /** @noinspection PdoApiUsageInspection */
         $sth->execute();
 

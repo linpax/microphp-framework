@@ -53,10 +53,10 @@ class Connection implements IConnection
      */
     public function setDriver($dsn, array $config = [], array $options = [])
     {
-        $class = '\Micro\Db\Drivers\\' . ucfirst(substr($dsn, 0, strpos($dsn, ':'))) . 'Driver';
+        $class = '\Micro\Db\Drivers\\'.ucfirst(substr($dsn, 0, strpos($dsn, ':'))).'Driver';
 
         if (!class_exists($class)) {
-            throw new Exception('DB driver `' . $class . '` not supported');
+            throw new Exception('DB driver `'.$class.'` not supported');
         }
 
         unset($this->driver);
@@ -78,7 +78,7 @@ class Connection implements IConnection
     public function __call($name, array $arguments = [])
     {
         if (!method_exists($this->driver, $name)) {
-            throw new \BadMethodCallException('Method `' . $name . '` not found in connection driver `' . get_class($this->driver) . '`');
+            throw new \BadMethodCallException('Method `'.$name.'` not found in connection driver `'.get_class($this->driver).'`');
         }
 
         return call_user_func_array([$this->driver, $name], $arguments);

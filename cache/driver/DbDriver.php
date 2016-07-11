@@ -81,6 +81,7 @@ class DbDriver extends CacheDriver
     /**
      * @inheritdoc
      * @throws \Micro\Base\Exception
+     * @param string $name
      */
     protected function getElement($name)
     {

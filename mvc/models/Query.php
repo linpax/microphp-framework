@@ -165,17 +165,17 @@ class Query implements IQuery
 
         if ($this->db->getDriverType() === 'pgsql') {
             if ($this->limit !== -1) {
-                $query .= ' LIMIT ' . $this->limit . ' ';
+                $query .= ' LIMIT '.$this->limit.' ';
             }
             if ($this->offset !== -1) {
-                $query .= ' OFFSET ' . $this->offset . ' ';
+                $query .= ' OFFSET '.$this->offset.' ';
             }
         } else {
             if ($this->limit !== -1) {
                 $query .= ' LIMIT ';
 
                 if ($this->offset !== -1) {
-                    $query .= $this->offset . ',';
+                    $query .= $this->offset.',';
                 }
 
                 $query .= $this->limit;

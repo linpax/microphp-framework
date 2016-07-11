@@ -42,7 +42,7 @@ abstract class Driver implements IDriver
 
         } catch (\PDOException $e) {
             if (!array_key_exists('ignoreFail', $config) || !$config['ignoreFail']) {
-                throw new Exception('Connect to DB failed: ' . $e->getMessage());
+                throw new Exception('Connect to DB failed: '.$e->getMessage());
             }
         }
     }
