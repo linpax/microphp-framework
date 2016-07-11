@@ -81,7 +81,7 @@ class PgsqlDriver extends Driver
     public function listTables()
     {
         return $this->conn->query(
-            'SELECT table_name FROM information_schema.tables WHERE table_schema = \'' . $this->tableSchema . '\';'
+            'SELECT table_name FROM information_schema.tables WHERE table_schema = \''.$this->tableSchema.'\';'
         )->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
 
@@ -125,13 +125,13 @@ class PgsqlDriver extends Driver
      */
     public function listFields($table)
     {
-        $sth = $this->conn->query('SELECT * FROM information_schema.columns WHERE table_name =\'' . $table . '\'');
+        $sth = $this->conn->query('SELECT * FROM information_schema.columns WHERE table_name =\''.$table.'\'');
         $result = [];
 
         foreach ($sth->fetchAll(\PDO::FETCH_ASSOC) as $row) {
             $result[] = [
                 'field' => $row['column_name'],
-                'type' => $row['data_type'] . (($max = $row['character_maximum_length']) ? '(' . $max . ')' : ''),
+                'type' => $row['data_type'].(($max = $row['character_maximum_length']) ? '('.$max.')' : ''),
                 'null' => $row['is_nullable'],
                 'default' => $row['column_default']
             ];
@@ -153,8 +153,8 @@ class PgsqlDriver extends Driver
      */
     public function insert($table, array $line = [], $multi = false)
     {
-        $fields = '"' . implode('", "', array_keys($multi ? $line[0] : $line)) . '"';
-        $values = ':' . implode(', :', array_keys($multi ? $line[0] : $line));
+        $fields = '"'.implode('", "', array_keys($multi ? $line[0] : $line)).'"';
+        $values = ':'.implode(', :', array_keys($multi ? $line[0] : $line));
         $rows = $multi ? $line : [$line];
         $id = null;
 
@@ -163,7 +163,7 @@ class PgsqlDriver extends Driver
 
             $dbh = null;
             foreach ($rows AS $row) {
-                $res = $this->conn->prepare('INSERT INTO ' . $table . ' (' . $fields . ') VALUES (' . $values . ');');
+                $res = $this->conn->prepare('INSERT INTO '.$table.' ('.$fields.') VALUES ('.$values.');');
                 $dbh = $res->execute($row);
             }
 
@@ -196,13 +196,13 @@ class PgsqlDriver extends Driver
         $valStr = [];
 
         foreach ($keys as $key) {
-            $valStr[] = '"' . $key . '" = :' . $key;
+            $valStr[] = '"'.$key.'" = :'.$key;
         }
 
         $valStr = implode(',', $valStr);
 
         if ($conditions) {
-            $conditions = 'WHERE ' . $conditions;
+            $conditions = 'WHERE '.$conditions;
         }
 
         return $this->conn->prepare("UPDATE {$table} SET {$valStr} {$conditions};")->execute($elements);
@@ -223,10 +223,10 @@ class PgsqlDriver extends Driver
         $keys = [];
 
         foreach ($params AS $key => $val) {
-            $keys[] = '"' . $key . '"=\'' . $val . '\'';
+            $keys[] = '"'.$key.'"=\''.$val.'\'';
         }
 
-        $sth = $this->conn->prepare('SELECT * FROM ' . $table . ' WHERE ' . implode(' AND ', $keys) . ' LIMIT 1;');
+        $sth = $this->conn->prepare('SELECT * FROM '.$table.' WHERE '.implode(' AND ', $keys).' LIMIT 1;');
         /** @noinspection PdoApiUsageInspection */
         $sth->execute();
 
