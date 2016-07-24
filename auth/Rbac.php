@@ -3,6 +3,7 @@
 namespace Micro\Auth;
 
 use Micro\Db\Drivers\IDriver;
+use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -35,13 +36,13 @@ abstract class Rbac implements IAuth
      *
      * @access public
      *
-     * @param IDriver $connection
+     * @param IConnection $connection
      *
      * @result void
      */
-    public function __construct(IDriver $connection)
+    public function __construct(IConnection $connection)
     {
-        $this->db = $connection;
+        $this->db = $connection->getDriver();
 
         if (!$this->db->tableExists('rbac_user')) {
             $this->db->createTable('rbac_user', [

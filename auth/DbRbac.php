@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Db\Drivers\IDriver;
+use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,11 +26,11 @@ class DbRbac extends Rbac
      *
      * @public
      *
-     * @param IDriver $connection
+     * @param IConnection $connection
      *
      * @result void
      */
-    public function __construct(IDriver $connection)
+    public function __construct(IConnection $connection)
     {
         parent::__construct($connection);
 
