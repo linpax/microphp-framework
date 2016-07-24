@@ -97,7 +97,7 @@ class FormBuilder
      * Getting model
      *
      * @access public
-     * @return \Micro\Mvc\Models\Model
+     * @return IFormModel
      */
     public function getModel()
     {

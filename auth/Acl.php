@@ -2,6 +2,7 @@
 
 namespace Micro\Auth;
 
+use Micro\Db\Drivers\IDriver;
 use Micro\Db\IConnection;
 
 /**
@@ -21,7 +22,7 @@ use Micro\Db\IConnection;
  */
 abstract class Acl implements IAuth
 {
-    /** @var IConnection $db */
+    /** @var IDriver $db */
     protected $db;
     /** @var string $groupTable name of group table */
     protected $groupTable;
@@ -39,7 +40,7 @@ abstract class Acl implements IAuth
      */
     public function __construct(IConnection $db, array $params = [])
     {
-        $this->db = $db;
+        $this->db = $db->getDriver();
 
         if (!empty($params['groupTable'])) {
             $this->groupTable = $params['groupTable'];

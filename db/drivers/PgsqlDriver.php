@@ -162,8 +162,8 @@ class PgsqlDriver extends Driver
             $this->conn->beginTransaction();
 
             $dbh = null;
+            $res = $this->conn->prepare('INSERT INTO ' . $table . ' (' . $fields . ') VALUES (' . $values . ');');
             foreach ($rows AS $row) {
-                $res = $this->conn->prepare('INSERT INTO '.$table.' ('.$fields.') VALUES ('.$values.');');
                 $dbh = $res->execute($row);
             }
 

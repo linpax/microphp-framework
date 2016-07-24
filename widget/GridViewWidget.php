@@ -326,9 +326,9 @@ class GridViewWidget extends Widget
 
                 if (!empty($row['class']) && is_subclass_of($row['class'], 'Micro\\Widget\\GridColumn')) {
                     $primaryKey = $data->{!empty($row['key']) ? $row['key'] : 'id'};
-                    $result .= (string)(new $row['class'](
+                    $result .= (string)new $row['class'](
                         $row + ['str' => (null === $data) ?: $data, 'pKey' => $primaryKey]
-                    ));
+                    );
                 } elseif (!empty($row['value'])) {
                     $result .= eval('return '.$row['value'].';');
                 } else {

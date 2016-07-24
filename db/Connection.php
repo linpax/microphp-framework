@@ -33,6 +33,7 @@ class Connection implements IConnection
      * @param array $options Other options
      *
      * @result void
+     * @throws Exception
      */
     public function __construct($dsn, array $config = [], array $options = [])
     {
