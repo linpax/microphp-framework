@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Db\IConnection;
+use Micro\Db\Drivers\IDriver;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,11 +26,11 @@ class DbRbac extends Rbac
      *
      * @public
      *
-     * @param IConnection $connection
+     * @param IDriver $connection
      *
      * @result void
      */
-    public function __construct(IConnection $connection)
+    public function __construct(IDriver $connection)
     {
         parent::__construct($connection);
 
@@ -149,8 +149,8 @@ class DbRbac extends Rbac
     public function rawRoles($pdo = \PDO::FETCH_ASSOC)
     {
         $query = new Query($this->db);
-        $query->table = $this->db->getDriverType() == 'pgsql' ? '"rbac_role"' : '`rbac_role`';
-        $query->order = $this->db->getDriverType() == 'pgsql' ? '"type" ASC' : '`type` ASC';
+        $query->table = $this->db->getDriverType() === 'pgsql' ? '"rbac_role"' : '`rbac_role`';
+        $query->order = $this->db->getDriverType() === 'pgsql' ? '"type" ASC' : '`type` ASC';
         $query->single = false;
 
         return $query->run($pdo);

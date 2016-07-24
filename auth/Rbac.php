@@ -2,7 +2,7 @@
 
 namespace Micro\Auth;
 
-use Micro\Db\IConnection;
+use Micro\Db\Drivers\IDriver;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -26,7 +26,7 @@ abstract class Rbac implements IAuth
     /** @const integer TYPE_OPERATION */
     const TYPE_OPERATION = 2;
 
-    /** @var IConnection $db */
+    /** @var IDriver $db */
     protected $db;
 
 
@@ -35,11 +35,11 @@ abstract class Rbac implements IAuth
      *
      * @access public
      *
-     * @param IConnection $connection
+     * @param IDriver $connection
      *
      * @result void
      */
-    public function __construct(IConnection $connection)
+    public function __construct(IDriver $connection)
     {
         $this->db = $connection;
 
@@ -153,9 +153,9 @@ abstract class Rbac implements IAuth
     {
         $query = new Query($this->db);
         $query->distinct = true;
-        $query->select = $this->db->getDriverType() == 'pgsql' ? '"role" AS "name"' : '`role` AS `name`';
-        $query->table = $this->db->getDriverType() == 'pgsql' ? '"rbac_user"' : '`rbac_user`';
-        $query->addWhere(($this->db->getDriverType() == 'pgsql' ? '"user"=' : '`user`=').$userId);
+        $query->select = $this->db->getDriverType() === 'pgsql' ? '"role" AS "name"' : '`role` AS `name`';
+        $query->table = $this->db->getDriverType() === 'pgsql' ? '"rbac_user"' : '`rbac_user`';
+        $query->addWhere(($this->db->getDriverType() === 'pgsql' ? '"user"=' : '`user`=') . $userId);
         $query->single = false;
 
         return $query->run(\PDO::FETCH_ASSOC);
@@ -169,7 +169,7 @@ abstract class Rbac implements IAuth
      * @param array $roles elements
      * @param string $finder element name to search
      *
-     * @return bool|array
+     * @return array|false
      */
     protected function searchRoleRecursive($roles, $finder)
     {
