@@ -83,7 +83,7 @@ abstract class Model extends FormModel implements IModel
      */
     public static function findByAttributes(array $attributes = [], $single = false)
     {
-        $query = new Query((new ConnectionInjector)->build());
+        $query = new Query((new ConnectionInjector)->getDriver());
         foreach ($attributes AS $key => $val) {
             $query->addWhere($key.' = :'.$key);
         }
@@ -106,7 +106,7 @@ abstract class Model extends FormModel implements IModel
      */
     public static function finder(IQuery $query = null, $single = false)
     {
-        $query = ($query instanceof Query) ? $query : new Query((new ConnectionInjector)->build());
+        $query = ($query instanceof Query) ? $query : new Query((new ConnectionInjector)->getDriver());
         $query->table = static::$tableName . ' m';
         $query->objectName = get_called_class();
         $query->single = $single;
@@ -140,7 +140,7 @@ abstract class Model extends FormModel implements IModel
     public function getAttributes()
     {
         $fields = [];
-        foreach ((new ConnectionInjector)->build()->listFields(static::$tableName) AS $field) {
+        foreach ((new ConnectionInjector)->getDriver()->listFields(static::$tableName) AS $field) {
             $fields[] = $field['field'];
         }
 
@@ -162,9 +162,9 @@ abstract class Model extends FormModel implements IModel
         /** @var array $relation */
         if ($relation = $this->relations()->get($name)) {
             if (empty($this->cacheRelations[$name])) {
-                $sql = new Query((new ConnectionInjector)->build());
+                $sql = new Query((new ConnectionInjector)->getDriver());
 
-                if ((new ConnectionInjector)->build()->getDriverType() === 'pgsql') {
+                if ((new ConnectionInjector)->build()->getDriver()->getDriverType() === 'pgsql') {
                     $sql->addWhere('"m"."' . $relation['On'][1] . '"=:' . $relation['On'][0]);
                 } else {
                     $sql->addWhere('`m`.`' . $relation['On'][1] . '`=:' . $relation['On'][0]);
@@ -255,7 +255,8 @@ abstract class Model extends FormModel implements IModel
             return false;
         }
         if ($this->beforeCreate() && $this->beforeSave()) {
-            $id = (new ConnectionInjector)->build()->insert(static::$tableName, $this->mergeAttributesDb());
+            $id = (new ConnectionInjector)->build()->getDriver()->insert(static::$tableName,
+                $this->mergeAttributesDb());
             if (!$id) {
                 return false;
             }
@@ -305,7 +306,7 @@ abstract class Model extends FormModel implements IModel
         $arr = Type::getVars($this);
 
         $buffer = [];
-        foreach ((new ConnectionInjector)->build()->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->build()->getDriver()->listFields(static::$tableName) AS $row) {
             $buffer[] = $row['field'];
         }
 
@@ -337,7 +338,7 @@ abstract class Model extends FormModel implements IModel
         }
 
         $res = false;
-        foreach ((new ConnectionInjector)->build()->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->build()->getDriver()->listFields(static::$tableName) AS $row) {
             if ($row['field'] === $name) {
                 $res = true;
                 break;

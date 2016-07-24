@@ -4,6 +4,7 @@ namespace Micro\Db;
 
 use Micro\Base\Exception;
 use Micro\Base\Injector;
+use Micro\Db\Drivers\IDriver;
 
 /**
  * Class ConnectionInjector
@@ -19,6 +20,18 @@ use Micro\Base\Injector;
  */
 class ConnectionInjector extends Injector
 {
+    /**
+     * Get DB driver
+     *
+     * @access public
+     * @return IDriver
+     * @throws Exception
+     */
+    public function getDriver()
+    {
+        return $this->build()->getDriver();
+    }
+
     /**
      * @access public
      * @return IConnection

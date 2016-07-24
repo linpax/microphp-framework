@@ -40,6 +40,17 @@ class Connection implements IConnection
     }
 
     /**
+     * Get DB driver
+     *
+     * @access public
+     * @return IDriver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
      * Set active connection driver
      *
      * @access public
@@ -62,25 +73,5 @@ class Connection implements IConnection
         unset($this->driver);
 
         $this->driver = new $class($dsn, $config, $options);
-    }
-
-    /**
-     * Send sql commands to driver
-     *
-     * @access public
-     *
-     * @param string $name Driver method name
-     * @param array $arguments Method arguments
-     *
-     * @return mixed
-     * @throws \BadMethodCallException
-     */
-    public function __call($name, array $arguments = [])
-    {
-        if (!method_exists($this->driver, $name)) {
-            throw new \BadMethodCallException('Method `'.$name.'` not found in connection driver `'.get_class($this->driver).'`');
-        }
-
-        return call_user_func_array([$this->driver, $name], $arguments);
     }
 }
