@@ -103,7 +103,7 @@ class GridViewWidget extends Widget
             }
 
             if ($data->having || $data->group) {
-                $res = new Query((new ConnectionInjector)->build()->getDriver());
+                $res = new Query((new ConnectionInjector)->getDriver());
                 $res->select = 'COUNT(*)';
                 $res->table = '('.$data->getQuery().') micro_count';
                 $res->single = true;

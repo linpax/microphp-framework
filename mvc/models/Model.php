@@ -164,7 +164,7 @@ abstract class Model extends FormModel implements IModel
             if (empty($this->cacheRelations[$name])) {
                 $sql = new Query((new ConnectionInjector)->getDriver());
 
-                if ((new ConnectionInjector)->build()->getDriver()->getDriverType() === 'pgsql') {
+                if ((new ConnectionInjector)->getDriver()->getDriverType() === 'pgsql') {
                     $sql->addWhere('"m"."' . $relation['On'][1] . '"=:' . $relation['On'][0]);
                 } else {
                     $sql->addWhere('`m`.`' . $relation['On'][1] . '`=:' . $relation['On'][0]);
@@ -255,7 +255,7 @@ abstract class Model extends FormModel implements IModel
             return false;
         }
         if ($this->beforeCreate() && $this->beforeSave()) {
-            $id = (new ConnectionInjector)->build()->getDriver()->insert(static::$tableName,
+            $id = (new ConnectionInjector)->getDriver()->insert(static::$tableName,
                 $this->mergeAttributesDb());
             if (!$id) {
                 return false;
@@ -306,7 +306,7 @@ abstract class Model extends FormModel implements IModel
         $arr = Type::getVars($this);
 
         $buffer = [];
-        foreach ((new ConnectionInjector)->build()->getDriver()->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->getDriver()->listFields(static::$tableName) AS $row) {
             $buffer[] = $row['field'];
         }
 
@@ -338,7 +338,7 @@ abstract class Model extends FormModel implements IModel
         }
 
         $res = false;
-        foreach ((new ConnectionInjector)->build()->getDriver()->listFields(static::$tableName) AS $row) {
+        foreach ((new ConnectionInjector)->getDriver()->listFields(static::$tableName) AS $row) {
             if ($row['field'] === $name) {
                 $res = true;
                 break;
@@ -380,7 +380,7 @@ abstract class Model extends FormModel implements IModel
         if ($this->beforeUpdate()) {
             if (!$where) {
                 if (self::$primaryKey) {
-                    if ((new ConnectionInjector)->build()->getDriverType() === 'pgsql') {
+                    if ((new ConnectionInjector)->getDriver()->getDriverType() === 'pgsql') {
                         $where .= '"' . self::$primaryKey . '" = :' . self::$primaryKey;
                     } else {
                         $where .= '`' . self::$primaryKey . '` = :' . self::$primaryKey;
@@ -392,7 +392,7 @@ abstract class Model extends FormModel implements IModel
                 }
             }
 
-            if ((new ConnectionInjector)->build()->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
+            if ((new ConnectionInjector)->getDriver()->update(static::$tableName, $this->mergeAttributesDb(), $where)) {
                 $this->afterUpdate();
 
                 return true;
@@ -435,7 +435,7 @@ abstract class Model extends FormModel implements IModel
             }
 
             if (
-            (new ConnectionInjector)->build()->delete(
+            (new ConnectionInjector)->getDriver()->delete(
                 static::$tableName,
                 self::$primaryKey.'=:'.self::$primaryKey, [self::$primaryKey => $this->{self::$primaryKey}]
             )
