@@ -156,7 +156,7 @@ abstract class Rbac implements IAuth
         $query->distinct = true;
         $query->select = $this->db->getDriverType() === 'pgsql' ? '"role" AS "name"' : '`role` AS `name`';
         $query->table = $this->db->getDriverType() === 'pgsql' ? '"rbac_user"' : '`rbac_user`';
-        $query->addWhere(($this->db->getDriverType() === 'pgsql' ? '"user"=' : '`user`=') . $userId);
+        $query->addWhere(($this->db->getDriverType() === 'pgsql' ? '"user"=' : '`user`=').$userId);
         $query->single = false;
 
         return $query->run(\PDO::FETCH_ASSOC);
