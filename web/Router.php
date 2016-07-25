@@ -94,6 +94,7 @@ class Router implements IRouter
             return false;
         }
 
+
         $attributes = $this->parseUri($uriBlocks, $patBlocks);
         if (!$attributes) {
             return false;
@@ -126,7 +127,7 @@ class Router implements IRouter
      * @param array $uriBlocks uri blocks from URL
      * @param array $patBlocks pattern blocks from valid URL
      *
-     * @return array|bool
+     * @return array
      */
     private function parseUri(array $uriBlocks = [], array $patBlocks = [])
     {
@@ -139,11 +140,11 @@ class Router implements IRouter
                 if (preg_match('/'.substr($patBlocks[$i], $cut + 1, -1).'/', $uriBlocks[$i])) {
                     $attr[substr($patBlocks[$i], 1, $cut - 1)] = $uriBlocks[$i];
                 } else {
-                    return false;
+                    return null;
                 }
 
             } elseif ($uriBlocks[$i] !== $patBlocks[$i]) {
-                return false;
+                return null;
             } else {
                 $attr[$uriBlocks[$i]] = $patBlocks[$i];
             }

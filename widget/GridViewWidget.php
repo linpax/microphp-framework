@@ -90,6 +90,7 @@ class GridViewWidget extends Widget
         $this->limit = ($this->limit < 10) ? 10 : $this->limit;
         $this->page = ($this->page < 0) ? 0 : $this->page;
 
+        /** @var IQuery|array $data */
         $data = $args['data'];
 
         if ($data instanceof IQuery) {
@@ -127,6 +128,7 @@ class GridViewWidget extends Widget
             $data = array_slice($data, $this->page * $this->limit, $this->limit);
         }
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($data AS $model) {
             $this->rows[] = is_subclass_of($model, 'Micro\Mvc\Models\Model') ? $model : (object)$model;
         }

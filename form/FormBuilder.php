@@ -192,6 +192,8 @@ class FormBuilder
         if (!$conf) {
             $conf = $this->config;
         }
+
+        /** @noinspection ForeachSourceInspection */
         foreach ($conf['elements'] AS $key => $value) {
             if (is_array($conf['elements'][$key])) {
                 if ($value['type'] === 'form') {
@@ -207,6 +209,8 @@ class FormBuilder
                 echo $conf['elements'][$key];
             }
         }
+
+        /** @noinspection ForeachSourceInspection */
         foreach ($this->config['buttons'] AS $button) {
             $type = $button['type'].'Button';
             echo Html::$type($button['label'], !empty($button['options']) ? $button['options'] : []);

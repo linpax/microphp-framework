@@ -4,6 +4,7 @@ namespace Micro\Validator;
 
 use Micro\Form\IFormModel;
 use Micro\Web\RequestInjector;
+use Micro\Web\Uploader;
 
 /**
  * EmailValidator class file.
@@ -26,6 +27,7 @@ class FileValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
+                /** @var Uploader $files */
                 $files = (new RequestInjector)->build()->getFiles();
                 if (!empty($this->params['maxFiles']) && (count($files->files) > $this->params['maxFiles'])) {
                     $this->errors[] = 'Too many files in parameter '.$element;

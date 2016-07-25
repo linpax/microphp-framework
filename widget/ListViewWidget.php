@@ -84,6 +84,7 @@ class ListViewWidget extends Widget
             $this->page = 0;
         }
 
+        /** @var IQuery|array $data */
         $data = $args['data'];
 
         if ($data instanceof IQuery) {
@@ -117,6 +118,7 @@ class ListViewWidget extends Widget
             $data = array_slice($data, $this->page * $this->limit, $this->limit);
         }
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($data AS $model) {
             $this->rows[] = is_subclass_of($model, 'Micro\\Mvc\\Models\\IModel') ? $model : (object)$model;
         }

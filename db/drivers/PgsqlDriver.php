@@ -80,6 +80,7 @@ class PgsqlDriver extends Driver
      */
     public function listTables()
     {
+        /** @noinspection SqlResolve */
         return $this->conn->query(
             'SELECT table_name FROM information_schema.tables WHERE table_schema = \''.$this->tableSchema.'\';'
         )->fetchAll(\PDO::FETCH_COLUMN, 0);
@@ -93,6 +94,7 @@ class PgsqlDriver extends Driver
      */
     public function listDatabases()
     {
+        /** @noinspection SqlResolve */
         return $this->conn->query(
             'SELECT datname FROM pg_database WHERE datistemplate = false and datname != \'postgres\';'
         )->fetchAll(\PDO::FETCH_COLUMN, 0);
@@ -125,6 +127,7 @@ class PgsqlDriver extends Driver
      */
     public function listFields($table)
     {
+        /** @noinspection SqlResolve */
         $sth = $this->conn->query('SELECT * FROM information_schema.columns WHERE table_name =\''.$table.'\'');
         $result = [];
 

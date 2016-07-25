@@ -71,7 +71,7 @@ trait TableTagTrait
     public static function tableRow(array $elements = [], $isHeading = false, array $attributes = [])
     {
         $output = null;
-        foreach ($elements AS $value) {
+        foreach ($elements as $value) {
             if ($isHeading === false) {
                 $output .= static::tableCell(
                     !empty($value['value']) ? $value['value'] : [],

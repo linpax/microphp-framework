@@ -2,7 +2,9 @@
 
 namespace Micro\Cache\Driver;
 
-use Micro\Db\IConnection;
+use Micro\Base\Exception;
+use Micro\Db\ConnectionInjector;
+use Micro\Db\Drivers\IDriver;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -19,7 +21,7 @@ use Micro\Mvc\Models\Query;
  */
 class DbDriver extends CacheDriver
 {
-    /** @var IConnection $driver DB driver */
+    /** @var IDriver $driver DB driver */
     protected $driver;
     /** @var string $table table name */
     protected $table;
@@ -33,6 +35,7 @@ class DbDriver extends CacheDriver
      * @param array $config config array
      *
      * @result void
+     * @throws Exception
      */
     public function __construct(array $config = [])
     {
@@ -44,8 +47,7 @@ class DbDriver extends CacheDriver
             unset($config['table']);
         }
 
-        $cls = $config['class'];
-        $this->driver = new $cls($config);
+        $this->driver = (new ConnectionInjector)->getDriver();
 
         $this->driver->createTable($this->table, [
             '`name` VARCHAR(127) NOT NULL',
@@ -61,7 +63,7 @@ class DbDriver extends CacheDriver
      */
     public function check()
     {
-        return ($this->driver instanceof IConnection) && $this->driver->tableExists($this->table) ?: false;
+        return ($this->driver instanceof IDriver) && $this->driver->tableExists($this->table) ?: false;
     }
 
     /**

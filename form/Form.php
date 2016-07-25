@@ -152,6 +152,7 @@ class Form
     {
         $block = [];
 
+        /** @noinspection ReferenceMismatchInspection */
         if (array_key_exists($name, $options)) {
             $block = $options[$name];
             unset($options[$name]);

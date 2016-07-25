@@ -98,6 +98,7 @@ abstract class Controller implements IController
                 }
                 throw new Exception($_filter->result['message']);
             }
+            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
             $data = $response;
         }
 

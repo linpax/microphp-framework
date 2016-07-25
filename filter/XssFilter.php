@@ -40,7 +40,7 @@ class XssFilter extends Filter
      *
      * @access private
      *
-     * @param array|mixed $data data for check
+     * @param array $data data for check
      *
      * @return mixed
      */
@@ -62,6 +62,7 @@ class XssFilter extends Filter
         $data = str_replace(['&amp;', '&lt;', '&gt;'], ['&amp;amp;', '&amp;lt;', '&amp;gt;'], $data);
         $data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
         $data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
 
         // Remove any attribute starting with "on" or xmlns

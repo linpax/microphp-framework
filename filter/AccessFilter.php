@@ -37,6 +37,7 @@ class AccessFilter extends Filter
         $this->user = (new UserInjector)->build();
         $this->request = (new RequestInjector)->build();
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($params['rules'] AS $rule) {
             $res = $this->checkRule($rule);
 
@@ -124,6 +125,7 @@ class AccessFilter extends Filter
             $rule['users'][] = $rule['users'];
         }
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($rule['users'] AS $u) {
             switch ($u) {
                 case '*':
@@ -171,6 +173,7 @@ class AccessFilter extends Filter
             $rule['roles'][] = $rule['roles'];
         }
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($rule['roles'] AS $role) {
             if ($this->user->check($role)) {
                 return true;
@@ -202,6 +205,7 @@ class AccessFilter extends Filter
 
         $userIp = $this->request->getUserIP();
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($rule['ips'] AS $r) {
             if ($r === '*' || $r === $userIp || (($pos = strpos($r, '*')) !== false && 0 === strpos($userIp, $r))) {
                 return true;
@@ -233,6 +237,7 @@ class AccessFilter extends Filter
 
         $verb = $this->request->getMethod();
 
+        /** @noinspection ForeachSourceInspection */
         foreach ($rule['verb'] AS $v) {
             if ($v === $verb) {
                 return true;

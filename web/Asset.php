@@ -105,8 +105,11 @@ class Asset
                 $this->js = [$this->js];
             }
 
-            foreach ($this->js AS $script) {
-                $this->view->registerScriptFile($this->publishPath.$script, $this->isHead);
+            if (0 !== count($this->js)) {
+                /** @noinspection ForeachSourceInspection */
+                foreach ($this->js AS $script) {
+                    $this->view->registerScriptFile($this->publishPath . $script, $this->isHead);
+                }
             }
         }
 
@@ -115,8 +118,11 @@ class Asset
                 $this->css = [$this->css];
             }
 
-            foreach ($this->css AS $style) {
-                $this->view->registerCssFile($this->publishPath.$style, $this->isHead);
+            if (0 !== count($this->css)) {
+                /** @noinspection ForeachSourceInspection */
+                foreach ($this->css AS $style) {
+                    $this->view->registerCssFile($this->publishPath . $style, $this->isHead);
+                }
             }
         }
     }
