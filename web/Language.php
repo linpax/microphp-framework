@@ -65,21 +65,4 @@ class Language extends \stdClass
             throw new Exception($name.' not defined into lang file');
         }
     }
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     */
-    public function __set($name, $value)
-    {
-    }
-
-    /**
-     * @param string $name
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return (bool)$this->$name;
-    }
 }

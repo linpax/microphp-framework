@@ -195,28 +195,11 @@ abstract class Model extends FormModel implements IModel
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
-     */
-    public function __set($name, $value)
-    {
-    }
-
-    /**
      * @inheritdoc
      */
     public function relations()
     {
         return new Relations;
-    }
-
-    /**
-     * @param string $name
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return (bool)$this->$name;
     }
 
     /**
