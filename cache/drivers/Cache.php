@@ -1,6 +1,6 @@
 <?php /** MicroCache */
 
-namespace Micro\Cache;
+namespace Micro\Cache\Drivers;
 
 use Micro\Base\Exception;
 

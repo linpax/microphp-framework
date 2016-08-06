@@ -1,6 +1,6 @@
 <?php /** MicroArrayCache */
 
-namespace Micro\Cache\Driver;
+namespace Micro\Cache\Drivers;
 
 use Micro\File\Type;
 

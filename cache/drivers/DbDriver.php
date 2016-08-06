@@ -1,6 +1,6 @@
 <?php /** MicroDbDriver */
 
-namespace Micro\Cache\Driver;
+namespace Micro\Cache\Drivers;
 
 use Micro\Base\Exception;
 use Micro\Db\ConnectionInjector;

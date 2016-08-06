@@ -1,6 +1,6 @@
 <?php /** MicroInterfaceCacheDriver */
 
-namespace Micro\Cache\Driver;
+namespace Micro\Cache;
 
 /**
  * Interface Cache Driver
@@ -14,7 +14,7 @@ namespace Micro\Cache\Driver;
  * @version 1.0
  * @since 1.0
  */
-interface ICacheDriver
+interface Adapter
 {
     /**
      * Check driver

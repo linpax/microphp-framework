@@ -1,6 +1,8 @@
 <?php /** MicroBaseCacheDriver */
 
-namespace Micro\Cache\Driver;
+namespace Micro\Cache\Drivers;
+
+use Micro\Cache\Adapter;
 
 
 /**
@@ -16,7 +18,7 @@ namespace Micro\Cache\Driver;
  * @since 1.0
  * @abstract
  */
-abstract class CacheDriver implements ICacheDriver
+abstract class CacheDriver implements Adapter
 {
     /**
      * Constructor for caches

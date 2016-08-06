@@ -1,6 +1,6 @@
 <?php /** MicroRedisDriver */
 
-namespace Micro\Cache\Driver;
+namespace Micro\Cache\Drivers;
 
 use Micro\Base\Exception;
 
