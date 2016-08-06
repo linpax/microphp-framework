@@ -2,7 +2,7 @@
 
 namespace Micro\Web;
 
-use Micro\Auth\AuthInjector;
+use Micro\Auth\Injector as AuthInjector;
 use Micro\Base\Exception;
 
 
