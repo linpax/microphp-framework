@@ -3,7 +3,6 @@
 namespace Micro\Db;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
 use Micro\Db\Drivers\IDriver;
 
 /**
@@ -18,7 +17,7 @@ use Micro\Db\Drivers\IDriver;
  * @version 1.0
  * @since 1.0
  */
-class ConnectionInjector extends Injector
+class Injector extends \Micro\Base\Injector
 {
     /**
      * Get DB driver
@@ -34,14 +33,14 @@ class ConnectionInjector extends Injector
 
     /**
      * @access public
-     * @return IConnection
+     * @return Adapter
      * @throws Exception
      */
     public function build()
     {
         $connection = $this->get('connection');
 
-        if (!($connection instanceof IConnection)) {
+        if (!($connection instanceof Adapter)) {
             throw new Exception('Component `connection` not configured');
         }
 

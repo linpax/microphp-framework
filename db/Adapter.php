@@ -16,7 +16,7 @@ use Micro\Db\Drivers\IDriver;
  * @version 1.0
  * @since 1.0
  */
-interface IConnection
+interface Adapter
 {
     /**
      * Set active connection driver

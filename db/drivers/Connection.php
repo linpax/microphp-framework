@@ -1,9 +1,9 @@
 <?php /** ConnectionMicro */
 
-namespace Micro\Db;
+namespace Micro\Db\Drivers;
 
 use Micro\Base\Exception;
-use Micro\Db\Drivers\IDriver;
+use Micro\Db\Adapter;
 
 /**
  * Threads class file.
@@ -13,11 +13,11 @@ use Micro\Db\Drivers\IDriver;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Db
+ * @subpackage Db\Drivers
  * @version 1.0
  * @since 1.0
  */
-class Connection implements IConnection
+class Connection implements Adapter
 {
     /** @var IDriver $driver */
     private $driver;
