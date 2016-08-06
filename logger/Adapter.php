@@ -1,6 +1,6 @@
 <?php /** MicroInterfaceLoggerDriver */
 
-namespace Micro\Logger\Driver;
+namespace Micro\Logger;
 
 /**
  * Interface ILoggerDriver
@@ -14,7 +14,7 @@ namespace Micro\Logger\Driver;
  * @version 1.0
  * @since 1.0
  */
-interface ILoggerDriver
+interface Adapter
 {
     /**
      * Send message in log

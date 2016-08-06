@@ -3,7 +3,7 @@
 namespace Micro\Logger\Driver;
 
 use Micro\Base\Exception;
-use Micro\Logger\Logger;
+use Micro\Logger\Adapter;
 
 /**
  * Base loggerDriver class file.
@@ -19,7 +19,7 @@ use Micro\Logger\Logger;
  * @version 1.0
  * @since 1.0
  */
-abstract class LoggerDriver implements ILoggerDriver
+abstract class LoggerDriver implements Adapter
 {
     /** @var array $supportedLevels supported log levels */
     protected $supportedLevels = [];

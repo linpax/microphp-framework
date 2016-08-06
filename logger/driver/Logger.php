@@ -1,8 +1,8 @@
 <?php /** MicroLogger */
 
-namespace Micro\Logger;
+namespace Micro\Logger\Driver;
 
-use Micro\Logger\Driver\ILoggerDriver;
+use Micro\Logger\Adapter;
 
 /**
  * Logger manager
@@ -30,7 +30,7 @@ class Logger
         'debug'
     ];
 
-    /** @var ILoggerDriver[] $loggers defined loggers */
+    /** @var Adapter[] $loggers defined loggers */
     protected $loggers = array();
 
 
@@ -72,7 +72,7 @@ class Logger
     public function send($level, $message)
     {
         foreach ($this->loggers AS $log) {
-            /** @var ILoggerDriver $log logger */
+            /** @var Adapter $log logger */
             if ($log->isSupportedLevel($level)) {
                 $log->sendMessage($level, $message);
             }

@@ -3,7 +3,6 @@
 namespace Micro\Logger;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
 
 /**
  * Class LoggerInjector
@@ -17,18 +16,18 @@ use Micro\Base\Injector;
  * @version 1.0
  * @since 1.0
  */
-class LoggerInjector extends Injector
+class Injector extends \Micro\Base\Injector
 {
     /**
      * @access public
-     * @return Logger
+     * @return Adapter
      * @throws Exception
      */
     public function build()
     {
         $logger = $this->get('logger');
 
-        if (!($logger instanceof Logger)) {
+        if (!($logger instanceof Adapter)) {
             throw new Exception('Component `logger` not configured');
         }
 
