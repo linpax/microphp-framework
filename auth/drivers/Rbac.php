@@ -1,7 +1,8 @@
 <?php /** MicroRBAC */
 
-namespace Micro\Auth;
+namespace Micro\Auth\Drivers;
 
+use Micro\Auth\Adapter;
 use Micro\Db\Drivers\IDriver;
 use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
@@ -14,11 +15,11 @@ use Micro\Mvc\Models\Query;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Auth
+ * @subpackage Auth\Drivers
  * @version 1.0
  * @since 1.0
  */
-abstract class Rbac implements IAuth
+abstract class Rbac implements Adapter
 {
     /** @const integer TYPE_ROLE */
     const TYPE_ROLE = 0;

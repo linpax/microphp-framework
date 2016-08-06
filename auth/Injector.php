@@ -3,7 +3,6 @@
 namespace Micro\Auth;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
 
 /**
  * Class AuthInjector
@@ -17,18 +16,18 @@ use Micro\Base\Injector;
  * @version 1.0
  * @since 1.0
  */
-class AuthInjector extends Injector
+class Injector extends \Micro\Base\Injector
 {
     /**
      * @access public
-     * @return IAuth
+     * @return Adapter
      * @throws Exception
      */
     public function build()
     {
         $auth = $this->get('auth');
 
-        if (!($auth instanceof IAuth)) {
+        if (!($auth instanceof Adapter)) {
             throw new Exception('Component `auth` not configured');
         }
 

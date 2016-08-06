@@ -1,9 +1,9 @@
-<?php /** MicroInterfaceAuth */
+<?php /** MicroAuthInterface */
 
 namespace Micro\Auth;
 
 /**
- * Interface IAuth
+ * Interface Auth Adapter
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
@@ -14,7 +14,7 @@ namespace Micro\Auth;
  * @version 1.0
  * @since 1.0
  */
-interface IAuth
+interface Adapter
 {
     /**
      * Check user access to permission

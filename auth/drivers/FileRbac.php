@@ -1,6 +1,6 @@
 <?php /** MicroFileRBAC */
 
-namespace Micro\Auth;
+namespace Micro\Auth\Drivers;
 
 use Micro\Db\IConnection;
 
@@ -14,7 +14,7 @@ use Micro\Db\IConnection;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Auth
+ * @subpackage Auth\Drivers
  * @version 1.0
  * @since 1.0
  */

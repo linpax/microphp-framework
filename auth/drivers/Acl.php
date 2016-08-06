@@ -1,7 +1,8 @@
 <?php /** MicroACL */
 
-namespace Micro\Auth;
+namespace Micro\Auth\Drivers;
 
+use Micro\Auth\Adapter;
 use Micro\Db\Drivers\IDriver;
 use Micro\Db\IConnection;
 
@@ -15,12 +16,12 @@ use Micro\Db\IConnection;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Auth
+ * @subpackage Auth\Drivers
  * @version 1.0
  * @since 1.0
  * @abstract
  */
-abstract class Acl implements IAuth
+abstract class Acl implements Adapter
 {
     /** @var IDriver $db */
     protected $db;
