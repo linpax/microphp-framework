@@ -1,9 +1,11 @@
-<?php /** MicroRabbitMqQueue */
+<?php /** MicroRawQueue */
 
-namespace Micro\Queue;
+namespace Micro\Queue\Drivers;
+
+use Micro\Queue\Adapter;
 
 /**
- * RabbitMqQueue class file.
+ * RawQueue class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
@@ -14,7 +16,7 @@ namespace Micro\Queue;
  * @version 1.0
  * @since 1.0
  */
-class RabbitMqQueue implements IQueue
+class RawQueue implements Adapter
 {
     /**
      * Constructor Queues

@@ -2,7 +2,7 @@
 
 namespace Micro\Auth\Drivers;
 
-use Micro\Db\IConnection;
+use Micro\Db\Adapter;
 
 /**
  * File RBAC class file.
@@ -29,11 +29,11 @@ class FileRbac extends Rbac
      *
      * @access public
      *
-     * @param IConnection $connection
+     * @param Adapter $connection
      *
      * @result void
      */
-    public function __construct(IConnection $connection)
+    public function __construct(Adapter $connection)
     {
         parent::__construct($connection);
 

@@ -1,13 +1,13 @@
 <?php /** MicroDbDriver */
 
-namespace Micro\Logger\Driver;
+namespace Micro\Logger\Drivers;
 
 use Micro\Base\Exception;
-use Micro\Db\ConnectionInjector;
-use Micro\Db\IConnection;
+use Micro\Db\Adapter;
+use Micro\Db\Injector;
 
 /**
- * DB logger class file.
+ * DB logger class file   .
  *
  * Writer logs in DB
  *
@@ -24,7 +24,7 @@ class DbDriver extends LoggerDriver
 {
     /** @var string $tableName logger table name */
     public $tableName;
-    /** @var IConnection $db */
+    /** @var Adapter $db */
     protected $db;
 
 
@@ -43,7 +43,7 @@ class DbDriver extends LoggerDriver
         parent::__construct($params);
 
         $this->tableName = !empty($params['table']) ? $params['table'] : 'logs';
-        $this->db = (new ConnectionInjector)->getDriver();
+        $this->db = (new Injector)->getDriver();
 
         if (!$this->db->tableExists($this->tableName)) {
             $this->db->createTable(

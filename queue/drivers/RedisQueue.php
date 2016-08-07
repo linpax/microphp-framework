@@ -1,9 +1,11 @@
-<?php /** MicroRawQueue */
+<?php /** MicroRedisQueue */
 
-namespace Micro\Queue;
+namespace Micro\Queue\Drivers;
+
+use Micro\Queue\Adapter;
 
 /**
- * RawQueue class file.
+ * RedisQueue class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
@@ -14,7 +16,7 @@ namespace Micro\Queue;
  * @version 1.0
  * @since 1.0
  */
-class RawQueue implements IQueue
+class RedisQueue implements Adapter
 {
     /**
      * Constructor Queues
@@ -35,7 +37,7 @@ class RawQueue implements IQueue
      */
     public function test()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -43,7 +45,7 @@ class RawQueue implements IQueue
      */
     public function sync($name, array $params = [])
     {
-        // TODO: Implement sync() method.
+        return 'Hello, world!';
     }
 
     /**

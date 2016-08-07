@@ -2,9 +2,8 @@
 
 namespace Micro\Auth\Drivers;
 
-use Micro\Auth\Adapter;
+use Micro\Db\Adapter;
 use Micro\Db\Drivers\IDriver;
-use Micro\Db\IConnection;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -37,11 +36,11 @@ abstract class Rbac implements Adapter
      *
      * @access public
      *
-     * @param IConnection $connection
+     * @param Adapter $connection
      *
      * @result void
      */
-    public function __construct(IConnection $connection)
+    public function __construct(Adapter $connection)
     {
         $this->db = $connection->getDriver();
 

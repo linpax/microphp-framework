@@ -3,7 +3,7 @@
 namespace Micro\Widget;
 
 use Micro\Base\Exception;
-use Micro\Db\ConnectionInjector;
+use Micro\Db\Injector;
 use Micro\File\Type;
 use Micro\Mvc\Models\IModel;
 use Micro\Mvc\Models\IQuery;
@@ -104,7 +104,7 @@ class GridViewWidget extends Widget
             }
 
             if ($data->having || $data->group) {
-                $res = new Query((new ConnectionInjector)->getDriver());
+                $res = new Query((new Injector)->getDriver());
                 $res->select = 'COUNT(*)';
                 $res->table = '('.$data->getQuery().') micro_count';
                 $res->single = true;

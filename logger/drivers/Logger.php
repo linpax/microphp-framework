@@ -1,6 +1,6 @@
 <?php /** MicroLogger */
 
-namespace Micro\Logger\Driver;
+namespace Micro\Logger\Drivers;
 
 use Micro\Logger\Adapter;
 

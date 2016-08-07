@@ -15,7 +15,7 @@ namespace Micro\Queue;
  * @since 1.0
  * @interface
  */
-interface IQueue
+interface Adapter
 {
     /**
      * Constructor Queues

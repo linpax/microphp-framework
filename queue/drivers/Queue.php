@@ -1,6 +1,6 @@
 <?php /** MicroQueue */
 
-namespace Micro\Queue;
+namespace Micro\Queue\Drivers;
 
 use Micro\Base\Exception;
 
@@ -77,7 +77,7 @@ class Queue
      * @param string $type
      * @param string $retry
      *
-     * @return \Micro\queue\IQueue
+     * @return \Micro\queue\Adapter
      * @throws Exception
      */
     private function getBroker($uri, $type, $retry)

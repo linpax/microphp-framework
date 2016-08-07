@@ -1,6 +1,6 @@
 <?php /** MicroRabbitMQ */
 
-namespace Micro\Queue;
+namespace Micro\Queue\Drivers;
 
 /**
  * RabbitMQ class file.

@@ -2,9 +2,8 @@
 
 namespace Micro\Auth\Drivers;
 
-use Micro\Auth\Adapter;
+use Micro\Db\Adapter;
 use Micro\Db\Drivers\IDriver;
-use Micro\Db\IConnection;
 
 /**
  * Abstract ACL class file.
@@ -21,7 +20,7 @@ use Micro\Db\IConnection;
  * @since 1.0
  * @abstract
  */
-abstract class Acl implements Adapter
+abstract class Acl implements \Micro\Auth\Adapter
 {
     /** @var IDriver $db */
     protected $db;
@@ -34,12 +33,12 @@ abstract class Acl implements Adapter
      *
      * @access public
      *
-     * @param IConnection $db
+     * @param Adapter $db
      * @param array $params config array
      *
      * @result void
      */
-    public function __construct(IConnection $db, array $params = [])
+    public function __construct(Adapter $db, array $params = [])
     {
         $this->db = $db->getDriver();
 

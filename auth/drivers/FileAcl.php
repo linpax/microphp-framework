@@ -2,7 +2,7 @@
 
 namespace Micro\Auth\Drivers;
 
-use Micro\Db\IConnection;
+use Micro\Db\Adapter;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -34,12 +34,12 @@ class FileAcl extends Acl
      *
      * @access public
      *
-     * @param IConnection $db
+     * @param Adapter $db
      * @param array $params configuration array
      *
      * @result void
      */
-    public function __construct(IConnection $db, array $params = [])
+    public function __construct(Adapter $db, array $params = [])
     {
         parent::__construct($db, $params);
 

@@ -2,7 +2,7 @@
 
 namespace Micro\Validator;
 
-use Micro\Db\ConnectionInjector;
+use Micro\Db\Injector;
 use Micro\Form\IFormModel;
 use Micro\Mvc\Models\Query;
 
@@ -33,7 +33,7 @@ class UniqueValidator extends BaseValidator
             }
             $elementValue = $model->$element;
 
-            $query = new Query((new ConnectionInjector)->getDriver());
+            $query = new Query((new Injector)->getDriver());
             $query->select = $this->params['attribute'];
             $query->table = $this->params['table'];
             $query->addWhere($this->params['attribute'].'="'.$elementValue.'"');

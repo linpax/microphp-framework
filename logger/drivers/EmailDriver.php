@@ -1,6 +1,6 @@
 <?php /** MicroEmailDriver */
 
-namespace Micro\Logger\Driver;
+namespace Micro\Logger\Drivers;
 
 use Micro\Mail\Message;
 use Micro\Mail\Transport\ITransport;

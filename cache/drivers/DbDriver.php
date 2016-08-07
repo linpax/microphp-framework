@@ -3,8 +3,8 @@
 namespace Micro\Cache\Drivers;
 
 use Micro\Base\Exception;
-use Micro\Db\ConnectionInjector;
 use Micro\Db\Drivers\IDriver;
+use Micro\Db\Injector;
 use Micro\Mvc\Models\Query;
 
 /**
@@ -47,7 +47,7 @@ class DbDriver extends CacheDriver
             unset($config['table']);
         }
 
-        $this->driver = (new ConnectionInjector)->getDriver();
+        $this->driver = (new Injector)->getDriver();
 
         $this->driver->createTable($this->table, [
             '`name` VARCHAR(127) NOT NULL',
