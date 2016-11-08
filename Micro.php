@@ -142,7 +142,7 @@ class Micro
         if (!$this->loaded) {
             $this->initialize($request);
 
-            $this->addListener('kernel.kill', function () use ($isAjax) {
+            $this->addListener('kernel.kill', function() use ($isAjax) {
                 if ($this->isDebug() && !$this->isCli() && !$isAjax) {
                     echo '<div class="debug_timer">', (microtime(true) - $this->getStartTime()), '</div>';
                 }
@@ -467,13 +467,13 @@ class Micro
     public function send(ResponseInterface $response)
     {
         header(
-            'HTTP/' . $response->getProtocolVersion() . ' ' .
-            $response->getStatusCode() . ' ' .
+            'HTTP/'.$response->getProtocolVersion().' '.
+            $response->getStatusCode().' '.
             $response->getReasonPhrase()
         );
 
         foreach ($response->getHeaders() as $header => $values) {
-            header($header . ': ' . implode(', ', $values));
+            header($header.': '.implode(', ', $values));
         }
 
         printf($response->getBody());

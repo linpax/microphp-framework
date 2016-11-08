@@ -38,17 +38,17 @@ class FileValidator extends BaseValidator
                     if (!empty($this->params['types']) && (strpos($this->params['types'],
                                 $fContext->getClientMediaType()) === false)
                     ) {
-                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' not allowed type';
+                        $this->errors[] = 'File '.$fContext->getClientFilename().' not allowed type';
 
                         return false;
                     }
                     if (!empty($this->params['minSize']) && ($fContext->getSize() < $this->params['minSize'])) {
-                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' too small size';
+                        $this->errors[] = 'File '.$fContext->getClientFilename().' too small size';
 
                         return false;
                     }
                     if (!empty($this->params['maxSize']) && ($fContext->getSize() > $this->params['maxSize'])) {
-                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' too many size';
+                        $this->errors[] = 'File '.$fContext->getClientFilename().' too many size';
 
                         return false;
                     }
