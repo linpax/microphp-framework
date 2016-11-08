@@ -88,7 +88,7 @@ abstract class ViewController extends Controller
      * @param string $path path to redirect
      * @param integer $status status for redirect
      *
-     * @return bool|ResponseInterface
+     * @return false|ResponseInterface
      * @throws Exception|\InvalidArgumentException
      */
     public function redirect($path, $status = 301)
