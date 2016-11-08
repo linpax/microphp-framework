@@ -4,6 +4,7 @@ namespace Micro\Web;
 
 use Micro\Base\Exception;
 use Micro\Base\Injector;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class RequestInjector
@@ -13,7 +14,7 @@ use Micro\Base\Injector;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Web
+ * @subpackage web
  * @version 1.0
  * @since 1.0
  */
@@ -21,14 +22,14 @@ class RequestInjector extends Injector
 {
     /**
      * @access public
-     * @return IRequest
+     * @return ServerRequestInterface
      * @throws Exception
      */
     public function build()
     {
         $request = $this->get('request');
 
-        if (!($request instanceof IRequest)) {
+        if (!($request instanceof ServerRequestInterface)) {
             throw new Exception('Component `request` not configured');
         }
 

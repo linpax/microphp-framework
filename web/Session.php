@@ -10,7 +10,7 @@ namespace Micro\Web;
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Web
+ * @subpackage web
  * @version 1.0
  * @since 1.0
  *
@@ -18,24 +18,17 @@ namespace Micro\Web;
  */
 class Session extends \stdClass implements ISession
 {
-    /** @var IRequest $request */
-    protected $request;
-
-
     /**
      * Construct for this class
      *
      * @access public
      *
-     * @param IRequest $request
      * @param bool $autoStart
      *
      * @result void
      */
-    public function __construct(IRequest $request, $autoStart = false)
+    public function __construct($autoStart = false)
     {
-        $this->request = $request;
-
         if ($autoStart === true) {
             $this->create();
         }
@@ -79,7 +72,7 @@ class Session extends \stdClass implements ISession
      */
     public function __get($name)
     {
-        return $this->request->session($name);
+        return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
     }
 
     /**
@@ -94,7 +87,7 @@ class Session extends \stdClass implements ISession
      */
     public function __set($name, $value)
     {
-        $this->request->setSession($name, $value);
+        $_SESSION[$name] = $value;
     }
 
     /**
@@ -108,7 +101,7 @@ class Session extends \stdClass implements ISession
      */
     public function __isset($name)
     {
-        return (bool)$this->request->session($name);
+        return array_key_exists($name, $_SESSION);
     }
 
     /**
@@ -122,6 +115,8 @@ class Session extends \stdClass implements ISession
      */
     public function __unset($name)
     {
-        $this->request->unsetSession($name);
+        if (array_key_exists($name, $_SESSION)) {
+            unset($_SESSION[$name]);
+        }
     }
 }

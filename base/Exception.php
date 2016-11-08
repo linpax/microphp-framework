@@ -2,8 +2,6 @@
 
 namespace Micro\Base;
 
-use Micro\Web\Response;
-
 /**
  * Exception specific exception
  *
@@ -23,18 +21,16 @@ class Exception extends \Exception
      */
     public function __toString()
     {
-        $resp = new Response();
-        $resp->setStatus(500);
-        $resp->setBody(sprintf('<h1>%s</h1><p>In %s: %s</p><pre>%s</pre>',
+        header('HTTP/1.1 500 Internal Server Error');
+
+        printf('<h1>%s</h1><p>In %s: %s</p><pre>%s</pre>',
             $this->message,
             $this->file,
             $this->line,
             $this->getTraceAsString()
-        ));
-        $resp->send();
+        );
 
         error_reporting(0);
-
-        return '';
+        exit;
     }
 }

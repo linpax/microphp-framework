@@ -3,10 +3,10 @@
 namespace Micro\Filter;
 
 use Micro\Base\Exception;
-use Micro\Web\IRequest;
 use Micro\Web\IUser;
 use Micro\Web\RequestInjector;
 use Micro\Web\UserInjector;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class AccessFilter
@@ -24,7 +24,7 @@ class AccessFilter extends Filter
 {
     /** @var IUser $user */
     protected $user;
-    /** @var IRequest $request */
+    /** @var ServerRequestInterface $request */
     protected $request;
 
     /**
@@ -203,7 +203,8 @@ class AccessFilter extends Filter
             $rule['ips'][] = $rule['ips'];
         }
 
-        $userIp = $this->request->getUserIP();
+        $server = $this->request->getServerParams();
+        $userIp = ($ip = filter_var($server['REMOTE_ADDR'], FILTER_VALIDATE_IP)) ? $ip : '127.0.0.1';
 
         /** @noinspection ForeachSourceInspection */
         foreach ($rule['ips'] AS $r) {

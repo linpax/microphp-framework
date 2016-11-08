@@ -14,12 +14,10 @@ use Micro\Mvc\Controllers\IController;
 use Micro\Resolver\ConsoleResolverInjector;
 use Micro\Resolver\IResolver;
 use Micro\Resolver\ResolverInjector;
-use Micro\Web\IOutput;
-use Micro\Web\IRequest;
-use Micro\Web\IResponse;
-use Micro\Web\RequestInjector;
-use Micro\Web\Response;
 use Micro\Web\ResponseInjector;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 
 /**
  * Micro class file.
@@ -103,13 +101,13 @@ class Micro
      *
      * @access public
      *
-     * @param IRequest $request Request object
+     * @param ServerRequestInterface $request Request object
      *
-     * @return \Micro\Web\IOutput|\Micro\Web\IResponse
+     * @return \Micro\Web\IOutput|ResponseInterface
      * @throws \Exception
      * @throws \Micro\Base\Exception
      */
-    public function run(IRequest $request)
+    public function run(ServerRequestInterface $request)
     {
         try {
             return $this->doRun($request);
@@ -129,22 +127,23 @@ class Micro
      *
      * @access private
      *
-     * @param IRequest $request
+     * @param ServerRequestInterface $request
      *
-     * @return \Micro\Web\IResponse|\Micro\Web\IOutput
-     * @throws \Micro\Base\Exception
+     * @return ResponseInterface|\Micro\Web\IOutput
+     * @throws \Micro\Base\Exception|\RuntimeException|\InvalidArgumentException
      */
-    private function doRun(IRequest $request)
+    private function doRun(ServerRequestInterface $request)
     {
+        $params = $request->getServerParams();
+        $isAjax = strtolower(
+                filter_var(!empty($params['HTTP_X_REQUESTED_WITH']) ? $params['HTTP_X_REQUESTED_WITH'] : null)
+            ) === 'xmlhttprequest';
 
         if (!$this->loaded) {
             $this->initialize($request);
 
-            $this->addListener('kernel.kill', function() {
-                /** @var IRequest $request */
-                $request = (new RequestInjector)->build();
-
-                if ($this->isDebug() && !$request->isCli() && !$request->isAjax()) {
+            $this->addListener('kernel.kill', function () use ($isAjax) {
+                if ($this->isDebug() && !$this->isCli() && !$isAjax) {
                     echo '<div class="debug_timer">', (microtime(true) - $this->getStartTime()), '</div>';
                 }
 
@@ -156,27 +155,28 @@ class Micro
             });
         }
 
-        if (($output = $this->sendSignal('kernel.request', [])) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.request', [])) instanceof ResponseInterface) {
             return $output;
         }
 
         /** @var IResolver $resolver */
         $resolver = $this->getResolver();
-        if (($output = $this->sendSignal('kernel.router', ['resolver' => $resolver])) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.router', ['resolver' => $resolver])) instanceof ResponseInterface) {
             return $output;
         }
 
         /** @var IController|Console $app */
         $app = $resolver->getApplication();
-        if (($output = $this->sendSignal('kernel.controller', ['application' => $app])) instanceof IResponse) {
+        if (($output = $this->sendSignal('kernel.controller', ['application' => $app])) instanceof ResponseInterface) {
             return $output;
         }
 
         $output = $app->action((string)$resolver->getAction());
-        if (!($output instanceof IOutput)) {
+        if (!($output instanceof ResponseInterface)) {
             $response = (new ResponseInjector)->build();
-            $response->setBody((string)$output);
-            $output = $response;
+            $stream = $response->getBody();
+            $stream->write((string)$output);
+            $output = $response->withBody($stream);
         }
 
         $this->sendSignal('kernel.response', ['output' => $output]);
@@ -188,11 +188,11 @@ class Micro
      * Initialization
      *
      * @access protected
-     * @param IRequest $request
+     * @param ServerRequestInterface $request
      * @return void
      * @throws Exception
      */
-    protected function initialize(IRequest $request)
+    protected function initialize(ServerRequestInterface $request)
     {
         $class = $this->getInjectorClass();
         if (!$class || !class_exists($class)) {
@@ -282,6 +282,11 @@ class Micro
         return $this->debug;
     }
 
+    public function isCli()
+    {
+        return PHP_SAPI === 'cli';
+    }
+
     /**
      * Get start time
      *
@@ -317,17 +322,14 @@ class Micro
      */
     protected function getResolver()
     {
-        /** @var IRequest $request */
-        $request = (new RequestInjector)->build();
-
         try {
-            if ($request->isCli()) {
+            if ($this->isCli()) {
                 $resolver = (new ConsoleResolverInjector)->build();
             } else {
                 $resolver = (new ResolverInjector)->build();
             }
         } catch (Exception $e) {
-            $class = $request->isCli() ? '\Micro\Resolver\ConsoleResolver' : '\Micro\Resolver\HMVCResolver';
+            $class = $this->isCli() ? '\Micro\Resolver\ConsoleResolver' : '\Micro\Resolver\HMVCResolver';
             $resolver = new $class;
         }
 
@@ -349,17 +351,14 @@ class Micro
      *
      * @param \Exception $e Exception
      *
-     * @return \Micro\Web\IOutput|\Micro\Web\IResponse
+     * @return \Micro\Web\IOutput|ResponseInterface
      * @throws \Micro\Base\Exception
      */
     private function doException(\Exception $e)
     {
-        /** @var IRequest $request */
-        $request = (new RequestInjector)->build();
+        $output = $this->isCli() ? new DefaultConsoleCommand([]) : (new ResponseInjector)->build();
 
-        $output = $request->isCli() ? new DefaultConsoleCommand([]) : new Response();
-
-        if ($request->isCli()) {
+        if ($this->isCli()) { // Render CLI error
             $output->data = '"Error #'.$e->getCode().' - '.$e->getMessage().'"';
             $output->execute();
 
@@ -369,12 +368,14 @@ class Micro
         $errorController = (new Injector)->param('errorController');
         $errorAction = (new Injector)->param('errorAction');
 
-        if (!$errorController || !$errorAction) {
-            $output->setBody('Option `errorController` or `errorAction` not configured');
+        if (!$errorController || !$errorAction) { // render SAPI error not configured
+            $stream = $output->getBody();
+            $stream->write('Option `errorController` or `errorAction` not configured');
 
-            return $output;
+            return $output->withBody($stream);
         }
 
+        // Render SAPI error
         $_POST['error'] = $e;
 
         $controller = $errorController;
@@ -383,13 +384,14 @@ class Micro
         $result = new $controller(false);
         $result = $result->action($errorAction);
 
-        if ($result instanceof IOutput) {
+        if ($result instanceof ResponseInterface) {
             return $result;
         }
 
-        $output->setBody((string)$result);
+        $stream = $output->getBody();
+        $stream->write((string)$result);
 
-        return $output;
+        return $output->withBody($stream);
     }
 
     /**
@@ -460,5 +462,20 @@ class Micro
     public function getEnvironment()
     {
         return $this->environment;
+    }
+
+    public function send(ResponseInterface $response)
+    {
+        header(
+            'HTTP/' . $response->getProtocolVersion() . ' ' .
+            $response->getStatusCode() . ' ' .
+            $response->getReasonPhrase()
+        );
+
+        foreach ($response->getHeaders() as $header => $values) {
+            header($header . ': ' . implode(', ', $values));
+        }
+
+        printf($response->getBody());
     }
 }

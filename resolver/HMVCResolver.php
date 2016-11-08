@@ -5,9 +5,9 @@ namespace Micro\Resolver;
 use Micro\Base\Exception;
 use Micro\Base\KernelInjector;
 use Micro\Mvc\Controllers\IController;
-use Micro\Web\IRequest;
 use Micro\Web\RequestInjector;
 use Micro\Web\RouterInjector;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * hMVC Resolver class file.
@@ -46,10 +46,12 @@ class HMVCResolver extends Resolver
      */
     public function getApplication()
     {
-        /** @var IRequest $request */
+        /** @var ServerRequestInterface $request */
         $request = (new RequestInjector)->build();
+        /** @var array $rawQuery */
+        $rawQuery = $request->getQueryParams();
 
-        $query = $request->query('r') ?: '/default';
+        $query = !empty($rawQuery['r']) ? $rawQuery['r'] : '/default';
         $query = (substr($query, -1) === '/') ? substr($query, 0, -1) : $query;
 
         $this->uri = (new RouterInjector)->build()->parse($query, $request->getMethod());
@@ -60,7 +62,7 @@ class HMVCResolver extends Resolver
         $cls = $this->getCalculatePath();
 
         if (!class_exists($cls) || !is_subclass_of($cls, '\Micro\Mvc\Controllers\IController')) {
-            throw new Exception('Controller '.$cls.' not found or not a valid');
+            throw new Exception('Controller ' . $cls . ' not found or not a valid');
         }
 
         return new $cls($this->getModules());
@@ -91,11 +93,19 @@ class HMVCResolver extends Resolver
 
         if ($params) {
             $paramBlocks = explode('&', $params);
+            $query = (new RequestInjector)->build()->getQueryParams();
 
             foreach ($paramBlocks AS $param) {
                 $val = explode('=', $param);
-                (new RequestInjector)->build()->setQuery($val[0], $val[1]);
+
+                $query[$val[0]] = $val[1];
             }
+
+            // replace request
+            $request = (new RequestInjector)->build();
+            (new RequestInjector)->addRequirement('request', $request->withQueryParams(
+                array_replace_recursive($request->getQueryParams(), $query)
+            ));
         }
     }
 
@@ -112,8 +122,8 @@ class HMVCResolver extends Resolver
     protected function prepareExtensions(&$uriBlocks)
     {
         foreach ($uriBlocks as $i => $block) {
-            if (file_exists((new KernelInjector)->build()->getAppDir().$this->extensions.'/extensions/'.$block)) {
-                $this->extensions .= '/Extensions/'.ucfirst($block);
+            if (file_exists((new KernelInjector)->build()->getAppDir() . $this->extensions . '/extensions/' . $block)) {
+                $this->extensions .= '/Extensions/' . ucfirst($block);
 
                 unset($uriBlocks[$i]);
             } else {
@@ -138,11 +148,11 @@ class HMVCResolver extends Resolver
      */
     protected function prepareModules(&$uriBlocks)
     {
-        $path = (new KernelInjector)->build()->getAppDir().($this->extensions ?: '');
+        $path = (new KernelInjector)->build()->getAppDir() . ($this->extensions ?: '');
 
         foreach ($uriBlocks as $i => $block) {
-            if ($block && file_exists($path.strtolower($this->modules).'/modules/'.$block)) {
-                $this->modules .= '/Modules/'.ucfirst($block);
+            if ($block && file_exists($path . strtolower($this->modules) . '/modules/' . $block)) {
+                $this->modules .= '/Modules/' . ucfirst($block);
 
                 unset($uriBlocks[$i]);
             } else {
@@ -165,10 +175,10 @@ class HMVCResolver extends Resolver
      */
     protected function prepareController(&$uriBlocks)
     {
-        $path = (new KernelInjector)->build()->getAppDir().($this->extensions ?: '').strtolower($this->modules ?: '');
+        $path = (new KernelInjector)->build()->getAppDir() . ($this->extensions ?: '') . strtolower($this->modules ?: '');
         $str = array_shift($uriBlocks);
 
-        if (file_exists(str_replace('\\', '/', $path.'/controllers/'.ucfirst($str).'Controller.php'))) {
+        if (file_exists(str_replace('\\', '/', $path . '/controllers/' . ucfirst($str) . 'Controller.php'))) {
             $this->controller = $str;
         } else {
             $this->controller = 'default';
@@ -201,7 +211,7 @@ class HMVCResolver extends Resolver
      */
     public function getCalculatePath()
     {
-        return '\\App'.$this->getExtensions().$this->getModules().'\\Controllers\\'.$this->getController();
+        return '\\App' . $this->getExtensions() . $this->getModules() . '\\Controllers\\' . $this->getController();
     }
 
     /**
@@ -237,7 +247,7 @@ class HMVCResolver extends Resolver
      */
     public function getController()
     {
-        return ucfirst($this->controller).'Controller';
+        return ucfirst($this->controller) . 'Controller';
     }
 
 

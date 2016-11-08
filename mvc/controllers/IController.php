@@ -2,7 +2,7 @@
 
 namespace Micro\Mvc\Controllers;
 
-use Micro\Web\IResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class IController
@@ -41,7 +41,7 @@ interface IController
      *
      * @param string $name Called action name
      *
-     * @return string|IResponse
+     * @return string|ResponseInterface
      * @throws \Micro\Base\Exception
      */
     public function action($name = 'index');

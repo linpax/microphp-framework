@@ -4,7 +4,7 @@ namespace Micro\Validator;
 
 use Micro\Form\IFormModel;
 use Micro\Web\RequestInjector;
-use Micro\Web\Uploader;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * EmailValidator class file.
@@ -27,28 +27,28 @@ class FileValidator extends BaseValidator
     {
         foreach ($this->elements AS $element) {
             if (!$model->checkAttributeExists($element)) {
-                /** @var Uploader $files */
-                $files = (new RequestInjector)->build()->getFiles();
-                if (!empty($this->params['maxFiles']) && (count($files->files) > $this->params['maxFiles'])) {
+                /** @var UploadedFileInterface[] $files */
+                $files = (new RequestInjector)->build()->getUploadedFiles();
+                if (!empty($this->params['maxFiles']) && (count($files) > $this->params['maxFiles'])) {
                     $this->errors[] = 'Too many files in parameter '.$element;
 
                     return false;
                 }
-                foreach ($files->files AS $fContext) {
+                foreach ($files AS $fContext) {
                     if (!empty($this->params['types']) && (strpos($this->params['types'],
-                                $fContext['type']) === false)
+                                $fContext->getClientMediaType()) === false)
                     ) {
-                        $this->errors[] = 'File '.$fContext['name'].' not allowed type';
+                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' not allowed type';
 
                         return false;
                     }
-                    if (!empty($this->params['minSize']) && ($fContext['size'] < $this->params['minSize'])) {
-                        $this->errors[] = 'File '.$fContext['name'].' too small size';
+                    if (!empty($this->params['minSize']) && ($fContext->getSize() < $this->params['minSize'])) {
+                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' too small size';
 
                         return false;
                     }
-                    if (!empty($this->params['maxSize']) && ($fContext['type'] > $this->params['maxSize'])) {
-                        $this->errors[] = 'File '.$fContext['name'].' too many size';
+                    if (!empty($this->params['maxSize']) && ($fContext->getSize() > $this->params['maxSize'])) {
+                        $this->errors[] = 'File ' . $fContext->getClientFilename() . ' too many size';
 
                         return false;
                     }

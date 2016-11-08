@@ -3,8 +3,8 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
-use Micro\Web\IRequest;
 use Micro\Web\RequestInjector;
+use Psr\Http\Message\ServerRequestInterface;
 
 
 /**
@@ -43,7 +43,7 @@ abstract class RichController extends Controller
     {
         parent::__construct($modules);
 
-        /** @var IRequest $request */
+        /** @var ServerRequestInterface $request */
         $request = (new RequestInjector)->build();
 
         $this->methodType = $request->getMethod() ?: 'GET';
@@ -51,26 +51,23 @@ abstract class RichController extends Controller
 
     /**
      * @inheritdoc
+     * @throws \InvalidArgumentException
      */
     public function action($name = 'index')
     {
         $actionClass = false;
 
         // check action exists
-        if (!method_exists($this, 'action'.ucfirst($name)) && !$actionClass = $this->getActionClassByName($name)) {
-            $this->response->setStatus(500, 'Action "'.$name.'" not found into '.get_class($this));
-
-            return $this->response;
+        if (!method_exists($this, 'action' . ucfirst($name)) && !$actionClass = $this->getActionClassByName($name)) {
+            return $this->response->withStatus(500, 'Action `' . $name . '` not found into ' . get_class($this));
         }
 
         $types = $this->actionsTypes();
 
         if (!empty($types[$name]) && $this->methodType !== $types[$name]) {
-            $this->response->setStatus(500,
-                'Action "'.$name.'" not run with method "'.$this->methodType.'" into '.get_class($this)
+            return $this->response->withStatus(500,
+                'Action `' . $name . '` not run with method `' . $this->methodType . '` into ' . get_class($this)
             );
-
-            return $this->response;
         }
 
         $filters = method_exists($this, 'filters') ? $this->filters() : [];
@@ -82,16 +79,20 @@ abstract class RichController extends Controller
             $cl = new $actionClass();
             $view = $cl->run();
         } else {
-            $view = $this->{'action'.ucfirst($name)}();
+            $view = $this->{'action' . ucfirst($name)}();
         }
 
-        if ($this->response->getContentType() !== $this->format) {
-            $this->response->setContentType($this->format);
+        $this->response = $this->response->withHeader('Content-Type', $this->format);
+
+        $contentType = $this->response->getHeader('Content-Type') ?: 'text/html';
+        if ($contentType !== $this->format) {
+            $this->response = $this->response->withHeader('Content-Type', $this->format);
         }
 
-        $this->response->setBody($this->switchContentType($this->applyFilters($name, false, $filters, $view)));
+        $stream = $this->response->getBody();
+        $stream->write($this->switchContentType($this->applyFilters($name, false, $filters, $view)));
 
-        return $this->response;
+        return $this->response->withBody($stream);
     }
 
     /**

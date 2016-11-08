@@ -4,6 +4,7 @@ namespace Micro\Web;
 
 use Micro\Base\Exception;
 use Micro\Base\Injector;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ResponseInjector
@@ -21,14 +22,14 @@ class ResponseInjector extends Injector
 {
     /**
      * @access public
-     * @return IResponse
+     * @return ResponseInterface
      * @throws Exception
      */
     public function build()
     {
         $response = $this->get('response');
 
-        if (!($response instanceof IResponse)) {
+        if (!($response instanceof ResponseInterface)) {
             throw new Exception('Component `response` not configured');
         }
 

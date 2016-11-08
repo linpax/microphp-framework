@@ -4,9 +4,8 @@ namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
 use Micro\Mvc\Module;
-use Micro\Web\IResponse;
-use Micro\Web\Response;
 use Micro\Web\ResponseInjector;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Controller
@@ -25,7 +24,7 @@ abstract class Controller implements IController
 {
     /** @var Module $module */
     public $module;
-    /** @var IResponse $response Response HTTP data */
+    /** @var ResponseInterface $response Response HTTP data */
     public $response;
 
 
@@ -51,7 +50,7 @@ abstract class Controller implements IController
         }
 
         if (!$this->response = (new ResponseInjector)->build()) {
-            $this->response = new Response;
+            throw new Exception('Component `response` not configured');
         }
     }
 
@@ -66,7 +65,7 @@ abstract class Controller implements IController
      * @param string $data data to parse
      *
      * @return null|string
-     * @throws Exception
+     * @throws Exception|\InvalidArgumentException
      */
     public function applyFilters($action, $isPre = true, array $filters = [], $data = null)
     {
@@ -85,16 +84,14 @@ abstract class Controller implements IController
 
             /** @var \Micro\Filter\IFilter $_filter */
             $_filter = new $filter['class']($action);
-            /** @var IResponse $response */
+            /** @var ResponseInterface $response */
             $response = $isPre ? $_filter->pre($filter) : $_filter->post($filter + ['data' => $data]);
 
             if (!$response) {
                 if (!empty($_filter->result['redirect'])) {
-                    /** @var IResponse $redirect */
+                    /** @var ResponseInterface $redirect */
                     $redirect = (new ResponseInjector)->build();
-                    $redirect->addHeader('Location', $_filter->result['redirect']);
-
-                    return $redirect;
+                    return $redirect->withHeader('Location', $_filter->result['redirect']);
                 }
                 throw new Exception($_filter->result['message']);
             }

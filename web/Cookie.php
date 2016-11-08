@@ -2,6 +2,8 @@
 
 namespace Micro\Web;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Cookie class file.
  *
@@ -16,7 +18,7 @@ namespace Micro\Web;
  */
 class Cookie implements ICookie
 {
-    /** @var IRequest $request */
+    /** @var ServerRequestInterface $request */
     protected $request;
 
 
@@ -25,11 +27,11 @@ class Cookie implements ICookie
      *
      * @access public
      *
-     * @param IRequest $request
+     * @param ServerRequestInterface $request
      *
      * @result void
      */
-    public function __construct(IRequest $request)
+    public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
     }
@@ -45,7 +47,9 @@ class Cookie implements ICookie
      */
     public function get($name)
     {
-        return $this->request->cookie($name);
+        $cookie = $this->request->getCookieParams();
+
+        return array_key_exists($name, $cookie) ? $cookie[$name] : null;
     }
 
     /**
@@ -77,7 +81,7 @@ class Cookie implements ICookie
      */
     public function exists($name)
     {
-        return (bool)$this->request->cookie($name);
+        return array_key_exists($name, $this->request->getCookieParams());
     }
 
     /**

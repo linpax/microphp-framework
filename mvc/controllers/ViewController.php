@@ -3,9 +3,8 @@
 namespace Micro\Mvc\Controllers;
 
 use Micro\Base\Exception;
-use Micro\Web\IResponse;
-use Micro\Web\Response;
 use Micro\Web\ResponseInjector;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Controller
@@ -42,15 +41,16 @@ abstract class ViewController extends Controller
 
         if (!method_exists($this, 'action'.ucfirst($name))) {
             $actionClass = $this->getActionClassByName($name);
+
             if (!$actionClass) {
-                throw new Exception('Action "'.$name.'" not found into '.get_class($this));
+                throw new Exception('Action `' . $name . '` not found into ' . get_class($this));
             }
         }
 
         $filters = method_exists($this, 'filters') ? $this->filters() : [];
-
         $result = $this->applyFilters($name, true, $filters, null);
-        if ($result instanceof IResponse) {
+
+        if ($result instanceof ResponseInterface) {
             return $result;
         }
 
@@ -70,10 +70,14 @@ abstract class ViewController extends Controller
             $view = $view->render();
         }
 
-        $response = (new ResponseInjector)->build() ?: new Response;
-        $response->setBody($this->applyFilters($name, false, $filters, $view));
+        $response = (new ResponseInjector)->build();
+        if (!$response) {
+            throw new Exception('Component `response` not configured');
+        }
+        $stream = $response->getBody();
+        $stream->write($this->applyFilters($name, false, $filters, $view));
 
-        return $response;
+        return $response->withBody($stream);
     }
 
     /**
@@ -84,12 +88,22 @@ abstract class ViewController extends Controller
      * @param string $path path to redirect
      * @param integer $status status for redirect
      *
-     * @return bool|IResponse
+     * @return bool|ResponseInterface
+     * @throws Exception|\InvalidArgumentException
      */
     public function redirect($path, $status = 301)
     {
         if (!$this->asWidget) {
-            return new Response(['status' => $status, 'headers' => ['location' => $path]]);
+            /** @var ResponseInterface $response */
+            $response = (new ResponseInjector)->build();
+            if (!$response) {
+                throw new Exception('Component `response` not configured');
+            }
+
+            $response = $response->withStatus($status);
+            $response = $response->getHeaderLine('Location: ' . $path);
+
+            return $response;
         }
 
         return false;

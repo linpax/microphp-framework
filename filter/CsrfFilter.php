@@ -3,10 +3,10 @@
 namespace Micro\Filter;
 
 use Micro\Base\Exception;
-use Micro\Web\IRequest;
 use Micro\Web\ISession;
 use Micro\Web\RequestInjector;
 use Micro\Web\SessionInjector;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class CsrfFilter
@@ -29,16 +29,21 @@ class CsrfFilter extends Filter
      */
     public function pre(array $params)
     {
-        /** @var IRequest $request */
-        $request = (new RequestInjector)->build();
+        /** @var ServerRequestInterface $session */
+        $server = (new RequestInjector)->build();
         /** @var ISession $session */
         $session = (new SessionInjector)->build();
 
-        if ($request->server('REQUEST_METHOD') !== 'POST') {
+        /** @var array $params */
+        $params = $server->getServerParams();
+        /** @var array $post */
+        $post = $server->getParsedBody();
+
+        if ($params['REQUEST_METHOD'] !== 'POST') {
             return true;
         }
 
-        $postCSRF = $request->post('csrf');
+        $postCSRF = $post['csrf'];
 
         if (!$postCSRF) {
             $this->result = [
@@ -73,11 +78,7 @@ class CsrfFilter extends Filter
      */
     public function post(array $params)
     {
-        return preg_replace_callback(
-            '/(<form[^>]*>)(.*?)(<\/form>)/m',
-            array($this, 'insertProtect'),
-            $params['data']
-        );
+        return preg_replace_callback('/(<form[^>]*>)(.*?)(<\/form>)/m', [$this, 'insertProtect'], $params['data']);
     }
 
     /**
@@ -93,9 +94,9 @@ class CsrfFilter extends Filter
     public function insertProtect(array $matches = [])
     {
         $gen = md5(mt_rand());
+
         /** @var ISession $s */
         $s = (new SessionInjector)->build();
-
         $s->csrf = array_merge(is_array($s->csrf) ? $s->csrf : [], [md5($gen)]);
 
         return $matches[1].'<input type="hidden" name="csrf" value="'.$gen.'" />'.$matches[2].$matches[3];

@@ -278,7 +278,8 @@ class GridViewWidget extends Widget
             return null;
         }
         /** @var array $filtersData */
-        $filtersData = (new RequestInjector)->build()->query($this->filterPrefix);
+        $query = (new RequestInjector)->build()->getQueryParams();
+        $filtersData = array_key_exists($this->filterPrefix, $query) ? $query[$this->filterPrefix] : null;
 
         $result = Html::beginForm(null, 'get', $this->attributesFilterForm);
         $result .= Html::openTag('tr', $this->attributesFilter);

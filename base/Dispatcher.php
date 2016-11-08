@@ -2,7 +2,7 @@
 
 namespace Micro\Base;
 
-use Micro\Web\IResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Dispatcher class file.
@@ -71,7 +71,7 @@ class Dispatcher implements IDispatcher
             foreach ($this->listeners[$listener] as $listen) {
                 $result = call_user_func($listen, $params);
 
-                if ($result instanceof IResponse) {
+                if ($result instanceof ResponseInterface) {
                     return $result;
                 }
             }
