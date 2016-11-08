@@ -43,7 +43,7 @@ abstract class ViewController extends Controller
             $actionClass = $this->getActionClassByName($name);
 
             if (!$actionClass) {
-                throw new Exception('Action `' . $name . '` not found into ' . get_class($this));
+                throw new Exception('Action `'.$name.'` not found into '.get_class($this));
             }
         }
 
@@ -101,7 +101,7 @@ abstract class ViewController extends Controller
             }
 
             $response = $response->withStatus($status);
-            $response = $response->getHeaderLine('Location: ' . $path);
+            $response = $response->getHeaderLine('Location: '.$path);
 
             return $response;
         }
