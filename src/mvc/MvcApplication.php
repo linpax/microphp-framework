@@ -5,6 +5,7 @@ namespace Micro\Mvc;
 use Micro\Base\Application;
 use Micro\Base\Injector;
 use Micro\base\ResolverInterface;
+use Micro\Web\RequestInjector;
 use Micro\Web\ResponseInjector;
 use Psr\Http\Message\ResponseInterface;
 
@@ -41,7 +42,7 @@ class MvcApplication extends Application
      * @param \Exception $e Exception
      *
      * @return ResponseInterface
-     * @throws \Micro\Base\Exception
+     * @throws \Micro\Base\Exception|\InvalidArgumentException
      */
     protected function doException(\Exception $e)
     {
@@ -58,7 +59,11 @@ class MvcApplication extends Application
         }
 
         // Render SAPI error
-        $_POST['error'] = $e;
+        $body = (new RequestInjector)->build()->getParsedBody();
+        $body['error'] = $e;
+
+        $request = (new RequestInjector)->build()->withParsedBody($body);
+        (new Injector)->addRequirement('request', $request);
 
         $controller = $errorController;
 
