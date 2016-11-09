@@ -15,7 +15,7 @@ namespace Micro\Base;
  * @version 1.0
  * @since 1.0
  */
-interface IInjector
+interface InjectorInterface
 {
     /**
      * Add requirement to injector

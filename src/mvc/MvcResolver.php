@@ -1,16 +1,17 @@
 <?php /** MicroHMVCResolver */
 
-namespace Micro\Resolver;
+namespace Micro\Mvc;
 
 use Micro\Base\Exception;
 use Micro\Base\KernelInjector;
+use Micro\base\ResolverInterface;
 use Micro\Mvc\Controllers\IController;
 use Micro\Web\RequestInjector;
 use Micro\Web\RouterInjector;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * hMVC Resolver class file.
+ * MVC Resolver class file.
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
@@ -21,7 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @version 1.0
  * @since 1.0
  */
-class HMVCResolver extends Resolver
+class MvcResolver implements ResolverInterface
 {
     /** @var string $uri converted URL */
     protected $uri;
@@ -44,7 +45,7 @@ class HMVCResolver extends Resolver
      * @return IController
      * @throws Exception
      */
-    public function getApplication()
+    public function getApp()
     {
         /** @var ServerRequestInterface $request */
         $request = (new RequestInjector)->build();

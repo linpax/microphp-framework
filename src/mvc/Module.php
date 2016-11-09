@@ -3,7 +3,7 @@
 namespace Micro\Mvc;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\InjectorInterface;
 use Micro\Base\KernelInjector;
 use Micro\Micro;
 
@@ -37,7 +37,7 @@ abstract class Module
             ).'/config.php';
 
         if (file_exists($path)) {
-            new Injector($path);
+            new InjectorInterface($path);
         }
     }
 }

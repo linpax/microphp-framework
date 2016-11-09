@@ -3,7 +3,7 @@
 namespace Micro\Mail\Transport;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\InjectorInterface;
 
 /**
  * Class TransportInjector
@@ -17,7 +17,7 @@ use Micro\Base\Injector;
  * @version 1.0
  * @since 1.0
  */
-class TransportInjector extends Injector
+class TransportInjector extends InjectorInterface
 {
     /**
      * @access public

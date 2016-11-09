@@ -1,36 +1,36 @@
-<?php /** MicroResolverInjector */
+<?php /** MicroCacheInjector */
 
-namespace Micro\Resolver;
+namespace Micro\Cache;
 
 use Micro\Base\Exception;
-use Micro\Base\Injector;
+use Micro\Cache\Drivers\Cache;
 
 /**
- * Class ResolverInjector
+ * Class CacheInjector
  *
  * @author Oleg Lunegov <testuser@mail.linpax.org>
  * @link https://github.com/linpax/microphp-framework
  * @copyright Copyright (c) 2013 Oleg Lunegov
  * @license https://github.com/linpax/microphp-framework/blob/master/LICENSE
  * @package Micro
- * @subpackage Resolver
+ * @subpackage Cache
  * @version 1.0
  * @since 1.0
  */
-class ResolverInjector extends Injector
+class Injector extends \Micro\Base\Injector
 {
     /**
-     * @return bool
+     * @return Cache
      * @throws Exception
      */
     public function build()
     {
-        $resolver = $this->get('resolver');
+        $cache = $this->get('cache');
 
-        if (!($resolver instanceof IResolver)) {
-            throw new Exception('Component `resolver` not configured');
+        if (!($cache instanceof Cache)) {
+            throw new Exception('Component `cache` not configured');
         }
 
-        return $resolver;
+        return $cache;
     }
 }

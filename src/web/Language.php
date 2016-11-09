@@ -3,7 +3,7 @@
 namespace Micro\Web;
 
 use Micro\base\Exception;
-use Micro\Base\Injector;
+use Micro\Base\InjectorInterface;
 
 /**
  * Language getter language tags from *.ini files
@@ -37,7 +37,7 @@ class Language extends \stdClass
     {
         $viewName = substr($viewNameFile, 0, -3);
 
-        $lang = (new Injector)->param('lang');
+        $lang = (new InjectorInterface)->param('lang');
         $lang = $lang ?: $this->defaultLang;
 
         if (!file_exists($viewName.$lang.'.ini')) {

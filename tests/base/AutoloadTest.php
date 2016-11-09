@@ -17,7 +17,7 @@ class AutoloadTest extends TestCase
 
     public function setUp()
     {
-        $this->path = __DIR__ . '/../..';
+        $this->path = __DIR__ . '/../../src';
     }
 
     public function testGetAlias()

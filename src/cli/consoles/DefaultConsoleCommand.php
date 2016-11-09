@@ -20,11 +20,11 @@ use Micro\Cli\ConsoleCommand;
 class DefaultConsoleCommand extends ConsoleCommand
 {
     /** @var mixed $data */
-    public $data;
+    public $data = 'Hello, world!';
 
 
     /**
-     * @inheritdoc
+     * @return void
      */
     public function execute()
     {

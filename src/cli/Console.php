@@ -2,6 +2,10 @@
 
 namespace Micro\Cli;
 
+use Micro\Base\Exception;
+use Micro\Web\ResponseInjector;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Console class file.
  *
@@ -38,7 +42,8 @@ class Console
      *
      * @param string $name Command name
      *
-     * @return bool|ConsoleCommand|string
+     * @return ResponseInterface
+     * @throws \RuntimeException|\InvalidArgumentException|Exception
      */
     public function action($name)
     {
@@ -46,13 +51,19 @@ class Console
         $command = class_exists($command) ? $command : '\\Micro\\Cli\\Consoles\\'.ucfirst($name).'ConsoleCommand';
 
         if (!class_exists($command)) {
-            return false;
+            throw new Exception('Command `' . $name . '` not found');
         }
 
         /** @var ConsoleCommand $command */
         $command = new $command();
         $command->execute();
 
-        return $command;
+        $response = (new ResponseInjector)->build();
+        $response = $response->withHeader('status', (string)(int)$command->result);
+
+        $stream = $response->getBody();
+        $stream->write($command->message);
+
+        return $response->withBody($stream);
     }
 }

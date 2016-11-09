@@ -15,7 +15,7 @@ namespace Micro\Base;
  * @version 1.0
  * @since 1.0
  */
-class Injector implements IInjector
+class Injector implements InjectorInterface
 {
     /** @var array $CONFIG Configuration */
     private static $CONFIG = [];

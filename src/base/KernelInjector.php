@@ -2,8 +2,6 @@
 
 namespace Micro\Base;
 
-use Micro\Micro;
-
 /**
  * Class KernelInjector
  *
@@ -20,14 +18,14 @@ class KernelInjector extends Injector
 {
     /**
      * @access public
-     * @return Micro
+     * @return KernelInterface
      * @throws Exception
      */
     public function build()
     {
         $kernel = $this->get('kernel');
 
-        if (!($kernel instanceof Micro)) {
+        if (!($kernel instanceof KernelInterface)) {
             throw new Exception('Component `kernel` not configured');
         }
 
