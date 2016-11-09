@@ -124,7 +124,7 @@ abstract class Application implements ApplicationInterface
      */
     public function send(ResponseInterface $response)
     {
-        printf($response->getBody().PHP_EOL);
+        printf('%s%s', $response->getBody(), PHP_EOL);
     }
 
     /**
