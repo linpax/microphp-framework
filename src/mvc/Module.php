@@ -3,9 +3,9 @@
 namespace Micro\Mvc;
 
 use Micro\Base\Exception;
-use Micro\Base\InjectorInterface;
+use Micro\Base\Injector;
+use Micro\base\Kernel;
 use Micro\Base\KernelInjector;
-use Micro\Micro;
 
 /**
  * Class Module
@@ -29,7 +29,7 @@ abstract class Module
      */
     public function __construct()
     {
-        /** @var Micro $kernel */
+        /** @var Kernel $kernel */
         $kernel = (new KernelInjector)->build();
 
         $path = dirname(
@@ -37,7 +37,7 @@ abstract class Module
             ).'/config.php';
 
         if (file_exists($path)) {
-            new InjectorInterface($path);
+            new Injector($path);
         }
     }
 }

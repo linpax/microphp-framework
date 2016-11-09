@@ -2,9 +2,9 @@
 
 namespace Micro\Web;
 
+use Micro\Auth\Injector;
 use Micro\Base\Autoload;
 use Micro\Base\Exception;
-use Micro\Base\InjectorInterface;
 use Micro\Base\KernelInjector;
 use Micro\File\FileHelper;
 use Micro\Mvc\Views\IView;
@@ -67,7 +67,7 @@ class Asset
 
         $this->hash = md5($this->sourcePath);
 
-        $this->publishPath = '/'.(($dir = (new InjectorInterface)->param('assetsDirName')) ? $dir : 'assets').'/'.$this->hash;
+        $this->publishPath = '/' . (($dir = (new Injector)->param('assetsDirName')) ? $dir : 'assets') . '/' . $this->hash;
 
         $web = (new KernelInjector)->build()->getWebDir();
 
