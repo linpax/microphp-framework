@@ -2,6 +2,8 @@
 
 namespace Micro\base;
 
+use Micro\Cli\Console;
+use Micro\Mvc\Controllers\IController;
 use Micro\Web\ResponseInjector;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -81,6 +83,7 @@ abstract class Application implements ApplicationInterface
             return $response; // событие завершило очередь
         }
 
+        /** @var Console|IController $controller */
         $controller = $resolver->getApp();
         $action = $resolver->getAction();
 

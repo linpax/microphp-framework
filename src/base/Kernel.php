@@ -66,7 +66,7 @@ class Kernel implements KernelInterface
     final public function loadInjectorsFromCache()
     {
         // load injectors
-        $injectors = ['name' => 'value_object'];
+        $injectors = ['name' => 'value_object']; // TODO: fixme
 
         // insert injectors from cache
         $baseInjector = new Injector;
