@@ -24,10 +24,10 @@ class MvcApplication extends Application
      */
     public function send(ResponseInterface $response)
     {
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
+        header('HTTP/'.$response->getProtocolVersion().' '.$response->getStatusCode().' '.$response->getReasonPhrase());
 
         foreach ($response->getHeaders() as $header => $values) {
-            header($header . ': ' . implode(', ', $values));
+            header($header.': '.implode(', ', $values));
         }
 
         parent::send($response);

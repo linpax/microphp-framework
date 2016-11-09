@@ -68,12 +68,12 @@ class CliResolver implements ResolverInterface
         }
         switch ($required) {
             case true:
-                $char = $char ? $char . ':' : $char;
-                $name = $name ? $name . ':' : $name;
+                $char = $char ? $char.':' : $char;
+                $name = $name ? $name.':' : $name;
                 break;
             case false:
-                $char = $char ? $char . '::' : $char;
-                $name = $name ? $name . '::' : $name;
+                $char = $char ? $char.'::' : $char;
+                $name = $name ? $name.'::' : $name;
                 break;
         }
         $argv = ($opts = getopt($char, [$name])) ? array_shift($opts) : [];

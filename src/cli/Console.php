@@ -51,7 +51,7 @@ class Console
         $command = class_exists($command) ? $command : '\\Micro\\Cli\\Consoles\\'.ucfirst($name).'ConsoleCommand';
 
         if (!class_exists($command)) {
-            throw new Exception('Command `' . $name . '` not found');
+            throw new Exception('Command `'.$name.'` not found');
         }
 
         /** @var ConsoleCommand $command */

@@ -91,7 +91,7 @@ class Kernel implements KernelInterface
         $dispatcher->signal('kernel.boot', ['injector' => $inject]);
 
         // Hack - killer application
-        (new DispatcherInjector)->build()->addListener('kernel.kill', function () {
+        (new DispatcherInjector)->build()->addListener('kernel.kill', function() {
             $params = (new RequestInjector)->build()->getServerParams();
             $isAjax = strtolower(
                     filter_var(!empty($params['HTTP_X_REQUESTED_WITH']) ? $params['HTTP_X_REQUESTED_WITH'] : null)
@@ -116,7 +116,7 @@ class Kernel implements KernelInterface
      */
     public function getConfig()
     {
-        return $this->getAppDir() . '/configs/index.php';
+        return $this->getAppDir().'/configs/index.php';
     }
 
     /**
@@ -165,7 +165,7 @@ class Kernel implements KernelInterface
 
     public function getCacheDir()
     {
-        return $this->getAppDir() . '/cache/' . $this->getEnvironment();
+        return $this->getAppDir().'/cache/'.$this->getEnvironment();
     }
 
     /**
@@ -178,6 +178,6 @@ class Kernel implements KernelInterface
 
     public function getLogDir()
     {
-        return $this->getAppDir() . '/logs';
+        return $this->getAppDir().'/logs';
     }
 }
